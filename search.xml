@@ -20,6 +20,24 @@
 <p>官方install地址：<a href="http://maven.apache.org/install.html" target="_blank" rel="external">http://maven.apache.org/install.html</a></p>
 ]]></content>
       
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Maven </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Maven </tag>
+            
+            <tag> Java </tag>
+            
+        </tags>
         
     </entry>
     
