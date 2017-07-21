@@ -3,8 +3,22 @@
   
     
     <entry>
+      <title><![CDATA[Elasticsearch – 安装插件]]></title>
+      <url>/2017/07/21/Elasticsearch-%E2%80%93-%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Es - 单机多节点集群]]></title>
-      <url>/2017/07/21/Elasticsearch-%E5%8D%95%E6%9C%BA%E5%A4%9A%E8%8A%82%E7%82%B9%E9%9B%86%E7%BE%A4/</url>
+      <url>/2017/07/21/Elasticsearch-%E2%80%93-%E5%8D%95%E6%9C%BA%E5%A4%9A%E8%8A%82%E7%82%B9%E9%9B%86%E7%BE%A4/</url>
       <content type="html"><![CDATA[<h4 id="采用版本"><a href="#采用版本" class="headerlink" title="采用版本"></a>采用版本</h4><p>1.物理机 Mac</p>
 <p>2.Elasticsearch 2.3.0</p>
 <p>3.插件：head，bigdesk</p>

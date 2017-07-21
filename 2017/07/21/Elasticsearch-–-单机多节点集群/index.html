@@ -3,24 +3,29 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Es – Ik 分词器 | 斑斓的梦</title>
+    <title>Es - 单机多节点集群 | 斑斓的梦</title>
     
     
-        <meta name="keywords" content="Elasticsearch,Es,Ik" />
+        <meta name="keywords" content="Elasticsearch,Es,Ik,集群" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="下载ik分词器包1https://github.com/medcl/elasticsearch-analysis-ik 解压1unzip elasticsearch-analysis-ik-master.zip 打包123cd elasticsearch-analysis-ik-mastermvn package 打包后的文件在elasticsearch-analysis-ik-master/ta">
-<meta name="keywords" content="Elasticsearch,Es,Ik">
+    <meta name="description" content="采用版本1.物理机 Mac 2.Elasticsearch 2.3.0 3.插件：head，bigdesk 4.部署4个节点：2个数据节点，1个主节点，1个备用主节点 部署请到 GitHub 下载 ES 2.3.0 版本 https://github.com/elastic/elasticsearch/tree/v2.3.0 解压请根据自己部署软件的习惯解压到合适目录，下面是我的本机目录： /Us">
+<meta name="keywords" content="Elasticsearch,Es,Ik,集群">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Es – Ik 分词器">
-<meta property="og:url" content="http://pzhen.github.io/2017/07/20/Elasticsearch-–-Ik-分词器/index.html">
+<meta property="og:title" content="Es - 单机多节点集群">
+<meta property="og:url" content="http://pzhen.github.io/2017/07/21/Elasticsearch-–-单机多节点集群/index.html">
 <meta property="og:site_name" content="斑斓的梦">
-<meta property="og:description" content="下载ik分词器包1https://github.com/medcl/elasticsearch-analysis-ik 解压1unzip elasticsearch-analysis-ik-master.zip 打包123cd elasticsearch-analysis-ik-mastermvn package 打包后的文件在elasticsearch-analysis-ik-master/ta">
+<meta property="og:description" content="采用版本1.物理机 Mac 2.Elasticsearch 2.3.0 3.插件：head，bigdesk 4.部署4个节点：2个数据节点，1个主节点，1个备用主节点 部署请到 GitHub 下载 ES 2.3.0 版本 https://github.com/elastic/elasticsearch/tree/v2.3.0 解压请根据自己部署软件的习惯解压到合适目录，下面是我的本机目录： /Us">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2017-07-20T09:28:21.000Z">
+<meta property="og:image" content="http://pzhen.github.io/2017/07/21/Elasticsearch-–-单机多节点集群/WX20170509-2323572x.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/07/21/Elasticsearch-–-单机多节点集群/WX20170509-224809zhu.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/07/21/Elasticsearch-–-单机多节点集群/WX20170509-2250282x.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/07/21/Elasticsearch-–-单机多节点集群/2A230B92-4278-4C3D-8001-19CB858086AD.jpg">
+<meta property="og:updated_time" content="2017-07-21T08:25:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Es – Ik 分词器">
-<meta name="twitter:description" content="下载ik分词器包1https://github.com/medcl/elasticsearch-analysis-ik 解压1unzip elasticsearch-analysis-ik-master.zip 打包123cd elasticsearch-analysis-ik-mastermvn package 打包后的文件在elasticsearch-analysis-ik-master/ta">
+<meta name="twitter:title" content="Es - 单机多节点集群">
+<meta name="twitter:description" content="采用版本1.物理机 Mac 2.Elasticsearch 2.3.0 3.插件：head，bigdesk 4.部署4个节点：2个数据节点，1个主节点，1个备用主节点 部署请到 GitHub 下载 ES 2.3.0 版本 https://github.com/elastic/elasticsearch/tree/v2.3.0 解压请根据自己部署软件的习惯解压到合适目录，下面是我的本机目录： /Us">
+<meta name="twitter:image" content="http://pzhen.github.io/2017/07/21/Elasticsearch-–-单机多节点集群/WX20170509-2323572x.png">
     
 
     
@@ -219,7 +224,7 @@
                             &nbsp;
                             Elasticsearch
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file active"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -373,7 +378,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-Elasticsearch-–-Ik-分词器" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Elasticsearch-–-单机多节点集群" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -389,14 +394,14 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Elasticsearch/">Elasticsearch</a>, <a class="tag-link" href="/tags/Es/">Es</a>, <a class="tag-link" href="/tags/Ik/">Ik</a>
+        <a class="tag-link" href="/tags/Elasticsearch/">Elasticsearch</a>, <a class="tag-link" href="/tags/Es/">Es</a>, <a class="tag-link" href="/tags/Ik/">Ik</a>, <a class="tag-link" href="/tags/集群/">集群</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">
-            <time datetime="2017-07-20T08:24:42.000Z" itemprop="datePublished">2017-07-20</time>
+        <a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">
+            <time datetime="2017-07-21T08:11:43.000Z" itemprop="datePublished">2017-07-21</time>
         </a>
     </div>
 
@@ -407,7 +412,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Es – Ik 分词器
+            Es - 单机多节点集群
         </h1>
     
 
@@ -420,23 +425,39 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#下载ik分词器包"><span class="toc-number">1.</span> <span class="toc-text">下载ik分词器包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解压"><span class="toc-number">2.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#打包"><span class="toc-number">3.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#集成到ES"><span class="toc-number">4.</span> <span class="toc-text">集成到ES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启ES"><span class="toc-number">5.</span> <span class="toc-text">重启ES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加数据测试"><span class="toc-number">6.</span> <span class="toc-text">添加数据测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#创建索引"><span class="toc-number">6.1.</span> <span class="toc-text">创建索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建mapping"><span class="toc-number">6.2.</span> <span class="toc-text">创建mapping</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加文档"><span class="toc-number">7.</span> <span class="toc-text">添加文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试"><span class="toc-number">8.</span> <span class="toc-text">测试</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#采用版本"><span class="toc-number">1.</span> <span class="toc-text">采用版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署"><span class="toc-number">2.</span> <span class="toc-text">部署</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#解压"><span class="toc-number">2.1.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#各个节点的配置"><span class="toc-number">2.2.</span> <span class="toc-text">各个节点的配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#启动"><span class="toc-number">2.3.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查看集群状态："><span class="toc-number">2.4.</span> <span class="toc-text">查看集群状态：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#测试"><span class="toc-number">2.5.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
                 </div>
             
         
         
-            <h4 id="下载ik分词器包"><a href="#下载ik分词器包" class="headerlink" title="下载ik分词器包"></a>下载ik分词器包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://github.com/medcl/elasticsearch-analysis-ik</div></pre></td></tr></table></figure>
-<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unzip elasticsearch-analysis-ik-master.zip</div></pre></td></tr></table></figure>
-<h4 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd elasticsearch-analysis-ik-master</div><div class="line"></div><div class="line">mvn package</div></pre></td></tr></table></figure>
-<p>打包后的文件在elasticsearch-analysis-ik-master/target/目录下</p>
-<h4 id="集成到ES"><a href="#集成到ES" class="headerlink" title="集成到ES"></a>集成到ES</h4><p>在elasticsearch-5.3.0/plugins下创建目录 ik<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">copy and unzip target/releases/elasticsearch-analysis-ik-5.3.0.zip to your-es-root/plugins/ik</div></pre></td></tr></table></figure></p>
-<p>然后删除 zip文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -f elasticsearch-analysis-ik-5.3.0.zip</div></pre></td></tr></table></figure></p>
-<h4 id="重启ES"><a href="#重启ES" class="headerlink" title="重启ES"></a>重启ES</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch</div></pre></td></tr></table></figure>
-<h4 id="添加数据测试"><a href="#添加数据测试" class="headerlink" title="添加数据测试"></a>添加数据测试</h4><h5 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XPUT http://localhost:9200/user</div></pre></td></tr></table></figure>
-<h5 id="创建mapping"><a href="#创建mapping" class="headerlink" title="创建mapping"></a>创建mapping</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/_mapping -d&apos;</div><div class="line">&#123;</div><div class="line">    &quot;fulltext&quot;: &#123;</div><div class="line">             &quot;_all&quot;: &#123;</div><div class="line">            &quot;analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">            &quot;search_analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">            &quot;term_vector&quot;: &quot;no&quot;,</div><div class="line">            &quot;store&quot;: &quot;false&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;properties&quot;: &#123;</div><div class="line">            &quot;content&quot;: &#123;</div><div class="line">                &quot;type&quot;: &quot;text&quot;,</div><div class="line">                &quot;analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">                &quot;search_analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">                &quot;include_in_all&quot;: &quot;true&quot;,</div><div class="line">                &quot;boost&quot;: 8</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
-<p>我的理解就是solr中的分词器 的 fieldType。</p>
-<h4 id="添加文档"><a href="#添加文档" class="headerlink" title="添加文档"></a>添加文档</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/1 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;美国留给伊拉克的是个烂摊子吗&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/2 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;公安部：各地校车将享最高路权&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/3 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;中韩渔警冲突调查：韩警平均每天扣1艘中国渔船&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/4 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;&#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/_search?pretty  -d&apos;</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123; &quot;match&quot; : &#123; &quot;content&quot; : &quot;中国&quot; &#125;&#125;,</div><div class="line">    &quot;highlight&quot; : &#123;</div><div class="line">        &quot;pre_tags&quot; : [&quot;&lt;tag1&gt;&quot;, &quot;&lt;tag2&gt;&quot;],</div><div class="line">        &quot;post_tags&quot; : [&quot;&lt;/tag1&gt;&quot;, &quot;&lt;/tag2&gt;&quot;],</div><div class="line">        &quot;fields&quot; : &#123;</div><div class="line">            &quot;content&quot; : &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&apos;</div><div class="line">结果集</div><div class="line">&#123;</div><div class="line">  &quot;took&quot; : 7,</div><div class="line">  &quot;timed_out&quot; : false,</div><div class="line">  &quot;_shards&quot; : &#123;</div><div class="line">    &quot;total&quot; : 5,</div><div class="line">    &quot;successful&quot; : 5,</div><div class="line">    &quot;failed&quot; : 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot; : &#123;</div><div class="line">    &quot;total&quot; : 2,</div><div class="line">    &quot;max_score&quot; : 4.278213,</div><div class="line">    &quot;hits&quot; : [</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot; : &quot;user&quot;,</div><div class="line">        &quot;_type&quot; : &quot;fulltext&quot;,</div><div class="line">        &quot;_id&quot; : &quot;4&quot;,</div><div class="line">        &quot;_score&quot; : 4.278213,</div><div class="line">        &quot;_source&quot; : &#123;</div><div class="line">          &quot;content&quot; : &quot;中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;highlight&quot; : &#123;</div><div class="line">          &quot;content&quot; : [</div><div class="line">            &quot;&lt;tag1&gt;中国&lt;/tag1&gt;驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;</div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot; : &quot;user&quot;,</div><div class="line">        &quot;_type&quot; : &quot;fulltext&quot;,</div><div class="line">        &quot;_id&quot; : &quot;3&quot;,</div><div class="line">        &quot;_score&quot; : 2.2110996,</div><div class="line">        &quot;_source&quot; : &#123;</div><div class="line">          &quot;content&quot; : &quot;中韩渔警冲突调查：韩警平均每天扣1艘中国渔船&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;highlight&quot; : &#123;</div><div class="line">          &quot;content&quot; : [</div><div class="line">            &quot;中韩渔警冲突调查：韩警平均每天扣1艘&lt;tag1&gt;中国&lt;/tag1&gt;渔船&quot;</div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <h4 id="采用版本"><a href="#采用版本" class="headerlink" title="采用版本"></a>采用版本</h4><p>1.物理机 Mac</p>
+<p>2.Elasticsearch 2.3.0</p>
+<p>3.插件：head，bigdesk</p>
+<p>4.部署4个节点：2个数据节点，1个主节点，1个备用主节点</p>
+<h4 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h4><p>请到 GitHub 下载 ES 2.3.0 版本</p>
+<p><a href="https://github.com/elastic/elasticsearch/tree/v2.3.0" target="_blank" rel="external">https://github.com/elastic/elasticsearch/tree/v2.3.0</a></p>
+<h5 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h5><p>请根据自己部署软件的习惯解压到合适目录，下面是我的本机目录：</p>
+<p>/Users/zhen/opt/es-cloud-2.3.0</p>
+<p>es-cloud-2.3.0 文件夹放置的单机的4个节点目录，附上我的目录结构：</p>
+<p><img src="WX20170509-2323572x.png" alt="image"></p>
+<p>从图中大家也了解了，其实就是复制出4份来，只不过每个ES里面的配置不一样。</p>
+<p>插件安装前面已经介绍过了，请看 这里 ，可以先安装master的插件，安转完成再复制就好了。</p>
+<h5 id="各个节点的配置"><a href="#各个节点的配置" class="headerlink" title="各个节点的配置"></a>各个节点的配置</h5><p>主节点master：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">cluster.name: my-es</div><div class="line"><span class="meta">#</span>主节点</div><div class="line">node.name: master</div><div class="line">node.master: true</div><div class="line"><span class="meta">#</span>数据节点</div><div class="line">node.data: false</div><div class="line">network.host: 0.0.0.0</div><div class="line">http.port: 9200</div><div class="line">transport.tcp.port: 9300</div><div class="line"><span class="meta">#</span>集群节点列表</div><div class="line">discovery.zen.ping.unicast.hosts: ["127.0.0.1:9300","127.0.0.1:9303","127.0.0.1:9301","127.0.0.1:9302"]</div><div class="line"><span class="meta">#</span>多播，单机的话无所谓了</div><div class="line">discovery.zen.ping.multicast.enabled: true</div><div class="line"><span class="meta">#</span>集群限制节点的个数</div><div class="line">node.max_local_storage_nodes: 10</div></pre></td></tr></table></figure>
+<p>数据节点data-1：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">cluster.name: my-es</div><div class="line"><span class="meta">#</span>主节点</div><div class="line">node.name: data-1</div><div class="line">node.master: false</div><div class="line"><span class="meta">#</span>数据节点</div><div class="line">node.data: true</div><div class="line">network.host: 0.0.0.0</div><div class="line">http.port: 9201</div><div class="line">transport.tcp.port: 9301</div><div class="line"><span class="meta">#</span>集群节点列表</div><div class="line">discovery.zen.ping.unicast.hosts: ["127.0.0.1:9300","127.0.0.1:9303","127.0.0.1:9301","127.0.0.1:9302"]</div><div class="line"><span class="meta">#</span>多播，单机的话无所谓了</div><div class="line">discovery.zen.ping.multicast.enabled: true</div><div class="line"><span class="meta">#</span>集群限制节点的个数</div><div class="line">node.max_local_storage_nodes: 10</div></pre></td></tr></table></figure>
+<p>数据节点data-2：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">cluster.name: my-es</div><div class="line"><span class="meta">#</span>主节点</div><div class="line">node.name: data-2</div><div class="line">node.master: false</div><div class="line"><span class="meta">#</span>数据节点</div><div class="line">node.data: true</div><div class="line">network.host: 0.0.0.0</div><div class="line">http.port: 9202</div><div class="line">transport.tcp.port: 9302</div><div class="line"><span class="meta">#</span>集群节点列表</div><div class="line">discovery.zen.ping.unicast.hosts: ["127.0.0.1:9300","127.0.0.1:9303","127.0.0.1:9301","127.0.0.1:9302"]</div><div class="line"><span class="meta">#</span>多播，单机的话无所谓了</div><div class="line">discovery.zen.ping.multicast.enabled: true</div><div class="line"><span class="meta">#</span>集群限制节点的个数</div><div class="line">node.max_local_storage_nodes: 10</div></pre></td></tr></table></figure>
+<p>备用主节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">cluster.name: my-es</div><div class="line"><span class="meta">#</span>主节点</div><div class="line">node.name: client-1</div><div class="line">node.master: true</div><div class="line"><span class="meta">#</span>数据节点</div><div class="line">node.data: false</div><div class="line">network.host: 0.0.0.0</div><div class="line">http.port: 9203</div><div class="line">transport.tcp.port: 9303</div><div class="line"><span class="meta">#</span>集群节点列表</div><div class="line">discovery.zen.ping.unicast.hosts: ["127.0.0.1:9300","127.0.0.1:9303","127.0.0.1:9301","127.0.0.1:9302"]</div><div class="line"><span class="meta">#</span>多播，单机的话无所谓了</div><div class="line">discovery.zen.ping.multicast.enabled: true</div><div class="line"><span class="meta">#</span>集群限制节点的个数</div><div class="line">node.max_local_storage_nodes: 10</div></pre></td></tr></table></figure>
+<h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><p>启动节点，写到脚本里面执行，不用一条条的运行了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">./es-node-master/bin/elasticsearch -d</div><div class="line"></div><div class="line">./es-node-data-1/bin/elasticsearch -d</div><div class="line"></div><div class="line">./es-node-data-2/bin/elasticsearch -d</div><div class="line"></div><div class="line">./es-node-client/bin/elasticsearch -d</div></pre></td></tr></table></figure>
+<h5 id="查看集群状态："><a href="#查看集群状态：" class="headerlink" title="查看集群状态："></a>查看集群状态：</h5><p><img src="WX20170509-224809zhu.png" alt="image"></p>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>假如我们挂掉主节点，再来看看我们的集群状态。</p>
+<p><img src="WX20170509-2250282x.png" alt="image"></p>
+<p>当我们挂掉了master，访问任意一个节点的head插件，来看集群状态。选举了client-1为主节点。</p>
+<p>最后附上bigdesk的截图：</p>
+<p><img src="2A230B92-4278-4C3D-8001-19CB858086AD.jpg" alt="image"></p>
 
             </div>
         
@@ -449,19 +470,19 @@
     
 <nav id="article-nav">
     
-        <a href="/2017/07/20/Elasticsearch-–-倒排索引/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2017/07/21/Elasticsearch-–-安装插件/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    Es – 倒排索引
+                    Elasticsearch – 安装插件
                 
             </div>
         </a>
     
     
-        <a href="/2017/07/20/Elasticsearch-–-核心概念/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/07/21/Mac-安装-Maven/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Es – 核心概念</div>
+            <div class="article-nav-title">Mac 安装 Maven</div>
         </a>
     
 </nav>
