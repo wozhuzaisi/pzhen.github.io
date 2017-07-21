@@ -33,12 +33,6 @@
 <p>当我们挂掉了master，访问任意一个节点的head插件，来看集群状态。选举了client-1为主节点。</p>
 <p>最后附上bigdesk的截图：</p>
 <p><img src="2A230B92-4278-4C3D-8001-19CB858086AD.jpg" alt="image"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-</ul>
-</blockquote>
 ]]></content>
       
         <categories>
