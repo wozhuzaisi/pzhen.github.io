@@ -161,11 +161,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                27
+                28
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                33
+                34
                 <span>tags</span>
             </div>
         </div>
@@ -215,9 +215,18 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
+                            Composer
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Composer-管理PHP依赖关系/">Composer - 管理PHP依赖</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
                             Elasticsearch
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -226,7 +235,7 @@
                             &nbsp;
                             Git
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Git-–-基本工作流程/">Git – 基本工作流程</a></li>  <li class="file"><a href="/2017/07/21/Git-–-全局配置与局部项目配置/">Git – 全局配置与局部项目配置</a></li>  <li class="file"><a href="/2017/07/21/Git-–-操作配置别名/">Git – 操作配置别名</a></li>  <li class="file"><a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Git-–-全局配置与局部项目配置/">Git – 全局配置与局部项目配置</a></li>  <li class="file"><a href="/2017/07/21/Git-–-基本工作流程/">Git – 基本工作流程</a></li>  <li class="file"><a href="/2017/07/21/Git-–-操作配置别名/">Git – 操作配置别名</a></li>  <li class="file"><a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -381,6 +390,87 @@
 </aside>
             
             <section id="main">
+        <article id="post-Composer-管理PHP依赖关系" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Composer/">Composer</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Composer/">Composer</a>, <a class="tag-link" href="/tags/Php/">Php</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/07/21/Composer-管理PHP依赖关系/">
+            <time datetime="2017-07-21T09:32:30.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/07/21/Composer-管理PHP依赖关系/">Composer - 管理PHP依赖</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>现在软件规模越来越大，PHP项目的开发模式和许多年前已经有了很大变化。记得初学PHP那会儿，boblog是一个很好的例子，几乎可以代表 PHP项目的开发模式。当时PHP 5.x以上的版本刚开始流行，仍然有大量的生产环境使用PHP4.x。由于历史遗留的问题，OOP思想在PHP项目中还不是那么广泛流行。随着 PHP5.3的发布，PHP项目规模的扩大，在其他语言领域大展身手的OOP开发模式也在PHP中崭露头角。</p>
+<p>大型项目不可能是从头开始的，使用社区已经提供的资源可以为项目带来很大的便利。然而各自为政的打包方式、依赖关系的处理，导致了很难将两个开源项 目集成到一起。虽然有pear这种PHP官方支持的包管理工具，但是依然没有很好的统一的依赖关系管理的办法。直到Composer的出现。</p>
+<p>Composer的依赖关系管理风格，看上去更像Java的Maven。项目编译和打包、依赖关系的解决都可以很轻松的实现。再也不用费神去寻找或者更新第三方库，或者将他们集成到一起。这一切全部都可以交给Composer来完成。</p>
+<p>
+                
+            
+        
+        
+            </div>   
+            <div class="article-more-link">
+                <a href="/2017/07/21/Composer-管理PHP依赖关系/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+    
         <article id="post-Shell-–-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -543,87 +633,6 @@
 
 
     
-        <article id="post-Git-–-集中式与分布式-版本控制系统区别" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Git/">Git</a>, <a class="tag-link" href="/tags/分布式管理/">分布式管理</a>, <a class="tag-link" href="/tags/集中式管理/">集中式管理</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">
-            <time datetime="2017-07-21T08:36:51.000Z" itemprop="datePublished">2017-07-21</time>
-        </a>
-    </div>
-
-
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p><h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
-<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
-<p><img src="git1.png" alt=""></p>
-<p>
-                
-            
-        
-        
-            </div>   
-            <div class="article-more-link">
-                <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-    
         <article id="post-Shell-–-Grep常见用法" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -693,6 +702,87 @@
             </div>   
             <div class="article-more-link">
                 <a href="/2017/07/21/Shell-–-Grep常见用法/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+    
+        <article id="post-Git-–-集中式与分布式-版本控制系统区别" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Git/">Git</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Git/">Git</a>, <a class="tag-link" href="/tags/分布式管理/">分布式管理</a>, <a class="tag-link" href="/tags/集中式管理/">集中式管理</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">
+            <time datetime="2017-07-21T08:36:51.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p><h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>
+                
+            
+        
+        
+            </div>   
+            <div class="article-more-link">
+                <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/#more">Read More</a>
             </div>
         
         <footer class="article-footer">
@@ -1098,71 +1188,6 @@
             </div>   
             <div class="article-more-link">
                 <a href="/2017/07/21/Mac-安装-Maven/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-    
-        <article id="post-Python-优先级队列" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Python/">Python</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/优先级队列/">优先级队列</a>, <a class="tag-link" href="/tags/队列/">队列</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/07/21/Python-优先级队列/">
-            <time datetime="2017-07-21T07:22:32.000Z" itemprop="datePublished">2017-07-21</time>
-        </a>
-    </div>
-
-
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                <p><p>优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。<br></p>
-            
-        
-        
-            </div>   
-            <div class="article-more-link">
-                <a href="/2017/07/21/Python-优先级队列/#more">Read More</a>
             </div>
         
         <footer class="article-footer">

@@ -3,6 +3,64 @@
   
     
     <entry>
+      <title><![CDATA[Composer - 管理PHP依赖]]></title>
+      <url>/2017/07/21/Composer-%E7%AE%A1%E7%90%86PHP%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/</url>
+      <content type="html"><![CDATA[<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>现在软件规模越来越大，PHP项目的开发模式和许多年前已经有了很大变化。记得初学PHP那会儿，boblog是一个很好的例子，几乎可以代表 PHP项目的开发模式。当时PHP 5.x以上的版本刚开始流行，仍然有大量的生产环境使用PHP4.x。由于历史遗留的问题，OOP思想在PHP项目中还不是那么广泛流行。随着 PHP5.3的发布，PHP项目规模的扩大，在其他语言领域大展身手的OOP开发模式也在PHP中崭露头角。</p>
+<p>大型项目不可能是从头开始的，使用社区已经提供的资源可以为项目带来很大的便利。然而各自为政的打包方式、依赖关系的处理，导致了很难将两个开源项 目集成到一起。虽然有pear这种PHP官方支持的包管理工具，但是依然没有很好的统一的依赖关系管理的办法。直到Composer的出现。</p>
+<p>Composer的依赖关系管理风格，看上去更像Java的Maven。项目编译和打包、依赖关系的解决都可以很轻松的实现。再也不用费神去寻找或者更新第三方库，或者将他们集成到一起。这一切全部都可以交给Composer来完成。</p>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>首先来看一个类似于Helloworld的例子，让我们对Composer先有一个感性的认识吧。</p>
+<p>如何在一个PHP项目中启用Composer，很简单，只需要在项目根目录中创建一个composer.json文件即可，它包含如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">        &quot;require&quot;: &#123;</div><div class="line">	        &quot;monolog/monolog&quot;: &quot;1.2.*&quot;</div><div class="line">	 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样我们便添加了对monolog这个库的引用。没错，就是这样简单。不过，你还需要使用composer来为你更新依赖包，打开你的Shell，切换到项目目录下执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">composer install</div></pre></td></tr></table></figure></p>
+<p>这时，Composer便自动从互联网上更新指定依赖的库了。你会发现你的项目文件夹里面多了一个vendor文件夹，那就是依赖库包了。</p>
+<p>接下来，你需要在你的系统的公共入口文件中引用自动加载器，以便自动加载类：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;</div></pre></td></tr></table></figure></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>上面的例子让大家对composer的使用有了一个大概的认识。下面将向大家介绍如何在PHP环境中安装composer。<br>Unix/Linux/OSX环境</p>
+<p>很幸运，利用Unix Like环境安装composer是一件很简单的事情。只需要一行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -sS https://getcomposer.org/installer | php</div></pre></td></tr></table></figure></p>
+<p>此时会为你在当前工作目录安装composer.phar文件，使用php composer.phar即可运行。当然，你可能更想让composer变成像其他一样的Unix命令，很简单，只需要再加一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mv composer.phar /usr/local/bin/composer</div></pre></td></tr></table></figure></p>
+<p>注意，在权限受限的系统上，你可能需要使用sudo命令来提升至管理员账号执行。</p>
+<p>这时，你就可以像例子里面那样使用composer了。<br>Windows环境</p>
+<p>Composer官方推荐使用安装包进行安装，据说下载Composer-Setup.exe这个即可用向导模式安装。</p>
+<p>关于手工安装的方法，请参考<a href="http://getcomposer.org/doc/00-intro.md的介绍吧。" target="_blank" rel="external">http://getcomposer.org/doc/00-intro.md的介绍吧。</a></p>
+<h4 id="自动加载"><a href="#自动加载" class="headerlink" title="自动加载"></a>自动加载</h4><p>为了实现PHP类的随取随用，类的命名空间定义建议遵从一定的规则。这种规则可以是某一项目组约定的。不过为了使得类库统一，PHP-FIG项目指 定了一种PHP命名空间的规范PSR-0，被一些流行PHP项目采用。Composer支持这种规范的类库自动装载器，只需要向 composer.json文件中添加autoload节点即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	    &quot;autoload&quot;: &#123;</div><div class="line">	        &quot;psr-0&quot;: &#123;&quot;Acme\\&quot;: &quot;src/&quot;&#125;</div><div class="line">	    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>关于PSR-0规范，有这么几点重要的要求：</p>
+<ul>
+<li>命名空间规范参考：\<vendor name="">(<namespace>)*<class name=""></class></namespace></vendor></li>
+<li>每个namespace需要一个顶层空间，即vendor name。用来指定在软件包级别上区别。</li>
+<li>命名空间和PHP文件的路径是一一对应的，最终命名空间分隔符会被转为DIRECTORY_SEPARATOR</li>
+<li>文件名必须为类名.php</li>
+</ul>
+<p>关于这个规范，可以参考<a href="http://blog.mosil.biz/2012/08/psr-0-autoloading-standard/这篇文章。有关PSR-0的更多内容，可以参考他们的官方网站：https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md" target="_blank" rel="external">http://blog.mosil.biz/2012/08/psr-0-autoloading-standard/这篇文章。有关PSR-0的更多内容，可以参考他们的官方网站：https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md</a></p>
+<p>注意，修改了autoload后，要重新使用composer install。</p>
+<p>注意：composer默认类库是使用PSR-0规范自动加载的。所以一般无需额外配置。</p>
+<h4 id="查找所需类库"><a href="#查找所需类库" class="headerlink" title="查找所需类库"></a>查找所需类库</h4><p>composer提供了一个类库的“商店”，在这里，你可以立即找到想要使用的开源类库包，然后把他们添加到你的项目中即可。传送门：<a href="https://packagist.org/" target="_blank" rel="external">https://packagist.org/</a></p>
+<h4 id="打包自己的类库"><a href="#打包自己的类库" class="headerlink" title="打包自己的类库"></a>打包自己的类库</h4><p>将自己的类库贡献给大家，首先需要为自己的类库设置打包信息（要首先保证自己的类库是利用composer管理的）。在composer.json文件中设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;name&quot;: &quot;your-vendor-name/package-name&quot;,</div><div class="line">    &quot;require&quot;: &#123;</div><div class="line">        &quot;php&quot;: &quot;&gt;=5.3.0&quot;,</div><div class="line">        &quot;another-vendor/package&quot;: &quot;1.*&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后就可以前去<a href="https://packagist.org/提交你的类库了。" target="_blank" rel="external">https://packagist.org/提交你的类库了。</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="http://getcomposer.org/doc/00-intro.md" target="_blank" rel="external">快速入门</a></li>
+<li><a href="http://getcomposer.org/doc/" target="_blank" rel="external">文档</a></li>
+<li><a href="https://packagist.org/" target="_blank" rel="external">包列表</a></li>
+</ul>
+</blockquote>
+]]></content>
+      
+        <categories>
+            
+            <category> Composer </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Composer </tag>
+            
+            <tag> Php </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Shell – 正则表达式]]></title>
       <url>/2017/07/21/Shell-%E2%80%93-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
       <content type="html"><![CDATA[<h4 id="正则表达式的分类"><a href="#正则表达式的分类" class="headerlink" title="正则表达式的分类"></a>正则表达式的分类</h4><ul>
@@ -73,38 +131,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Git – 集中式与分布式]]></title>
-      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
-      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
-<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
-<p><img src="git1.png" alt=""></p>
-<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
-<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
-<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
-<p><img src="userid1labid485time1423115040073.png" alt=""></p>
-<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> Git </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Git </tag>
-            
-            <tag> 集中式管理 </tag>
-            
-            <tag> 分布式管理 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Shell – Grep 常见用法]]></title>
       <url>/2017/07/21/Shell-%E2%80%93-Grep%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/</url>
       <content type="html"><![CDATA[<p>是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。<br>我经常用来查找字符串比如：</p>
@@ -133,6 +159,38 @@
             <tag> Grep </tag>
             
             <tag> Shell </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git – 集中式与分布式]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
+<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
+<p><img src="userid1labid485time1423115040073.png" alt=""></p>
+<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 集中式管理 </tag>
+            
+            <tag> 分布式管理 </tag>
             
         </tags>
         
