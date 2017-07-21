@@ -1,53 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>斑斓的梦</title>
-  <subtitle>Zhen&#39;s Blog</subtitle>
-  <link href="/atom.xml" rel="self"/>
+<search> 
   
-  <link href="http://pzhen.github.io/"/>
-  <updated>2017-07-21T06:08:32.000Z</updated>
-  <id>http://pzhen.github.io/</id>
-  
-  <author>
-    <name>P.Zhen</name>
     
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Hexo &#39;Deployer not found&#39;</title>
-    <link href="http://pzhen.github.io/2017/07/21/Hexo-Deployer-not-found/"/>
-    <id>http://pzhen.github.io/2017/07/21/Hexo-Deployer-not-found/</id>
-    <published>2017-07-21T06:03:27.000Z</published>
-    <updated>2017-07-21T06:08:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>重新部署了Hexo，结果无法部署，解决方法如下：</p>
+    <entry>
+      <title><![CDATA[Hexo 'Deployer not found']]></title>
+      <url>/2017/07/21/Hexo-Deployer-not-found/</url>
+      <content type="html"><![CDATA[<p>重新部署了Hexo，结果无法部署，解决方法如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
 ]]></content>
+      
+        <categories>
+            
+            <category> Hexo </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;p&gt;重新部署了Hexo，结果无法部署，解决方法如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td c
-    
-    </summary>
-    
-      <category term="Hexo" scheme="http://pzhen.github.io/categories/Hexo/"/>
-    
-    
-      <category term="Hexo" scheme="http://pzhen.github.io/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Es – 集群生态总结</title>
-    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E9%9B%86%E7%BE%A4%E7%94%9F%E6%80%81%E6%80%BB%E7%BB%93/"/>
-    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-集群生态总结/</id>
-    <published>2017-07-20T09:05:22.000Z</published>
-    <updated>2017-07-20T09:28:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="分片算法"><a href="#分片算法" class="headerlink" title="分片算法:"></a>分片算法:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shard = hash(routing) % number_of_primary_shards</div></pre></td></tr></table></figure>
+    <entry>
+      <title><![CDATA[Es – 集群生态总结]]></title>
+      <url>/2017/07/20/Elasticsearch-%E2%80%93-%E9%9B%86%E7%BE%A4%E7%94%9F%E6%80%81%E6%80%BB%E7%BB%93/</url>
+      <content type="html"><![CDATA[<h4 id="分片算法"><a href="#分片算法" class="headerlink" title="分片算法:"></a>分片算法:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shard = hash(routing) % number_of_primary_shards</div></pre></td></tr></table></figure>
 <p>routing值是一个任意字符串，它默认是_id但也可以自定义，这个routing字符串通过哈希函数生成一个数字，然后除以主切片的数量得到一个余数(remainder)，余数的范围永远是0到number_of_primary_shards – 1，这个数字就是特定文档所在的分片。</p>
 <p>这也解释了为什么主切片的数量只能在创建索引时定义且不能修改：如果主切片的数量在未来改变了，所有先前的路由值就失效了，文档也就永远找不到了。</p>
 <p>所有的文档API（get、index、delete、bulk、update、mget）都接收一个routing参数，它用来自定义文档到分片的映射。自定义路由值可以确保所有相关文档.比如用户的文章,按照用户账号路由,就可以实现属于同一用户的文档被保存在同一分片上。</p>
@@ -120,32 +100,30 @@
 <p>这时,我们看到片的信息分又重新做了调整: 主分片分布在节点es-node1,es-node3,es-node4上.从分片分布在es-node2,es-node3,es-node4上.</p>
 <p><img src="301459413712397.png" alt="image"></p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Elasticsearch </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Elasticsearch </tag>
+            
+            <tag> Es </tag>
+            
+            <tag> 集群 </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h4 id=&quot;分片算法&quot;&gt;&lt;a href=&quot;#分片算法&quot; class=&quot;headerlink&quot; title=&quot;分片算法:&quot;&gt;&lt;/a&gt;分片算法:&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
-    
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
-    
-      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
-    
-      <category term="集群" scheme="http://pzhen.github.io/tags/%E9%9B%86%E7%BE%A4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Es – 倒排索引</title>
-    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/"/>
-    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-倒排索引/</id>
-    <published>2017-07-20T08:38:47.000Z</published>
-    <updated>2017-07-20T09:27:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="Lucene-简介"><a href="#Lucene-简介" class="headerlink" title="Lucene 简介"></a>Lucene 简介</h4><p>Lucene是Apache软件基金会中一个开放源代码的全文搜索引擎工具包，是一个全文搜索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文搜索引擎。<br>Lucene最初是由Doug Cutting所撰写的，是一位资深全文索引/搜索专家，曾经是V-Twin搜索引擎的主要开发者，后来在Excite担任高级系统架构设计师，目前从事于一些Internet底层架构的研究。</p>
+    <entry>
+      <title><![CDATA[Es – 倒排索引]]></title>
+      <url>/2017/07/20/Elasticsearch-%E2%80%93-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/</url>
+      <content type="html"><![CDATA[<h4 id="Lucene-简介"><a href="#Lucene-简介" class="headerlink" title="Lucene 简介"></a>Lucene 简介</h4><p>Lucene是Apache软件基金会中一个开放源代码的全文搜索引擎工具包，是一个全文搜索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文搜索引擎。<br>Lucene最初是由Doug Cutting所撰写的，是一位资深全文索引/搜索专家，曾经是V-Twin搜索引擎的主要开发者，后来在Excite担任高级系统架构设计师，目前从事于一些Internet底层架构的研究。</p>
 <h4 id="Lucene-采用倒排索引"><a href="#Lucene-采用倒排索引" class="headerlink" title="Lucene 采用倒排索引"></a>Lucene 采用倒排索引</h4><p>倒排索引源于实际应用中需要根据属性的值来查找记录。</p>
 <p>这种索引表中的每一项都包括一个属性值和具有该属性值的各记录的地址。由于不是由记录来确定属性值，而是由属性值来确定记录的位置，因而称为倒排索引（inverted index）。带有倒排索引的文件我们称为倒排索引文件，简称倒排文件（inverted file）。</p>
 <h4 id="Lucene-如何构建倒排索引"><a href="#Lucene-如何构建倒排索引" class="headerlink" title="Lucene 如何构建倒排索引"></a>Lucene 如何构建倒排索引</h4><h5 id="1-获取关键词"><a href="#1-获取关键词" class="headerlink" title="1.获取关键词"></a>1.获取关键词</h5><p>由于倒排序是根据关键字索引来定位记录的，所以要先获取关键词。比如一篇文章，也就是一串字符串，要获取所有的分词（关键字），如果是英文字符串也就是所有单词，中文则依赖中文分词器来获取所有词语，然而不管英文还是中文有些词是无意义的比如“is”，“in”，“的”等等过滤掉，标点符号过滤掉，大小写统一，等等经过一系列的过滤筛选后得到分词，也就是我们的关键字。</p>
@@ -163,34 +141,32 @@
 <h5 id="4-压缩算法"><a href="#4-压缩算法" class="headerlink" title="4.压缩算法"></a>4.压缩算法</h5><p>为了减小索引文件的大小，Lucene对索引还使用了压缩技术。<br>首先，对词典文件中的关键词进行了压缩，关键词压缩为&lt;前缀长度，后缀&gt;，例如：当前词为“阿拉伯语”，上一个词为“阿拉伯”，那么“阿拉伯语”压缩为<3，语>。<br>其次大量用到的是对数字的压缩，数字只保存与上一个值的差值（这样可以减少数字的长度，进而减少保存该数字需要的字节数）。例如当前文章号是16389（不压缩要用3个字节保存），上一文章号是16382，压缩后保存7（只用一个字节）。</3，语></p>
 <h5 id="5-查询"><a href="#5-查询" class="headerlink" title="5.查询"></a>5.查询</h5><p>假设要查询单词“live”，Lucene先对词典二元查找、找到该词，通过指向频率文件的指针读出所有文章号，然后返回结果。词典通常非常小，因而，整个过程的时间是毫秒级的。<br>而用普通的顺序匹配算法，不建索引，而是对所有文章的内容进行字符串匹配，这个过程将会相当缓慢，当文章数目很大时，时间往往是无法忍受的。</p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Elasticsearch </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Elasticsearch </tag>
+            
+            <tag> Es </tag>
+            
+            <tag> 倒排序 </tag>
+            
+            <tag> Lucene </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h4 id=&quot;Lucene-简介&quot;&gt;&lt;a href=&quot;#Lucene-简介&quot; class=&quot;headerlink&quot; title=&quot;Lucene 简介&quot;&gt;&lt;/a&gt;Lucene 简介&lt;/h4&gt;&lt;p&gt;Lucene是Apache软件基金会中一个开放源代码的全文搜索引擎工具包，是一个全文
-    
-    </summary>
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
-    
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
-    
-      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
-    
-      <category term="倒排序" scheme="http://pzhen.github.io/tags/%E5%80%92%E6%8E%92%E5%BA%8F/"/>
-    
-      <category term="Lucene" scheme="http://pzhen.github.io/tags/Lucene/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Es – Ik 分词器</title>
-    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-Ik-%E5%88%86%E8%AF%8D%E5%99%A8/"/>
-    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-Ik-分词器/</id>
-    <published>2017-07-20T08:24:42.000Z</published>
-    <updated>2017-07-20T09:28:21.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="下载ik分词器包"><a href="#下载ik分词器包" class="headerlink" title="下载ik分词器包"></a>下载ik分词器包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://github.com/medcl/elasticsearch-analysis-ik</div></pre></td></tr></table></figure>
+    <entry>
+      <title><![CDATA[Es – Ik 分词器]]></title>
+      <url>/2017/07/20/Elasticsearch-%E2%80%93-Ik-%E5%88%86%E8%AF%8D%E5%99%A8/</url>
+      <content type="html"><![CDATA[<h4 id="下载ik分词器包"><a href="#下载ik分词器包" class="headerlink" title="下载ik分词器包"></a>下载ik分词器包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://github.com/medcl/elasticsearch-analysis-ik</div></pre></td></tr></table></figure>
 <h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unzip elasticsearch-analysis-ik-master.zip</div></pre></td></tr></table></figure>
 <h4 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd elasticsearch-analysis-ik-master</div><div class="line"></div><div class="line">mvn package</div></pre></td></tr></table></figure>
 <p>打包后的文件在elasticsearch-analysis-ik-master/target/目录下</p>
@@ -203,32 +179,30 @@
 <h4 id="添加文档"><a href="#添加文档" class="headerlink" title="添加文档"></a>添加文档</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/1 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;美国留给伊拉克的是个烂摊子吗&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/2 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;公安部：各地校车将享最高路权&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/3 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;中韩渔警冲突调查：韩警平均每天扣1艘中国渔船&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/4 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;&#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure>
 <h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/_search?pretty  -d&apos;</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123; &quot;match&quot; : &#123; &quot;content&quot; : &quot;中国&quot; &#125;&#125;,</div><div class="line">    &quot;highlight&quot; : &#123;</div><div class="line">        &quot;pre_tags&quot; : [&quot;&lt;tag1&gt;&quot;, &quot;&lt;tag2&gt;&quot;],</div><div class="line">        &quot;post_tags&quot; : [&quot;&lt;/tag1&gt;&quot;, &quot;&lt;/tag2&gt;&quot;],</div><div class="line">        &quot;fields&quot; : &#123;</div><div class="line">            &quot;content&quot; : &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&apos;</div><div class="line">结果集</div><div class="line">&#123;</div><div class="line">  &quot;took&quot; : 7,</div><div class="line">  &quot;timed_out&quot; : false,</div><div class="line">  &quot;_shards&quot; : &#123;</div><div class="line">    &quot;total&quot; : 5,</div><div class="line">    &quot;successful&quot; : 5,</div><div class="line">    &quot;failed&quot; : 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot; : &#123;</div><div class="line">    &quot;total&quot; : 2,</div><div class="line">    &quot;max_score&quot; : 4.278213,</div><div class="line">    &quot;hits&quot; : [</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot; : &quot;user&quot;,</div><div class="line">        &quot;_type&quot; : &quot;fulltext&quot;,</div><div class="line">        &quot;_id&quot; : &quot;4&quot;,</div><div class="line">        &quot;_score&quot; : 4.278213,</div><div class="line">        &quot;_source&quot; : &#123;</div><div class="line">          &quot;content&quot; : &quot;中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;highlight&quot; : &#123;</div><div class="line">          &quot;content&quot; : [</div><div class="line">            &quot;&lt;tag1&gt;中国&lt;/tag1&gt;驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;</div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot; : &quot;user&quot;,</div><div class="line">        &quot;_type&quot; : &quot;fulltext&quot;,</div><div class="line">        &quot;_id&quot; : &quot;3&quot;,</div><div class="line">        &quot;_score&quot; : 2.2110996,</div><div class="line">        &quot;_source&quot; : &#123;</div><div class="line">          &quot;content&quot; : &quot;中韩渔警冲突调查：韩警平均每天扣1艘中国渔船&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;highlight&quot; : &#123;</div><div class="line">          &quot;content&quot; : [</div><div class="line">            &quot;中韩渔警冲突调查：韩警平均每天扣1艘&lt;tag1&gt;中国&lt;/tag1&gt;渔船&quot;</div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
+      
+        <categories>
+            
+            <category> Elasticsearch </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Elasticsearch </tag>
+            
+            <tag> Es </tag>
+            
+            <tag> Ik </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h4 id=&quot;下载ik分词器包&quot;&gt;&lt;a href=&quot;#下载ik分词器包&quot; class=&quot;headerlink&quot; title=&quot;下载ik分词器包&quot;&gt;&lt;/a&gt;下载ik分词器包&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl
-    
-    </summary>
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
-    
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
-    
-      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
-    
-      <category term="Ik" scheme="http://pzhen.github.io/tags/Ik/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Es – 核心概念</title>
-    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/"/>
-    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-核心概念/</id>
-    <published>2017-07-20T08:07:51.000Z</published>
-    <updated>2017-07-20T09:28:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="接近实时（NRT）"><a href="#接近实时（NRT）" class="headerlink" title="接近实时（NRT）"></a>接近实时（NRT）</h4><p>Elasticsearch是一个接近实时的搜索平台。这意味着，从索引一个文档直到这个文档能够被搜索到有一个轻微的延迟（通常是1秒）。</p>
+    <entry>
+      <title><![CDATA[Es – 核心概念]]></title>
+      <url>/2017/07/20/Elasticsearch-%E2%80%93-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</url>
+      <content type="html"><![CDATA[<h4 id="接近实时（NRT）"><a href="#接近实时（NRT）" class="headerlink" title="接近实时（NRT）"></a>接近实时（NRT）</h4><p>Elasticsearch是一个接近实时的搜索平台。这意味着，从索引一个文档直到这个文档能够被搜索到有一个轻微的延迟（通常是1秒）。</p>
 <h4 id="集群（cluster）"><a href="#集群（cluster）" class="headerlink" title="集群（cluster）"></a>集群（cluster）</h4><p>一个集群就是由一个或多个节点组织在一起，它们共同持有你整个的数据，并一起提供索引和搜索功能。一个集群由一个唯一的名字标识，这个名字默认就是“elasticsearch”。这个名字是重要的，因为一个节点只能通过指定某个集群的名字，来加入这个集群。在产品环境中显式地设定这个名字是一个好习惯，但是使用默认值来进行测试/开发也是不错的。</p>
 <h4 id="节点（node）"><a href="#节点（node）" class="headerlink" title="节点（node）"></a>节点（node）</h4><p>一个节点是你集群中的一个服务器，作为集群的一部分，它存储你的数据，参与集群的索引和搜索功能。和集群类似，一个节点也是由一个名字来标识的，默认情况下，这个名字是一个随机的漫威漫画角色的名字，这个名字会在启动的时候赋予节点。这个名字对于管理工作来说挺重要的，因为在这个管理过程中，你会去确定网络中的哪些服务器对应于Elasticsearch集群中的哪些节点。</p>
 <p>一个节点可以通过配置集群名称的方式来加入一个指定的集群。默认情况下，每个节点都会被安排加入到一个叫做“elasticsearch”的集群中，这意味着，如果你在你的网络中启动了若干个节点，并假定它们能够相互发现彼此，它们将会自动地形成并加入到一个叫做“elasticsearch”的集群中。</p>
@@ -251,32 +225,30 @@
 <p><img src="A89094F0-4A47-4EE9-8415-3852022E2FE9.jpg" alt="索引，类型，文档关系图"></p>
 <p>集群的架构简图：<br><img src="QQ20170424-2352252x.png" alt="集群结构图"></p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Elasticsearch </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Elasticsearch </tag>
+            
+            <tag> Es </tag>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h4 id=&quot;接近实时（NRT）&quot;&gt;&lt;a href=&quot;#接近实时（NRT）&quot; class=&quot;headerlink&quot; title=&quot;接近实时（NRT）&quot;&gt;&lt;/a&gt;接近实时（NRT）&lt;/h4&gt;&lt;p&gt;Elasticsearch是一个接近实时的搜索平台。这意味着，从索引一个文档直到这个
-    
-    </summary>
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
-    
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
-    
-      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Es – 安装</title>
-    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E5%AE%89%E8%A3%85/"/>
-    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-安装/</id>
-    <published>2017-07-20T07:54:38.000Z</published>
-    <updated>2017-07-20T09:28:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>由于高版本提高了安全级别，不能采用root账户启动.</p>
+    <entry>
+      <title><![CDATA[Es – 安装]]></title>
+      <url>/2017/07/20/Elasticsearch-%E2%80%93-%E5%AE%89%E8%A3%85/</url>
+      <content type="html"><![CDATA[<p>由于高版本提高了安全级别，不能采用root账户启动.</p>
 <h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>下载地址：<a href="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.zip" target="_blank" rel="external">https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.zip</a></p>
 <h4 id="解压后执行"><a href="#解压后执行" class="headerlink" title="解压后执行"></a>解压后执行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch</div></pre></td></tr></table></figure>
 <h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4><h5 id="错误提示"><a href="#错误提示" class="headerlink" title="错误提示"></a>错误提示</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Exception in thread &quot;main&quot; java.lang.RuntimeException: don&apos;t run elasticsearch as root.</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:93)</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:144)</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:285)</div><div class="line">        at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:35)</div><div class="line">Refer to the log for complete error details.</div></pre></td></tr></table></figure>
@@ -287,64 +259,58 @@
 <h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ vi config/elasticsearch.yml</div><div class="line">#cluster name</div><div class="line">cluster.name: sojson-application</div><div class="line">#节点名称</div><div class="line">node.name: node-1</div><div class="line">#绑定IP和端口</div><div class="line">network.host: 123.88.88.88</div><div class="line">http.port: 9200</div></pre></td></tr></table></figure>
 <h4 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch -d</div></pre></td></tr></table></figure>
 <h4 id="查找进程"><a href="#查找进程" class="headerlink" title="查找进程"></a>查找进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -ef | grep elasticsearch</div></pre></td></tr></table></figure>]]></content>
+      
+        <categories>
+            
+            <category> Elasticsearch </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Elasticsearch </tag>
+            
+            <tag> Es </tag>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;p&gt;由于高版本提高了安全级别，不能采用root账户启动.&lt;/p&gt;
-&lt;h4 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a&gt;下载&lt;/h4&gt;&lt;p&gt;下载地址：&lt;a href=&quot;https://artifacts.elas
-    
-    </summary>
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
-    
-    
-      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
-    
-      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vim colorschemes</title>
-    <link href="http://pzhen.github.io/2017/07/20/Vim-colorschemes/"/>
-    <id>http://pzhen.github.io/2017/07/20/Vim-colorschemes/</id>
-    <published>2017-07-20T06:52:07.000Z</published>
-    <updated>2017-07-20T06:54:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近给vim换了个主题?，里面有丰富的主题，也可以去web页面去定制。给分享下：</p>
+    <entry>
+      <title><![CDATA[Vim colorschemes]]></title>
+      <url>/2017/07/20/Vim-colorschemes/</url>
+      <content type="html"><![CDATA[<p>最近给vim换了个主题?，里面有丰富的主题，也可以去web页面去定制。给分享下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">官方地址：http://bytefluent.com/vivify/</div><div class="line">GitHub：https://github.com/flazz/vim-colorschemes</div></pre></td></tr></table></figure>
 <p>我的设置是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">colorscheme murphy</div></pre></td></tr></table></figure></p>
 <p>希望大家喜欢。</p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Vim </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Vim </tag>
+            
+            <tag> colorschemes </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;p&gt;最近给vim换了个主题?，里面有丰富的主题，也可以去web页面去定制。给分享下：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Vim" scheme="http://pzhen.github.io/categories/Linux/Vim/"/>
-    
-    
-      <category term="Vim" scheme="http://pzhen.github.io/tags/Vim/"/>
-    
-      <category term="colorschemes" scheme="http://pzhen.github.io/tags/colorschemes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Iterm2 配色主题</title>
-    <link href="http://pzhen.github.io/2017/07/20/Iterm2-%E9%85%8D%E8%89%B2%E4%B8%BB%E9%A2%98/"/>
-    <id>http://pzhen.github.io/2017/07/20/Iterm2-配色主题/</id>
-    <published>2017-07-20T03:29:58.000Z</published>
-    <updated>2017-07-20T03:35:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>请到 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="external">https://github.com/mbadolato/iTerm2-Color-Schemes</a> 下载。</p>
+    <entry>
+      <title><![CDATA[Iterm2 配色主题]]></title>
+      <url>/2017/07/20/Iterm2-%E9%85%8D%E8%89%B2%E4%B8%BB%E9%A2%98/</url>
+      <content type="html"><![CDATA[<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>请到 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="external">https://github.com/mbadolato/iTerm2-Color-Schemes</a> 下载。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/mbadolato/iTerm2-Color-Schemes.git</div></pre></td></tr></table></figure>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>To install:</p>
 <ul>
@@ -358,32 +324,30 @@
 </ul>
 <p><img src="WX20170511-1352312x.png" alt="image"></p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Iterm2 </tag>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h4 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a&gt;下载&lt;/h4&gt;&lt;p&gt;请到 &lt;a href=&quot;https://github.com/mbadolato/iTerm2-Color-Schemes&quot; target=
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="Iterm2" scheme="http://pzhen.github.io/tags/Iterm2/"/>
-    
-      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python 中文编码问题</title>
-    <link href="http://pzhen.github.io/2017/07/20/Python-%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/"/>
-    <id>http://pzhen.github.io/2017/07/20/Python-中文编码问题/</id>
-    <published>2017-07-20T03:10:21.000Z</published>
-    <updated>2017-07-20T03:23:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。</p>
+    <entry>
+      <title><![CDATA[Python 中文编码问题]]></title>
+      <url>/2017/07/20/Python-%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</url>
+      <content type="html"><![CDATA[<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。</p>
 <p>解决方法为只要在文件开头加入 # -<em>- coding: UTF-8 -</em>- 或者 #coding=utf-8 就行了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">print &quot;你好，世界&quot;;</div></pre></td></tr></table></figure>
 <p>所以如果大家在学习过程中，代码中包含中文，就需要在头部指定编码。</p>
@@ -398,29 +362,26 @@
 <h4 id="print-list-中文"><a href="#print-list-中文" class="headerlink" title="print list 中文"></a>print list 中文</h4><p>如果查看print list 的时候里面中文也显示正确，方便调试可这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import uniout</div></pre></td></tr></table></figure></p>
 <p>引入该包 就可以显示list中的中文了。</p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h4 id=&quot;文件编码&quot;&gt;&lt;a href=&quot;#文件编码&quot; class=&quot;headerlink&quot; title=&quot;文件编码&quot;&gt;&lt;/a&gt;文件编码&lt;/h4&gt;&lt;p&gt;Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。&lt;/p&gt;
-&lt;p
-    
-    </summary>
-    
-      <category term="Python" scheme="http://pzhen.github.io/categories/Python/"/>
-    
-    
-      <category term="Python" scheme="http://pzhen.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Php 一致性哈希</title>
-    <link href="http://pzhen.github.io/2017/07/20/Php-%E5%AE%9E%E7%8E%B0%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E5%8C%85%E5%90%AB%E8%99%9A%E6%8B%9F%E8%8A%82%E7%82%B9/"/>
-    <id>http://pzhen.github.io/2017/07/20/Php-实现一致性哈希包含虚拟节点/</id>
-    <published>2017-07-20T02:43:35.000Z</published>
-    <updated>2017-07-21T06:14:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前看到Es的分片路由机制，想到了分布式的一致性哈希，</p>
+    <entry>
+      <title><![CDATA[Php 一致性哈希]]></title>
+      <url>/2017/07/20/Php-%E5%AE%9E%E7%8E%B0%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E5%8C%85%E5%90%AB%E8%99%9A%E6%8B%9F%E8%8A%82%E7%82%B9/</url>
+      <content type="html"><![CDATA[<p>之前看到Es的分片路由机制，想到了分布式的一致性哈希，</p>
 <p>从无虚拟哈希环，到添加上虚拟哈希环。</p>
 <p>下面是php的实现。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myHash</span><span class="params">($str)</span> </span>&#123;</div><div class="line">    $hash = <span class="number">0</span>;</div><div class="line">    $s    = md5($str);</div><div class="line">    $seed = <span class="number">5</span>;</div><div class="line">    $len  = <span class="number">32</span>;</div><div class="line">    <span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; $len; $i++) &#123;</div><div class="line">        $hash = ($hash &lt;&lt; $seed) + $hash + ord($s&#123;$i&#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $hash &amp; <span class="number">0x7FFFFFFF</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConsistentHash</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">#每个物理节点生成虚拟节点个数</span></div><div class="line">    <span class="keyword">public</span> $virtual_num = <span class="number">300</span>;</div><div class="line"></div><div class="line">    <span class="comment">// server列表</span></div><div class="line">    <span class="keyword">public</span> $_server_list = <span class="keyword">array</span>();</div><div class="line">    <span class="comment">// 延迟排序，因为可能会执行多次addServer</span></div><div class="line">    <span class="keyword">private</span> $_layze_sorted = <span class="keyword">FALSE</span>;</div><div class="line"></div><div class="line">    <span class="comment">#server物理节点</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addServer</span><span class="params">($server)</span> </span>&#123;</div><div class="line">        $hash = myHash($server);</div><div class="line">        <span class="keyword">$this</span>-&gt;_layze_sorted = <span class="keyword">FALSE</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;_server_list[$hash])) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;_server_list[$hash] = $server;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">#server虚拟节点</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addServerVir</span><span class="params">($server)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> ($i = <span class="number">1</span>; $i &lt;= <span class="keyword">$this</span>-&gt;virtual_num; $i++)</div><div class="line">        &#123;</div><div class="line">            $hash_key = myHash($server.<span class="string">"#"</span>.$i);</div><div class="line">            <span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;_server_list[$hash_key]))</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">$this</span>-&gt;_server_list[$hash_key] = $server;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">find</span><span class="params">($key)</span> </span>&#123;</div><div class="line">        <span class="comment">// 排序</span></div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">$this</span>-&gt;_layze_sorted) &#123;</div><div class="line">            ksort(<span class="keyword">$this</span>-&gt;_server_list);</div><div class="line">            <span class="keyword">$this</span>-&gt;_layze_sorted = <span class="keyword">TRUE</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">#print_r($this-&gt;_server_list);exit();</span></div><div class="line"></div><div class="line">        $hash = myHash($key);</div><div class="line">        $len  = sizeof(<span class="keyword">$this</span>-&gt;_server_list);</div><div class="line">        <span class="keyword">if</span> ($len == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $keys   = array_keys(<span class="keyword">$this</span>-&gt;_server_list);  <span class="comment">#server hash 值</span></div><div class="line">        $values = array_values(<span class="keyword">$this</span>-&gt;_server_list);  <span class="comment">#server 地址</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> ($hash &lt;= $keys[<span class="number">0</span>] || $hash &gt;= $keys[$len - <span class="number">1</span>]) &#123;</div><div class="line">            <span class="keyword">return</span> $values[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">foreach</span> ($keys <span class="keyword">as</span> $key=&gt;$pos) &#123;</div><div class="line">            $next_pos = <span class="keyword">NULL</span>;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">isset</span>($keys[$key + <span class="number">1</span>]))</div><div class="line">            &#123;</div><div class="line">                $next_pos = $keys[$key + <span class="number">1</span>];</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (is_null($next_pos)) &#123;</div><div class="line">                <span class="keyword">return</span> $values[$key];</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="comment">// 区间判断</span></div><div class="line">            <span class="keyword">if</span> ($hash &gt;= $pos &amp;&amp; $hash &lt;= $next_pos) &#123;</div><div class="line">                <span class="keyword">return</span> $values[$key];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">$consisHash = <span class="keyword">new</span> ConsistentHash();</div><div class="line"></div><div class="line"><span class="comment">#物理节点hash环</span></div><div class="line"><span class="comment">#$consisHash-&gt;addServer("server1")-&gt;addServer("server2")-&gt;addServer("server3")-&gt;addServer("server4");</span></div><div class="line"></div><div class="line"><span class="comment">#带虚拟节点的hash环</span></div><div class="line">$consisHash-&gt;addServerVir(<span class="string">"server1"</span>)-&gt;addServerVir(<span class="string">"server2"</span>)-&gt;addServerVir(<span class="string">"server3"</span>)-&gt;addServerVir(<span class="string">"server4"</span>);</div><div class="line"></div><div class="line">$total_server1_num = $total_server2_num = $total_server3_num = $total_server4_num = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span> ($i=<span class="number">1</span>; $i &lt;= <span class="number">200000</span>; $i++) &#123;</div><div class="line">    <span class="comment"># code...</span></div><div class="line">    $key = uniqid(<span class="keyword">TRUE</span>,<span class="keyword">TRUE</span>);</div><div class="line"></div><div class="line">    $server_name = $consisHash-&gt;find($key);</div><div class="line">    <span class="keyword">if</span>($server_name == <span class="string">"server1"</span>)&#123;</div><div class="line">        $total_server1_num += <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>($server_name == <span class="string">"server2"</span>)&#123;</div><div class="line">        $total_server2_num += <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>($server_name == <span class="string">"server3"</span>)&#123;</div><div class="line">        $total_server3_num += <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>($server_name == <span class="string">"server4"</span>)&#123;</div><div class="line">        $total_server4_num += <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">echo</span> <span class="string">"server1 num :"</span> .$total_server1_num .<span class="string">"\n"</span>;</div><div class="line"><span class="keyword">echo</span> <span class="string">"server2 num :"</span> .$total_server2_num .<span class="string">"\n"</span>;</div><div class="line"><span class="keyword">echo</span> <span class="string">"server3 num :"</span> .$total_server3_num .<span class="string">"\n"</span>;</div><div class="line"><span class="keyword">echo</span> <span class="string">"server4 num :"</span> .$total_server4_num .<span class="string">"\n"</span>;</div></pre></td></tr></table></figure>
@@ -428,200 +389,185 @@
 <li><a href="https://github.com/pda/flexihash" target="_blank" rel="external">flexihash</a></li>
 </ul>
 ]]></content>
+      
+        <categories>
+            
+            <category> Php </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Php </tag>
+            
+            <tag> 一致性Hash </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
+    <entry>
+      <title><![CDATA[Php7 安装Redis扩展]]></title>
+      <url>/2017/07/20/Php7-%E5%AE%89%E8%A3%85Redis%E6%89%A9%E5%B1%95/</url>
+      <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">下载  https://github.com/phpredis/phpredis/tree/php7</div><div class="line"></div><div class="line">解压  unzip phpredis-php7.zip</div><div class="line"></div><div class="line">phpize  #用phpize生成configure配置文件</div><div class="line"></div><div class="line">./configure  配置</div><div class="line"></div><div class="line">make  #编译</div><div class="line"></div><div class="line">make install  #安装</div><div class="line"></div><div class="line">安装完成后将出现的安装路径添加到php.ini中:</div><div class="line"></div><div class="line">extension_dir = &quot;/usr/lib/php/20151012&quot;</div><div class="line"></div><div class="line">extension = redis.so</div><div class="line"></div><div class="line">重启服务器,查看phpinfo,是不是搞定.</div></pre></td></tr></table></figure>]]></content>
+      
+        <categories>
+            
+            <category> Redis </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Php </tag>
+            
+            <tag> Redis </tag>
+            
+        </tags>
+        
+    </entry>
     
-      &lt;p&gt;之前看到Es的分片路由机制，想到了分布式的一致性哈希，&lt;/p&gt;
-&lt;p&gt;从无虚拟哈希环，到添加上虚拟哈希环。&lt;/p&gt;
-&lt;p&gt;下面是php的实现。&lt;/p&gt;
-&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
-    
-    
-      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
-    
-      <category term="一致性Hash" scheme="http://pzhen.github.io/tags/%E4%B8%80%E8%87%B4%E6%80%A7Hash/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Php7 安装Redis扩展</title>
-    <link href="http://pzhen.github.io/2017/07/20/Php7-%E5%AE%89%E8%A3%85Redis%E6%89%A9%E5%B1%95/"/>
-    <id>http://pzhen.github.io/2017/07/20/Php7-安装Redis扩展/</id>
-    <published>2017-07-20T02:39:26.000Z</published>
-    <updated>2017-07-20T09:32:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">下载  https://github.com/phpredis/phpredis/tree/php7</div><div class="line"></div><div class="line">解压  unzip phpredis-php7.zip</div><div class="line"></div><div class="line">phpize  #用phpize生成configure配置文件</div><div class="line"></div><div class="line">./configure  配置</div><div class="line"></div><div class="line">make  #编译</div><div class="line"></div><div class="line">make install  #安装</div><div class="line"></div><div class="line">安装完成后将出现的安装路径添加到php.ini中:</div><div class="line"></div><div class="line">extension_dir = &quot;/usr/lib/php/20151012&quot;</div><div class="line"></div><div class="line">extension = redis.so</div><div class="line"></div><div class="line">重启服务器,查看phpinfo,是不是搞定.</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://pzhen.github.io/categories/Redis/"/>
-    
-    
-      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
-    
-      <category term="Redis" scheme="http://pzhen.github.io/tags/Redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu安装jdk</title>
-    <link href="http://pzhen.github.io/2017/07/20/Ubuntu%E5%AE%89%E8%A3%85jdk/"/>
-    <id>http://pzhen.github.io/2017/07/20/Ubuntu安装jdk/</id>
-    <published>2017-07-20T02:32:47.000Z</published>
-    <updated>2017-07-20T02:37:35.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Ubuntu 下安装 jdk </p>
+    <entry>
+      <title><![CDATA[Ubuntu安装jdk]]></title>
+      <url>/2017/07/20/Ubuntu%E5%AE%89%E8%A3%85jdk/</url>
+      <content type="html"><![CDATA[<p>Ubuntu 下安装 jdk </p>
 <h4 id="1-解压"><a href="#1-解压" class="headerlink" title="1.解压"></a>1.解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar zxvf ./jdk-7u45-linux-x64.tar.gz</div></pre></td></tr></table></figure>
 <h4 id="2-环境变量"><a href="#2-环境变量" class="headerlink" title="2.环境变量"></a>2.环境变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vi ~/.bashrc 或者 ~/.zshrc</div><div class="line"></div><div class="line">export JAVA_HOME=/opt/Java/jdk/jdk1.7 </div><div class="line">export CLASSPATH=$&#123;JAVA_HOME&#125;/lib</div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</div></pre></td></tr></table></figure>
 <h4 id="3-立即生效"><a href="#3-立即生效" class="headerlink" title="3.立即生效"></a>3.立即生效</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Jdk </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Jdk </tag>
+            
+            <tag> Ubuntu </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;p&gt;Ubuntu 下安装 jdk &lt;/p&gt;
-&lt;h4 id=&quot;1-解压&quot;&gt;&lt;a href=&quot;#1-解压&quot; class=&quot;headerlink&quot; title=&quot;1.解压&quot;&gt;&lt;/a&gt;1.解压&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Jdk" scheme="http://pzhen.github.io/categories/Linux/Jdk/"/>
-    
-    
-      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
-    
-      <category term="Jdk" scheme="http://pzhen.github.io/tags/Jdk/"/>
-    
-      <category term="Ubuntu" scheme="http://pzhen.github.io/tags/Ubuntu/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mac 安装 zsh</title>
-    <link href="http://pzhen.github.io/2017/07/20/Mac-%E5%AE%89%E8%A3%85-zsh/"/>
-    <id>http://pzhen.github.io/2017/07/20/Mac-安装-zsh/</id>
-    <published>2017-07-20T02:07:00.000Z</published>
-    <updated>2017-07-20T02:12:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
+    <entry>
+      <title><![CDATA[Mac 安装 zsh]]></title>
+      <url>/2017/07/20/Mac-%E5%AE%89%E8%A3%85-zsh/</url>
+      <content type="html"><![CDATA[<blockquote>
 <p>目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash，但是真正强大的 Shell 是深藏不露的 zsh， 这货绝对是马车中的跑车，跑车中的飞行车，史称『终极 Shell』，但是由于配置过于复杂，所以初期无人问津，很多人跑过来看看 zsh 的配置指南，什么都不说转身就走了。直到有一天，国外有个穷极无聊的程序员开发出了一个能够让你快速上手的zsh项目，叫做「oh my zsh」，<br>这玩意就像「X天叫你学会 C++」系列，可以让你神功速成，而且是真的。</p>
 </blockquote>
 <p>地址：<a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="external">https://github.com/robbyrussell/oh-my-zsh</a></p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mac </tag>
+            
+            <tag> Zsh </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash，但是真正强大的 Shell 是深藏不露的 zsh， 这货绝对是马车中的跑车，跑车中的飞行车，史称『终极 Shell』，但是由于配置过于复杂，所以初期无人问津，很多人跑
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
-    
-      <category term="Zsh" scheme="http://pzhen.github.io/tags/Zsh/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux下 SSH 登录脚本</title>
-    <link href="http://pzhen.github.io/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/"/>
-    <id>http://pzhen.github.io/2017/07/19/Linux下-ssh-自动登录脚本/</id>
-    <published>2017-07-19T14:58:13.000Z</published>
-    <updated>2017-07-20T09:33:37.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
+    <entry>
+      <title><![CDATA[Linux下 SSH 登录脚本]]></title>
+      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
+      <content type="html"><![CDATA[<p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
 <h4 id="1-创建脚本-xxx-sh"><a href="#1-创建脚本-xxx-sh" class="headerlink" title="1.创建脚本 xxx.sh"></a>1.创建脚本 xxx.sh</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/expect</div><div class="line">set timeout 30</div><div class="line">spawn ssh -l root ip地址</div><div class="line">expect &quot;password:&quot;</div><div class="line">send &quot;密码\r&quot;</div></pre></td></tr></table></figure>
 <h4 id="2-将脚本目录加入环境变量"><a href="#2-将脚本目录加入环境变量" class="headerlink" title="2.将脚本目录加入环境变量"></a>2.将脚本目录加入环境变量</h4><p>export PATH=/Users/zhen/Documents/shell:$PATH<br>这样一来在命令行随时可以调用脚本远程登录。</p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> SSH </tag>
+            
+            <tag> Shell </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;p&gt;最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。&lt;/p&gt;
-&lt;h4 id=&quot;1-创建脚本-xxx-sh&quot;&gt;&lt;a href=&quot;#1-创建脚本-xxx-sh&quot; class=&quot;headerlink&quot; title=&quot;1.创建脚本 xxx.sh&quot;&gt;&lt;/
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="SSH" scheme="http://pzhen.github.io/tags/SSH/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vim 常用命令</title>
-    <link href="http://pzhen.github.io/2017/07/19/Vim-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <id>http://pzhen.github.io/2017/07/19/Vim-常用命令/</id>
-    <published>2017-07-19T09:42:58.000Z</published>
-    <updated>2017-07-19T14:29:39.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line">----------------------------光标移动-------------------------</div><div class="line">h 向左移动一个字符</div><div class="line">j 向下移动一行</div><div class="line">k 向上移动一行</div><div class="line">l 向右移动一个字符</div><div class="line"> </div><div class="line">control f 向下翻一页</div><div class="line">control b 向上翻一页</div><div class="line">control d 向下翻半页</div><div class="line">control u 向上翻半页</div><div class="line"> </div><div class="line">+ 非空格下一行</div><div class="line">- 非空格上一行</div><div class="line"> </div><div class="line">n + 空格  移动n个字符</div><div class="line">0  移动到当前行第一个字符处</div><div class="line">$  移动到当前行最后一个字符处</div><div class="line">G  移动到最后一行</div><div class="line">nG 跳到n行</div><div class="line">gg 第一行</div><div class="line"> </div><div class="line">n 回车  向下n行</div><div class="line">?keyword 向上查找 配合 n N 来上下查找</div><div class="line">/keyword 向下查找 配合 n N 来上下查找</div><div class="line"> </div><div class="line">:n1,n2s/keyword1/keyword2/g  在n1到n2行之间，查找keyword1并且替换成keyword2</div><div class="line">:1,$s/keyword1/keyword2/g  同上只不过是从1-最后一行</div><div class="line">:n1,n2/keyword1/keyword2/gc 只不过要确认后才替换</div><div class="line"> </div><div class="line">-----------------------------粘贴复制------------------------</div><div class="line">x 向后删除一个字符</div><div class="line">X 向前删除一个字符</div><div class="line">nx 连续向后删除n个字符</div><div class="line">dd 删除当前行</div><div class="line">ndd 删除向下n行</div><div class="line"> </div><div class="line">d1G 删除光标之前所有</div><div class="line">dG  删除光标到最后</div><div class="line">d$  删除光标到行末</div><div class="line">d0  删除光标行首</div><div class="line"> </div><div class="line">yy 复制当前航</div><div class="line">nyy 向下复制n行</div><div class="line">y1G 复制光标到行首</div><div class="line">yG  复制光标到最后一行</div><div class="line">y0  复制光标到行首</div><div class="line">y$  复制光标到行末</div><div class="line"> </div><div class="line">p 光标下一行粘贴</div><div class="line">P 光标上一行粘贴</div><div class="line"> </div><div class="line">---------------------------------插入------------------------</div><div class="line">i 光标位置插入</div><div class="line">I 当前行非空第一个字符处插入</div><div class="line">a 光标处下一个字符插入</div><div class="line">A 当前行最后一个字符插入</div><div class="line">o 下一行插入</div><div class="line">o 上一行插入</div><div class="line"> </div><div class="line">:w filename 保存到另一个文件</div><div class="line">:r filename 读取文件内容到当前</div><div class="line"> </div><div class="line">:! command  暂时离开vim 执行命令</div><div class="line">---------------------区块选择-------------------------------</div><div class="line">v 字符区块选择</div><div class="line">V 行区块选择</div><div class="line">y 复制区块</div><div class="line">d 删除区块</div><div class="line">contrl + v 范围区块</div><div class="line">区块选择下 按 = 键 自动排版，代码会自动排版</div><div class="line">--------------------多文件同时编辑--------------------------</div><div class="line">vim filename1 filename2</div><div class="line">:n 下一个文件</div><div class="line">:N 上一个文件</div><div class="line">:files 打开的文件列表</div><div class="line">-------------------分屏---------------------</div><div class="line">:sp filename</div><div class="line">ctrl + w 来切换光标</div></pre></td></tr></table></figure>
+    <entry>
+      <title><![CDATA[Vim 常用命令]]></title>
+      <url>/2017/07/19/Vim-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+      <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line">----------------------------光标移动-------------------------</div><div class="line">h 向左移动一个字符</div><div class="line">j 向下移动一行</div><div class="line">k 向上移动一行</div><div class="line">l 向右移动一个字符</div><div class="line"> </div><div class="line">control f 向下翻一页</div><div class="line">control b 向上翻一页</div><div class="line">control d 向下翻半页</div><div class="line">control u 向上翻半页</div><div class="line"> </div><div class="line">+ 非空格下一行</div><div class="line">- 非空格上一行</div><div class="line"> </div><div class="line">n + 空格  移动n个字符</div><div class="line">0  移动到当前行第一个字符处</div><div class="line">$  移动到当前行最后一个字符处</div><div class="line">G  移动到最后一行</div><div class="line">nG 跳到n行</div><div class="line">gg 第一行</div><div class="line"> </div><div class="line">n 回车  向下n行</div><div class="line">?keyword 向上查找 配合 n N 来上下查找</div><div class="line">/keyword 向下查找 配合 n N 来上下查找</div><div class="line"> </div><div class="line">:n1,n2s/keyword1/keyword2/g  在n1到n2行之间，查找keyword1并且替换成keyword2</div><div class="line">:1,$s/keyword1/keyword2/g  同上只不过是从1-最后一行</div><div class="line">:n1,n2/keyword1/keyword2/gc 只不过要确认后才替换</div><div class="line"> </div><div class="line">-----------------------------粘贴复制------------------------</div><div class="line">x 向后删除一个字符</div><div class="line">X 向前删除一个字符</div><div class="line">nx 连续向后删除n个字符</div><div class="line">dd 删除当前行</div><div class="line">ndd 删除向下n行</div><div class="line"> </div><div class="line">d1G 删除光标之前所有</div><div class="line">dG  删除光标到最后</div><div class="line">d$  删除光标到行末</div><div class="line">d0  删除光标行首</div><div class="line"> </div><div class="line">yy 复制当前航</div><div class="line">nyy 向下复制n行</div><div class="line">y1G 复制光标到行首</div><div class="line">yG  复制光标到最后一行</div><div class="line">y0  复制光标到行首</div><div class="line">y$  复制光标到行末</div><div class="line"> </div><div class="line">p 光标下一行粘贴</div><div class="line">P 光标上一行粘贴</div><div class="line"> </div><div class="line">---------------------------------插入------------------------</div><div class="line">i 光标位置插入</div><div class="line">I 当前行非空第一个字符处插入</div><div class="line">a 光标处下一个字符插入</div><div class="line">A 当前行最后一个字符插入</div><div class="line">o 下一行插入</div><div class="line">o 上一行插入</div><div class="line"> </div><div class="line">:w filename 保存到另一个文件</div><div class="line">:r filename 读取文件内容到当前</div><div class="line"> </div><div class="line">:! command  暂时离开vim 执行命令</div><div class="line">---------------------区块选择-------------------------------</div><div class="line">v 字符区块选择</div><div class="line">V 行区块选择</div><div class="line">y 复制区块</div><div class="line">d 删除区块</div><div class="line">contrl + v 范围区块</div><div class="line">区块选择下 按 = 键 自动排版，代码会自动排版</div><div class="line">--------------------多文件同时编辑--------------------------</div><div class="line">vim filename1 filename2</div><div class="line">:n 下一个文件</div><div class="line">:N 上一个文件</div><div class="line">:files 打开的文件列表</div><div class="line">-------------------分屏---------------------</div><div class="line">:sp filename</div><div class="line">ctrl + w 来切换光标</div></pre></td></tr></table></figure>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Vim </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Vim </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Vim" scheme="http://pzhen.github.io/categories/Linux/Vim/"/>
-    
-    
-      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
-    
-      <category term="Vim" scheme="http://pzhen.github.io/tags/Vim/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Svn log shell</title>
-    <link href="http://pzhen.github.io/2017/07/19/svn-log-shell/"/>
-    <id>http://pzhen.github.io/2017/07/19/svn-log-shell/</id>
-    <published>2017-07-19T08:44:22.000Z</published>
-    <updated>2017-07-19T14:51:31.000Z</updated>
-    
-    <content type="html"><![CDATA[<h5 id="1-命令繁琐"><a href="#1-命令繁琐" class="headerlink" title="1.命令繁琐"></a>1.命令繁琐</h5><p>由于每次查看log需要输入好长的命令，在这里写成shell，方便许多。</p>
+    <entry>
+      <title><![CDATA[Svn log shell]]></title>
+      <url>/2017/07/19/svn-log-shell/</url>
+      <content type="html"><![CDATA[<h5 id="1-命令繁琐"><a href="#1-命令繁琐" class="headerlink" title="1.命令繁琐"></a>1.命令繁琐</h5><p>由于每次查看log需要输入好长的命令，在这里写成shell，方便许多。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user_name=$1</div><div class="line">few_days_ago=$2</div><div class="line"></div><div class="line">if [ ! -n &quot;$user_name&quot; ]</div><div class="line">then</div><div class="line">	user_name=&apos;xxxxxxxxxxxx&apos;</div><div class="line">fi</div><div class="line"></div><div class="line">if [ ! -n &quot;$few_days_ago&quot; ]</div><div class="line">then</div><div class="line">	few_days_ago=30</div><div class="line">fi</div><div class="line"></div><div class="line">start_time=`date -v -&quot;$few_days_ago&quot;d +%Y-%m-%d`</div><div class="line">end_time=`date -v +1d +%Y-%m-%d`</div><div class="line"></div><div class="line">svn log -r &#123;$start_time&#125;:&#123;$end_time&#125; -v | sed -n &quot;/$user_name/,/--$/ p&quot;</div></pre></td></tr></table></figure>
 <h5 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法:"></a>2.使用方法:</h5><p>将shell加入环境变量，在项目里面:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">└─[$] &lt;&gt; svnlog.sh  username  days</div></pre></td></tr></table></figure>
 <h5 id="3-默认参数"><a href="#3-默认参数" class="headerlink" title="3.默认参数"></a>3.默认参数</h5><p>如果不传参数默认脚本中username,30天的log。</p>
 ]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Shell </tag>
+            
+            <tag> Svn </tag>
+            
+        </tags>
+        
+    </entry>
     
-    <summary type="html">
-    
-      &lt;h5 id=&quot;1-命令繁琐&quot;&gt;&lt;a href=&quot;#1-命令繁琐&quot; class=&quot;headerlink&quot; title=&quot;1.命令繁琐&quot;&gt;&lt;/a&gt;1.命令繁琐&lt;/h5&gt;&lt;p&gt;由于每次查看log需要输入好长的命令，在这里写成shell，方便许多。&lt;/p&gt;
-&lt;figure class=
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
-    
-      <category term="Svn" scheme="http://pzhen.github.io/tags/Svn/"/>
-    
-  </entry>
   
-</feed>
+  
+</search>
