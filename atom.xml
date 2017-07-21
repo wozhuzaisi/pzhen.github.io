@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>斑斓的梦</title>
+  <subtitle>Zhen&#39;s Blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://pzhen.github.io/"/>
+  <updated>2017-07-20T09:28:15.000Z</updated>
+  <id>http://pzhen.github.io/</id>
+  
+  <author>
+    <name>P.Zhen</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Es – 集群生态总结</title>
+    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E9%9B%86%E7%BE%A4%E7%94%9F%E6%80%81%E6%80%BB%E7%BB%93/"/>
+    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-集群生态总结/</id>
+    <published>2017-07-20T09:05:22.000Z</published>
+    <updated>2017-07-20T09:28:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="分片算法"><a href="#分片算法" class="headerlink" title="分片算法:"></a>分片算法:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shard = hash(routing) % number_of_primary_shards</div></pre></td></tr></table></figure>
+<p>routing值是一个任意字符串，它默认是_id但也可以自定义，这个routing字符串通过哈希函数生成一个数字，然后除以主切片的数量得到一个余数(remainder)，余数的范围永远是0到number_of_primary_shards – 1，这个数字就是特定文档所在的分片。</p>
+<p>这也解释了为什么主切片的数量只能在创建索引时定义且不能修改：如果主切片的数量在未来改变了，所有先前的路由值就失效了，文档也就永远找不到了。</p>
+<p>所有的文档API（get、index、delete、bulk、update、mget）都接收一个routing参数，它用来自定义文档到分片的映射。自定义路由值可以确保所有相关文档.比如用户的文章,按照用户账号路由,就可以实现属于同一用户的文档被保存在同一分片上。</p>
+<h4 id="增删改（write）执行过程"><a href="#增删改（write）执行过程" class="headerlink" title="增删改（write）执行过程"></a>增删改（write）执行过程</h4><p>不管是索引，还是文档的write操作，它们必须在主分片上成功完成才能复制到相关的复制分片上,下面我们罗列在主分片和复制分片上成功新建、索引或删除一个文档必要的顺序步骤：</p>
+<p>1、客户端给Node 1发送新建、索引或删除请求。</p>
+<p>2、节点使用文档的_id确定文档属于分片0。它转发请求到Node 3，分片0位于这个节点上。</p>
+<p>3、Node 3在主分片上执行请求，如果成功，它转发请求到相应的位于Node 1和Node 2的复制节点上。当所有的复制节点报告成功，Node 3报告成功到请求的节点，请求的节点再报告给客户端。</p>
+<p>客户端接收到成功响应的时候，文档的修改已经被应用于主分片和所有的复制分片。你的修改生效了。</p>
+<h4 id="副本分片复制时的相关的参数说明"><a href="#副本分片复制时的相关的参数说明" class="headerlink" title="副本分片复制时的相关的参数说明:"></a>副本分片复制时的相关的参数说明:</h4><p>replication:</p>
+<p>复制默认的值是sync。这将导致主分片得到复制分片的成功响应后才返回，如果你设置replication为async，请求在主分片上被执行后就会返回给客户端。它依旧会转发请求给复制节点，但你将不知道复制节点成功与否。</p>
+<p>默认的sync复制允许Elasticsearch强制反馈传输。async复制可能会因为在不等待其它分片就绪的情况下发送过多的请求而使Elasticsearch过载。</p>
+<p>consistency:</p>
+<p>默认主分片在尝试写入时需要<strong>规定数量(quorum)</strong>或过半的分片（可以是主节点或复制节点）可用。这是防止数据被写入到错的网络分区。规定的数量计算公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int( (primary + number_of_replicas) / 2 ) + 1</div></pre></td></tr></table></figure></p>
+<p>consistency允许的值为one（只有一个主分片），all（所有主分片和复制分片）或者默认的quorum或过半分片。</p>
+<p>注意number_of_replicas是在索引中的的设置，用来定义复制分片的数量，而不是现在活动的复制节点的数量。如果你定义了索引有3个复制节点，那规定数量是：int( (primary + 3 replicas) / 2 ) + 1 = 3</p>
+<p>但如果你只有2个节点，那你的活动分片不够规定数量，也就不能索引或删除任何文档。</p>
+<p>注意: 新索引默认有1个复制分片，这意味着为了满足quorum的要求<strong>需要</strong>两个活动的分片。当然，这个默认设置将阻止我们在单一节点集群中进行操作。为了避开这个问题，规定数量只有在number_of_replicas大于一时才生效。</p>
+<p>timeout：</p>
+<p>当分片副本不足时Elasticsearch会等待更多的分片出现。默认等待一分钟。如果需要，你可以设置timeout参数让它终止的更早：100表示100毫秒，30s表示30秒。</p>
+<h4 id="集群生态"><a href="#集群生态" class="headerlink" title="集群生态:"></a>集群生态:</h4><p>1.同集群中节点之间可以扩容缩容,</p>
+<p>2.主分片的数量会在其索引创建完成后修正，但是副本分片的数量会随时变化。</p>
+<p>3.相同的分片不会放在同一个节点上.</p>
+<h4 id="集群健康"><a href="#集群健康" class="headerlink" title="集群健康:"></a>集群健康:</h4><p>在Elasticsearch集群中可以监控统计很多信息，但是只有一个是最重要的时集群健康(cluster health)。Es中用三种颜色状态表示:green，yellow，red.</p>
+<p>Green：所有主分片和副本分片都可用</p>
+<p>Yellow：所有主分片可用，但不是所有副本分片都可用</p>
+<p>Red：不是所有的主分片都可用；</p>
+<h4 id="单机多节点来了解ES的高可用"><a href="#单机多节点来了解ES的高可用" class="headerlink" title="单机多节点来了解ES的高可用"></a>单机多节点来了解ES的高可用</h4><h5 id="创建单集群节点"><a href="#创建单集群节点" class="headerlink" title="创建单集群节点"></a>创建单集群节点</h5><p>如图我们的单点集群:<br><img src="301445145908370.png" alt="es-node1"></p>
+<p>实例中我们创建一个索引dobbyindex.一个索引默认指派5个主分片,实例中我们设定4个主分片和2个复制分片（每个主分片有2个复制分片对应）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">PUT /dobbyindex</div><div class="line">&#123;</div><div class="line">  &quot;settings&quot;: &#123;</div><div class="line">    &quot;number_of_shards&quot;: 4,</div><div class="line">    &quot;number_of_replicas&quot;: 2</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建后索引如图:</p>
+<p><img src="301447481842914.png" alt="image"></p>
+<p>在节点es-node1中片的存放如下:</p>
+<p><img src="301448224189287.png" alt="image"></p>
+<p>我们的主分片都被分配到了es-node1.但是我们的8个复制分片还没有被分配到节点上, 此时的集群健康状况如下:</p>
+<p>cluster health: yellow (4 of 12)<br>对应的详细信息为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cluster_name&quot;: &quot;elasticsearch-cluster-centos&quot;,</div><div class="line">    &quot;status&quot;: &quot;yellow&quot;,</div><div class="line">    &quot;timed_out&quot;: false,</div><div class="line">    &quot;number_of_nodes&quot;: 1,</div><div class="line">    &quot;number_of_data_nodes&quot;: 1,</div><div class="line">    &quot;active_primary_shards&quot;: 4,</div><div class="line">    &quot;active_shards&quot;: 4,</div><div class="line">    &quot;relocating_shards&quot;: 0,</div><div class="line">    &quot;initializing_shards&quot;: 0,</div><div class="line">    &quot;unassigned_shards&quot;: 8</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>意味着所有的主分片(primary shards)启动并且运行了,集群已经可以成功的接受任意请求,但是副本分片(replica shards)还没有全部可用。<br>事实上所有的8个副本分片现在是unassigned（未分配）状态,即它们还未被分配给节点,在同一个节点上保存相同的数据副本是没有必要的，如果这个节点故障了，那所有的数据副本也会丢失。现在我们的集群已经功能完备，但是依旧存在因硬件故障而导致的数据丢失的风险。</p>
+<h5 id="增加故障转移"><a href="#增加故障转移" class="headerlink" title="增加故障转移"></a>增加故障转移</h5><p>上面实例中的集群有单点故障的风险,没有数据冗余备份。我们可以扩展节点来保护数据不被丢失.只要第二个节点与第一个节点有相同的cluster.name(实例中为elasticsearch-cluster-centos)，它就能自动发现并加入第一个节点的集群。</p>
+<p>如果没有，检查日志找出哪里出了问题。这可能是网络广播被禁用，或者防火墙阻止了节点通信。</p>
+<p>当我们启动第二个节点之后:集群中的分片结构图如下:</p>
+<p><img src="301450312776822.png" alt="image"></p>
+<p>虽然,已经有4个副本分片被分陪到es-node2节点上来了，但是按照我们定义的副本分片的值为2, 还有4个分片处于未分片状态,此时对于我们设定的参数来说,集群的健康值还是所有主分片可用，但不是所有复制分片都可用. 对应的集群健康状况:</p>
+<p>cluster health: yellow (8 of 12)</p>
+<p>对应的详细信息为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cluster_name&quot;: &quot;elasticsearch-cluster-centos&quot;,</div><div class="line">    &quot;status&quot;: &quot;yellow&quot;,</div><div class="line">    &quot;timed_out&quot;: false,</div><div class="line">    &quot;number_of_nodes&quot;: 2,</div><div class="line">    &quot;number_of_data_nodes&quot;: 2,</div><div class="line">    &quot;active_primary_shards&quot;: 4,</div><div class="line">    &quot;active_shards&quot;: 8,</div><div class="line">    &quot;relocating_shards&quot;: 0,</div><div class="line">    &quot;initializing_shards&quot;: 0,</div><div class="line">    &quot;unassigned_shards&quot;: 4</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>所以我们还需要一个节点来分片这些副本分片,使集群达到高可用,再增加集群节点:</p>
+<p><img src="301452193242213.png" alt="image"></p>
+<p>当我们启动第三个节点之后,整个集群上的分片都进行了有效分配,从图中可以看出.es-node1为这个集群生态中选举出来的主(master),es-node2和es-node3为集群生态中的slave(从). 这样,一些新的被索引的文档将首先被存储在主分片中，然后平行复制到关联的复制节点上。这可以确保我们的数据在主节点和复制节点上都可以被检索。</p>
+<p>此时集群的健康状态如下：</p>
+<p>cluster health: green (12 of 12)<br>对应的详细信息为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;cluster_name&quot;: &quot;elasticsearch-cluster-centos&quot;,</div><div class="line">    &quot;status&quot;: &quot;green&quot;,</div><div class="line">    &quot;timed_out&quot;: false,</div><div class="line">    &quot;number_of_nodes&quot;: 3,</div><div class="line">    &quot;number_of_data_nodes&quot;: 3,</div><div class="line">    &quot;active_primary_shards&quot;: 4,</div><div class="line">    &quot;active_shards&quot;: 12,</div><div class="line">    &quot;relocating_shards&quot;: 0,</div><div class="line">    &quot;initializing_shards&quot;: 0,</div><div class="line">    &quot;unassigned_shards&quot;: 0</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下图为,节点es-node3加入时,分片分配过程中截取的临时图.</p>
+<p><img src="301453316066030.png" alt="image"></p>
+<h5 id="模拟节点宕机-集群主从重新选举"><a href="#模拟节点宕机-集群主从重新选举" class="headerlink" title="模拟节点宕机,集群主从重新选举"></a>模拟节点宕机,集群主从重新选举</h5><p>上图中我们的主节点为es-node1,如果主节点宕掉后,会怎样呢.</p>
+<p><img src="301454200908450.png" alt="image"></p>
+<p>如图:主节点对应的进程号7421,干掉它，此时es集群生态发生了如下变化,如图:</p>
+<p><img src="301455187779322.png" alt="image"></p>
+<p>es-node3被选举为主节点,es-node2为从节点,主分片与副本分片也变化了,主分片放置在了es-node2上,副本分片放置到了es-node3上,因为分片没有完全被分配,所以集群的健康状态变为yellow(所有主分片可用，但不是所有复制分片都可用),然后我们重启es-node1节点.</p>
+<p><img src="301455447626616.png" alt="image"></p>
+<p>如图,重启后健康状态恢复到green,但是集群主从变化了,且主分片的位置也变化了.</p>
+<h5 id="模拟扩展节点"><a href="#模拟扩展节点" class="headerlink" title="模拟扩展节点"></a>模拟扩展节点</h5><p><img src="301456308712196.png" alt="iamge"></p>
+<p>实例2中我们的集群已经达到高可用状态,对应的索引分片如图.此时我们想要扩展集群继续增加节点时,我们的分片会怎样呢,接下来我们再增加一个扩展节点es-node4.</p>
+<p><img src="301457315278966.png" alt="iamge"></p>
+<p>如图:扩容后,可以看到片进行了重新分片,节点es-node1和es-node3上分别持有主分片。es-node2,es-node3,es-node4持有副本分片，由于笔者模拟过程中有主节点宕机操作,</p>
+<p>所以从图中可以看出,新的生态集群中es-node4为主节点.对应的各个集群存储中包含的片分布信息如下:</p>
+<p><img src="301458043873327.png" alt="iamge"></p>
+<p>这种状态下的片也是完全分配，green(所有主要和复制的分片都可用).</p>
+<h5 id="动态缩小或者扩容副本片数量"><a href="#动态缩小或者扩容副本片数量" class="headerlink" title="动态缩小或者扩容副本片数量"></a>动态缩小或者扩容副本片数量</h5><p>副本节点的数量可以在运行中的集群中动态的变更，这允许我们可以根据需求扩大或者缩小规模。</p>
+<p>比如我们执行一次缩小规模操作:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PUT /dobbyindex/_settings</div><div class="line">&#123;</div><div class="line">   &quot;number_of_replicas&quot; : 1</div><div class="line">&#125;</div><div class="line">执行结果返回:</div><div class="line">&#123;</div><div class="line">    &quot;acknowledged&quot;: true</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这时,我们看到片的信息分又重新做了调整: 主分片分布在节点es-node1,es-node3,es-node4上.从分片分布在es-node2,es-node3,es-node4上.</p>
+<p><img src="301459413712397.png" alt="image"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;分片算法&quot;&gt;&lt;a href=&quot;#分片算法&quot; class=&quot;headerlink&quot; title=&quot;分片算法:&quot;&gt;&lt;/a&gt;分片算法:&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
+    
+    </summary>
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
+    
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
+    
+      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
+    
+      <category term="集群" scheme="http://pzhen.github.io/tags/%E9%9B%86%E7%BE%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Es – 倒排索引</title>
+    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/"/>
+    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-倒排索引/</id>
+    <published>2017-07-20T08:38:47.000Z</published>
+    <updated>2017-07-20T09:27:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Lucene-简介"><a href="#Lucene-简介" class="headerlink" title="Lucene 简介"></a>Lucene 简介</h4><p>Lucene是Apache软件基金会中一个开放源代码的全文搜索引擎工具包，是一个全文搜索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文搜索引擎。<br>Lucene最初是由Doug Cutting所撰写的，是一位资深全文索引/搜索专家，曾经是V-Twin搜索引擎的主要开发者，后来在Excite担任高级系统架构设计师，目前从事于一些Internet底层架构的研究。</p>
+<h4 id="Lucene-采用倒排索引"><a href="#Lucene-采用倒排索引" class="headerlink" title="Lucene 采用倒排索引"></a>Lucene 采用倒排索引</h4><p>倒排索引源于实际应用中需要根据属性的值来查找记录。</p>
+<p>这种索引表中的每一项都包括一个属性值和具有该属性值的各记录的地址。由于不是由记录来确定属性值，而是由属性值来确定记录的位置，因而称为倒排索引（inverted index）。带有倒排索引的文件我们称为倒排索引文件，简称倒排文件（inverted file）。</p>
+<h4 id="Lucene-如何构建倒排索引"><a href="#Lucene-如何构建倒排索引" class="headerlink" title="Lucene 如何构建倒排索引"></a>Lucene 如何构建倒排索引</h4><h5 id="1-获取关键词"><a href="#1-获取关键词" class="headerlink" title="1.获取关键词"></a>1.获取关键词</h5><p>由于倒排序是根据关键字索引来定位记录的，所以要先获取关键词。比如一篇文章，也就是一串字符串，要获取所有的分词（关键字），如果是英文字符串也就是所有单词，中文则依赖中文分词器来获取所有词语，然而不管英文还是中文有些词是无意义的比如“is”，“in”，“的”等等过滤掉，标点符号过滤掉，大小写统一，等等经过一系列的过滤筛选后得到分词，也就是我们的关键字。</p>
+<p>例子：</p>
+<p>假设有两篇文章1和文章2：</p>
+<p>文章1的内容为：Tom lives in Guangzhou，I live in Guangzhou too.<br>文章2的内容为：He once lived in Shanghai.</p>
+<p>在Lucene中以上措施由Analyzer类完成分词处理，结果如下：</p>
+<p>文章1的所有关键词为：[tom][live][guangzhou][i][live][guangzhou]<br>文章2的所有关键词为：[he][live][shanghai]</p>
+<h5 id="2-建立倒排索引"><a href="#2-建立倒排索引" class="headerlink" title="2.建立倒排索引"></a>2.建立倒排索引</h5><p>有了关键词后，我们就可以建立倒排索引了。上面的对应关系是：“文章号”对“文章中所有关键词”。倒排索引把这个关系倒过来，变成：“关键词”对“拥有该关键词的所有文章号”。</p>
+<p><img src="QQ20170424-232025.png" alt="倒排序"></p>
+<p>通常仅知道关键词在哪些文章中出现还不够，我们还需要知道关键词在文章中出现的次数和位置，加上位置与出现次数后如下：</p>
+<p><img src="QQ20170424-2324182x.png" alt="倒排序"></p>
+<p>以上就是Lucene索引结构中最核心的部分。我们注意到关键字是按字符顺序排列的（Lucene没有使用B树结构），因此Lucene可以用二元搜索算法快速定位关键词。</p>
+<h5 id="3-实现倒排索引"><a href="#3-实现倒排索引" class="headerlink" title="3.实现倒排索引"></a>3.实现倒排索引</h5><p>实现时，Lucene将上面三列分别作为词典文件（Term Dictionary）、频率文件（frequencies）、位置文件（positions）保存。其中词典文件不仅保存了每个关键词，还保留了指向频率文件和位置文件的指针，通过指针可以找到该关键字的频率信息和位置信息。<br>Lucene中使用了field的概念，用于表达信息所在位置（如标题中、文章中、URL中），在建索引中，该field信息也记录在词典文件中，每个关键词都有一个field信息，因为每个关键字一定属于一个或多个field。</p>
+<h5 id="4-压缩算法"><a href="#4-压缩算法" class="headerlink" title="4.压缩算法"></a>4.压缩算法</h5><p>为了减小索引文件的大小，Lucene对索引还使用了压缩技术。<br>首先，对词典文件中的关键词进行了压缩，关键词压缩为&lt;前缀长度，后缀&gt;，例如：当前词为“阿拉伯语”，上一个词为“阿拉伯”，那么“阿拉伯语”压缩为<3，语>。<br>其次大量用到的是对数字的压缩，数字只保存与上一个值的差值（这样可以减少数字的长度，进而减少保存该数字需要的字节数）。例如当前文章号是16389（不压缩要用3个字节保存），上一文章号是16382，压缩后保存7（只用一个字节）。</3，语></p>
+<h5 id="5-查询"><a href="#5-查询" class="headerlink" title="5.查询"></a>5.查询</h5><p>假设要查询单词“live”，Lucene先对词典二元查找、找到该词，通过指向频率文件的指针读出所有文章号，然后返回结果。词典通常非常小，因而，整个过程的时间是毫秒级的。<br>而用普通的顺序匹配算法，不建索引，而是对所有文章的内容进行字符串匹配，这个过程将会相当缓慢，当文章数目很大时，时间往往是无法忍受的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;Lucene-简介&quot;&gt;&lt;a href=&quot;#Lucene-简介&quot; class=&quot;headerlink&quot; title=&quot;Lucene 简介&quot;&gt;&lt;/a&gt;Lucene 简介&lt;/h4&gt;&lt;p&gt;Lucene是Apache软件基金会中一个开放源代码的全文搜索引擎工具包，是一个全文
+    
+    </summary>
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
+    
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
+    
+      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
+    
+      <category term="倒排序" scheme="http://pzhen.github.io/tags/%E5%80%92%E6%8E%92%E5%BA%8F/"/>
+    
+      <category term="Lucene" scheme="http://pzhen.github.io/tags/Lucene/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Es – Ik 分词器</title>
+    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-Ik-%E5%88%86%E8%AF%8D%E5%99%A8/"/>
+    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-Ik-分词器/</id>
+    <published>2017-07-20T08:24:42.000Z</published>
+    <updated>2017-07-20T09:28:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="下载ik分词器包"><a href="#下载ik分词器包" class="headerlink" title="下载ik分词器包"></a>下载ik分词器包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://github.com/medcl/elasticsearch-analysis-ik</div></pre></td></tr></table></figure>
+<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unzip elasticsearch-analysis-ik-master.zip</div></pre></td></tr></table></figure>
+<h4 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd elasticsearch-analysis-ik-master</div><div class="line"></div><div class="line">mvn package</div></pre></td></tr></table></figure>
+<p>打包后的文件在elasticsearch-analysis-ik-master/target/目录下</p>
+<h4 id="集成到ES"><a href="#集成到ES" class="headerlink" title="集成到ES"></a>集成到ES</h4><p>在elasticsearch-5.3.0/plugins下创建目录 ik<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">copy and unzip target/releases/elasticsearch-analysis-ik-5.3.0.zip to your-es-root/plugins/ik</div></pre></td></tr></table></figure></p>
+<p>然后删除 zip文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -f elasticsearch-analysis-ik-5.3.0.zip</div></pre></td></tr></table></figure></p>
+<h4 id="重启ES"><a href="#重启ES" class="headerlink" title="重启ES"></a>重启ES</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch</div></pre></td></tr></table></figure>
+<h4 id="添加数据测试"><a href="#添加数据测试" class="headerlink" title="添加数据测试"></a>添加数据测试</h4><h5 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XPUT http://localhost:9200/user</div></pre></td></tr></table></figure>
+<h5 id="创建mapping"><a href="#创建mapping" class="headerlink" title="创建mapping"></a>创建mapping</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/_mapping -d&apos;</div><div class="line">&#123;</div><div class="line">    &quot;fulltext&quot;: &#123;</div><div class="line">             &quot;_all&quot;: &#123;</div><div class="line">            &quot;analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">            &quot;search_analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">            &quot;term_vector&quot;: &quot;no&quot;,</div><div class="line">            &quot;store&quot;: &quot;false&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;properties&quot;: &#123;</div><div class="line">            &quot;content&quot;: &#123;</div><div class="line">                &quot;type&quot;: &quot;text&quot;,</div><div class="line">                &quot;analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">                &quot;search_analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">                &quot;include_in_all&quot;: &quot;true&quot;,</div><div class="line">                &quot;boost&quot;: 8</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>我的理解就是solr中的分词器 的 fieldType。</p>
+<h4 id="添加文档"><a href="#添加文档" class="headerlink" title="添加文档"></a>添加文档</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/1 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;美国留给伊拉克的是个烂摊子吗&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/2 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;公安部：各地校车将享最高路权&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/3 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;中韩渔警冲突调查：韩警平均每天扣1艘中国渔船&quot;&#125;</div><div class="line">&apos;</div><div class="line">curl -XPOST http://localhost:9200/user/fulltext/4 -d&apos;</div><div class="line">&#123;&quot;content&quot;:&quot;中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;&#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">curl -XPOST http://localhost:9200/user/fulltext/_search?pretty  -d&apos;</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123; &quot;match&quot; : &#123; &quot;content&quot; : &quot;中国&quot; &#125;&#125;,</div><div class="line">    &quot;highlight&quot; : &#123;</div><div class="line">        &quot;pre_tags&quot; : [&quot;&lt;tag1&gt;&quot;, &quot;&lt;tag2&gt;&quot;],</div><div class="line">        &quot;post_tags&quot; : [&quot;&lt;/tag1&gt;&quot;, &quot;&lt;/tag2&gt;&quot;],</div><div class="line">        &quot;fields&quot; : &#123;</div><div class="line">            &quot;content&quot; : &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&apos;</div><div class="line">结果集</div><div class="line">&#123;</div><div class="line">  &quot;took&quot; : 7,</div><div class="line">  &quot;timed_out&quot; : false,</div><div class="line">  &quot;_shards&quot; : &#123;</div><div class="line">    &quot;total&quot; : 5,</div><div class="line">    &quot;successful&quot; : 5,</div><div class="line">    &quot;failed&quot; : 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot; : &#123;</div><div class="line">    &quot;total&quot; : 2,</div><div class="line">    &quot;max_score&quot; : 4.278213,</div><div class="line">    &quot;hits&quot; : [</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot; : &quot;user&quot;,</div><div class="line">        &quot;_type&quot; : &quot;fulltext&quot;,</div><div class="line">        &quot;_id&quot; : &quot;4&quot;,</div><div class="line">        &quot;_score&quot; : 4.278213,</div><div class="line">        &quot;_source&quot; : &#123;</div><div class="line">          &quot;content&quot; : &quot;中国驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;highlight&quot; : &#123;</div><div class="line">          &quot;content&quot; : [</div><div class="line">            &quot;&lt;tag1&gt;中国&lt;/tag1&gt;驻洛杉矶领事馆遭亚裔男子枪击 嫌犯已自首&quot;</div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot; : &quot;user&quot;,</div><div class="line">        &quot;_type&quot; : &quot;fulltext&quot;,</div><div class="line">        &quot;_id&quot; : &quot;3&quot;,</div><div class="line">        &quot;_score&quot; : 2.2110996,</div><div class="line">        &quot;_source&quot; : &#123;</div><div class="line">          &quot;content&quot; : &quot;中韩渔警冲突调查：韩警平均每天扣1艘中国渔船&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;highlight&quot; : &#123;</div><div class="line">          &quot;content&quot; : [</div><div class="line">            &quot;中韩渔警冲突调查：韩警平均每天扣1艘&lt;tag1&gt;中国&lt;/tag1&gt;渔船&quot;</div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;下载ik分词器包&quot;&gt;&lt;a href=&quot;#下载ik分词器包&quot; class=&quot;headerlink&quot; title=&quot;下载ik分词器包&quot;&gt;&lt;/a&gt;下载ik分词器包&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl
+    
+    </summary>
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
+    
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
+    
+      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
+    
+      <category term="Ik" scheme="http://pzhen.github.io/tags/Ik/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Es – 核心概念</title>
+    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/"/>
+    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-核心概念/</id>
+    <published>2017-07-20T08:07:51.000Z</published>
+    <updated>2017-07-20T09:28:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="接近实时（NRT）"><a href="#接近实时（NRT）" class="headerlink" title="接近实时（NRT）"></a>接近实时（NRT）</h4><p>Elasticsearch是一个接近实时的搜索平台。这意味着，从索引一个文档直到这个文档能够被搜索到有一个轻微的延迟（通常是1秒）。</p>
+<h4 id="集群（cluster）"><a href="#集群（cluster）" class="headerlink" title="集群（cluster）"></a>集群（cluster）</h4><p>一个集群就是由一个或多个节点组织在一起，它们共同持有你整个的数据，并一起提供索引和搜索功能。一个集群由一个唯一的名字标识，这个名字默认就是“elasticsearch”。这个名字是重要的，因为一个节点只能通过指定某个集群的名字，来加入这个集群。在产品环境中显式地设定这个名字是一个好习惯，但是使用默认值来进行测试/开发也是不错的。</p>
+<h4 id="节点（node）"><a href="#节点（node）" class="headerlink" title="节点（node）"></a>节点（node）</h4><p>一个节点是你集群中的一个服务器，作为集群的一部分，它存储你的数据，参与集群的索引和搜索功能。和集群类似，一个节点也是由一个名字来标识的，默认情况下，这个名字是一个随机的漫威漫画角色的名字，这个名字会在启动的时候赋予节点。这个名字对于管理工作来说挺重要的，因为在这个管理过程中，你会去确定网络中的哪些服务器对应于Elasticsearch集群中的哪些节点。</p>
+<p>一个节点可以通过配置集群名称的方式来加入一个指定的集群。默认情况下，每个节点都会被安排加入到一个叫做“elasticsearch”的集群中，这意味着，如果你在你的网络中启动了若干个节点，并假定它们能够相互发现彼此，它们将会自动地形成并加入到一个叫做“elasticsearch”的集群中。</p>
+<p>在一个集群里，只要你想，可以拥有任意多个节点。而且，如果当前你的网络中没有运行任何Elasticsearch节点，这时启动一个节点，会默认创建并加入一个叫做“elasticsearch”的集群。</p>
+<h4 id="索引（index）"><a href="#索引（index）" class="headerlink" title="索引（index）"></a>索引（index）</h4><p>一个索引就是一个拥有几分相似特征的文档的集合。比如说，你可以有一个客户数据的索引，另一个产品目录的索引，还有一个订单数据的索引。一个索引由一个名字来标识（必须全部是小写字母的），并且当我们要对对应于这个索引中的文档进行索引、搜索、更新和删除的时候，都要使用到这个名字。</p>
+<p>在一个集群中，如果你想，可以定义任意多的索引。</p>
+<h4 id="类型（type）"><a href="#类型（type）" class="headerlink" title="类型（type）"></a>类型（type）</h4><p>在一个索引中，你可以定义一种或多种类型。一个类型是你的索引的一个逻辑上的分类/分区，其语义完全由你来定。通常，会为具有一组共同字段的文档定义一个类型。比如说，我们假设你运营一个博客平台并且将你所有的数据存储到一个索引中。在这个索引中，你可以为用户数据定义一个类型，为博客数据定义另一个类型，当然，也可以为评论数据定义另一个类型。</p>
+<h4 id="文档（document）"><a href="#文档（document）" class="headerlink" title="文档（document）"></a>文档（document）</h4><p>一个文档是一个可被索引的基础信息单元。比如，你可以拥有某一个客户的文档，某一个产品的一个文档，当然，也可以拥有某个订单的一个文档。文档以JSON（Javascript Object Notation）格式来表示，而JSON是一个到处存在的互联网数据交互格式。</p>
+<p>在一个index/type里面，只要你想，你可以存储任意多的文档。注意，尽管一个文档，物理上存在于一个索引之中，文档必须被索引/赋予一个索引的type。</p>
+<h4 id="分片和复制（shards-amp-replicas）"><a href="#分片和复制（shards-amp-replicas）" class="headerlink" title="分片和复制（shards &amp; replicas）"></a>分片和复制（shards &amp; replicas）</h4><p>一个索引可以存储超出单个结点硬件限制的大量数据。比如，一个具有10亿文档的索引占据1TB的磁盘空间，而任一节点都没有这样大的磁盘空间；或者单个节点处理搜索请求，响应太慢。</p>
+<p>为了解决这个问题，Elasticsearch提供了将索引划分成多份的能力，这些份就叫做分片。当你创建一个索引的时候，你可以指定你想要的分片的数量。每个分片本身也是一个功能完善并且独立的“索引”，这个“索引”可以被放置到集群中的任何节点上。</p>
+<p>分片之所以重要，主要有两方面的原因：</p>
+<p>– 允许你水平分割/扩展你的内容容量<br>– 允许你在分片（潜在地，位于多个节点上）之上进行分布式的、并行的操作，进而提高性能/吞吐量</p>
+<p>至于一个分片怎样分布，它的文档怎样聚合回搜索请求，是完全由Elasticsearch管理的，对于作为用户的你来说，这些都是透明的。</p>
+<p>在一个网络/云的环境里，失败随时都可能发生，在某个分片/节点不知怎么的就处于离线状态，或者由于任何原因消失了，这种情况下，有一个故障转移机制是非常有用并且是强烈推荐的。为此目的，Elasticsearch允许你创建分片的一份或多份拷贝，这些拷贝叫做复制分片，或者直接叫复制。</p>
+<p>复制之所以重要，有两个主要原因：<br>– 在分片/节点失败的情况下，提供了高可用性。因为这个原因，注意到复制分片从不与原/主要（original/primary）分片置于同一节点上是非常重要的。<br>– 扩展你的搜索量/吞吐量，因为搜索可以在所有的复制上并行运行</p>
+<p>总之，每个索引可以被分成多个分片。一个索引也可以被复制0次（意思是没有复制）或多次。一旦复制了，每个索引就有了主分片（作为复制源的原来的分片）和复制分片（主分片的拷贝）之别。分片和复制的数量可以在索引创建的时候指定。在索引创建之后，你可以在任何时候动态地改变复制的数量，但是你事后不能改变分片的数量。</p>
+<p>默认情况下，Elasticsearch中的每个索引被分片5个主分片和1个复制，这意味着，如果你的集群中至少有两个节点，你的索引将会有5个主分片和另外5个复制分片（1个完全拷贝），这样的话每个索引总共就有10个分片。</p>
+<p>下面附上一张关于索引，类型，文档的三者关系图，便于很好的理解：</p>
+<p><img src="A89094F0-4A47-4EE9-8415-3852022E2FE9.jpg" alt="索引，类型，文档关系图"></p>
+<p>集群的架构简图：<br><img src="QQ20170424-2352252x.png" alt="集群结构图"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;接近实时（NRT）&quot;&gt;&lt;a href=&quot;#接近实时（NRT）&quot; class=&quot;headerlink&quot; title=&quot;接近实时（NRT）&quot;&gt;&lt;/a&gt;接近实时（NRT）&lt;/h4&gt;&lt;p&gt;Elasticsearch是一个接近实时的搜索平台。这意味着，从索引一个文档直到这个
+    
+    </summary>
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
+    
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
+    
+      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Es – 安装</title>
+    <link href="http://pzhen.github.io/2017/07/20/Elasticsearch-%E2%80%93-%E5%AE%89%E8%A3%85/"/>
+    <id>http://pzhen.github.io/2017/07/20/Elasticsearch-–-安装/</id>
+    <published>2017-07-20T07:54:38.000Z</published>
+    <updated>2017-07-20T09:28:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于高版本提高了安全级别，不能采用root账户启动.</p>
+<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>下载地址：<a href="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.zip" target="_blank" rel="external">https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.zip</a></p>
+<h4 id="解压后执行"><a href="#解压后执行" class="headerlink" title="解压后执行"></a>解压后执行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch</div></pre></td></tr></table></figure>
+<h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4><h5 id="错误提示"><a href="#错误提示" class="headerlink" title="错误提示"></a>错误提示</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Exception in thread &quot;main&quot; java.lang.RuntimeException: don&apos;t run elasticsearch as root.</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:93)</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:144)</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:285)</div><div class="line">        at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:35)</div><div class="line">Refer to the log for complete error details.</div></pre></td></tr></table></figure>
+<h5 id="解决错误"><a href="#解决错误" class="headerlink" title="解决错误"></a>解决错误</h5><p>因为版本的问题，最新的版本安全级别提高了，不允许采用root帐号启动，所以我们要添加一个用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#添加一个用户：elasticsearch</div><div class="line">$useradd elasticsearch</div><div class="line">#给用户elasticsearch设置密码，连续输入2次</div><div class="line">$passwd elasticsearch</div><div class="line">#创建一个用户组 es</div><div class="line">groupadd es</div><div class="line">#分配 elasticsearch 到 es 组</div><div class="line">usermod -G elasticsearch es</div><div class="line">#这里注意下，如果提示用户“es”不存在，那么是因为服务器版本问题，你可以换成 usermod -G es elasticsearch ,也就是用户和用户组对调一下使用。</div><div class="line">#在elasticsearch 根目录下，给定用户权限。-R表示逐级（N层目录） ， * 表示 任何文件</div><div class="line">chown  -R elasticsearch.es *</div><div class="line">#切换到elasticsearch用户</div><div class="line">su elasticsearch</div></pre></td></tr></table></figure>
+<p>如果不按上面的给用户 elasticsearch  分配权限目录。那么会报下面的错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">java.io.FileNotFoundException: /home/es/elasticsearch-2.2.0/logs/elasticsearch.log (Permission denied)</div><div class="line">        at java.io.FileOutputStream.open(Native Method)</div><div class="line">        at java.io.FileOutputStream.(FileOutputStream.java:221)</div><div class="line">        at java.io.FileOutputStream.(FileOutputStream.java:142)</div><div class="line">        at org.apache.log4j.FileAppender.setFile(FileAppender.java:294)</div><div class="line">        at org.apache.log4j.FileAppender.activateOptions(FileAppender.java:165)</div><div class="line">        at org.apache.log4j.DailyRollingFileAppender.activateOptions(DailyRollingFileAppender.java:223)</div><div class="line">        at org.apache.log4j.config.PropertySetter.activate(PropertySetter.java:307)</div><div class="line">        at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:172)</div><div class="line">        at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:104)</div><div class="line">        at org.apache.log4j.PropertyConfigurator.parseAppender(PropertyConfigurator.java:842)</div><div class="line">        at org.apache.log4j.PropertyConfigurator.parseCategory(PropertyConfigurator.java:768)</div><div class="line">        at org.apache.log4j.PropertyConfigurator.configureRootCategory(PropertyConfigurator.java:648)</div><div class="line">        at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:514)</div><div class="line">        at org.apache.log4j.PropertyConfigurator.configure(PropertyConfigurator.java:440)</div><div class="line">        at org.elasticsearch.common.logging.log4j.LogConfigurator.configure(LogConfigurator.java:128)</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.setupLogging(Bootstrap.java:204)</div><div class="line">        at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:258)</div><div class="line">        at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:35)</div><div class="line">log4j:ERROR Either File or DatePattern options are not set for appender [file].</div><div class="line">log4j:ERROR setFile(null,true) call failed.</div></pre></td></tr></table></figure>
+<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ vi config/elasticsearch.yml</div><div class="line">#cluster name</div><div class="line">cluster.name: sojson-application</div><div class="line">#节点名称</div><div class="line">node.name: node-1</div><div class="line">#绑定IP和端口</div><div class="line">network.host: 123.88.88.88</div><div class="line">http.port: 9200</div></pre></td></tr></table></figure>
+<h4 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch -d</div></pre></td></tr></table></figure>
+<h4 id="查找进程"><a href="#查找进程" class="headerlink" title="查找进程"></a>查找进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -ef | grep elasticsearch</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;由于高版本提高了安全级别，不能采用root账户启动.&lt;/p&gt;
+&lt;h4 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a&gt;下载&lt;/h4&gt;&lt;p&gt;下载地址：&lt;a href=&quot;https://artifacts.elas
+    
+    </summary>
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/categories/Elasticsearch/"/>
+    
+    
+      <category term="Elasticsearch" scheme="http://pzhen.github.io/tags/Elasticsearch/"/>
+    
+      <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vim colorschemes</title>
+    <link href="http://pzhen.github.io/2017/07/20/Vim-colorschemes/"/>
+    <id>http://pzhen.github.io/2017/07/20/Vim-colorschemes/</id>
+    <published>2017-07-20T06:52:07.000Z</published>
+    <updated>2017-07-20T06:54:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近给vim换了个主题?，里面有丰富的主题，也可以去web页面去定制。给分享下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">官方地址：http://bytefluent.com/vivify/</div><div class="line">GitHub：https://github.com/flazz/vim-colorschemes</div></pre></td></tr></table></figure>
+<p>我的设置是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">colorscheme murphy</div></pre></td></tr></table></figure></p>
+<p>希望大家喜欢。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近给vim换了个主题?，里面有丰富的主题，也可以去web页面去定制。给分享下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Vim" scheme="http://pzhen.github.io/categories/Linux/Vim/"/>
+    
+    
+      <category term="Vim" scheme="http://pzhen.github.io/tags/Vim/"/>
+    
+      <category term="colorschemes" scheme="http://pzhen.github.io/tags/colorschemes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Iterm2 配色主题</title>
+    <link href="http://pzhen.github.io/2017/07/20/Iterm2-%E9%85%8D%E8%89%B2%E4%B8%BB%E9%A2%98/"/>
+    <id>http://pzhen.github.io/2017/07/20/Iterm2-配色主题/</id>
+    <published>2017-07-20T03:29:58.000Z</published>
+    <updated>2017-07-20T03:35:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>请到 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="external">https://github.com/mbadolato/iTerm2-Color-Schemes</a> 下载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/mbadolato/iTerm2-Color-Schemes.git</div></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>To install:</p>
+<ul>
+<li>Launch iTerm 2. Get the latest version at iterm2.com</li>
+<li>Type CMD+i (⌘+i)</li>
+<li>Navigate to Colors tab</li>
+<li>Click on Color Presets</li>
+<li>Click on Import</li>
+<li>Select the .itermcolors file(s) of the scheme(s) you’d like to use</li>
+<li>Click on Color Presets and choose a color scheme</li>
+</ul>
+<p><img src="WX20170511-1352312x.png" alt="image"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a&gt;下载&lt;/h4&gt;&lt;p&gt;请到 &lt;a href=&quot;https://github.com/mbadolato/iTerm2-Color-Schemes&quot; target=
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
+    
+    
+      <category term="Iterm2" scheme="http://pzhen.github.io/tags/Iterm2/"/>
+    
+      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python 中文编码问题</title>
+    <link href="http://pzhen.github.io/2017/07/20/Python-%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/"/>
+    <id>http://pzhen.github.io/2017/07/20/Python-中文编码问题/</id>
+    <published>2017-07-20T03:10:21.000Z</published>
+    <updated>2017-07-20T03:23:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。</p>
+<p>解决方法为只要在文件开头加入 # -<em>- coding: UTF-8 -</em>- 或者 #coding=utf-8 就行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">print &quot;你好，世界&quot;;</div></pre></td></tr></table></figure>
+<p>所以如果大家在学习过程中，代码中包含中文，就需要在头部指定编码。</p>
+<p>注意：Python3.X 源码文件默认使用utf-8编码，所以可以正常解析中文，无需指定 UTF-8 编码。</p>
+<p>如果你使用编辑器，同时需要设置好编辑器的编码，如 Pycharm 设置步骤：</p>
+<ul>
+<li>1.进入 file &gt; Settings，在输入框搜索 encoding。</li>
+<li>2.找到 Editor &gt; File encodings，将 IDE Encoding 和 Project Encoding 设置为utf-8。</li>
+</ul>
+<h4 id="编码之间的转换"><a href="#编码之间的转换" class="headerlink" title="编码之间的转换"></a>编码之间的转换</h4><p>例如 类Unix系统上编写的python，如果放到windows下面执行，比如输出的信息包含中文，就需要转换了，<br>不管是 gb2312 转 utf8 还是 utf8 转 gb2312 都需要现将字符串转换成Unicode的编码，然后再转换成<br>正确的编码例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print &quot;2.结算表格读取完成&quot;.decode(&apos;utf-8&apos;).encode(&apos;gb2312&apos;)</div></pre></td></tr></table></figure></p>
+<p>将输出的提示语utf8转成gb2312。</p>
+<h4 id="print-list-中文"><a href="#print-list-中文" class="headerlink" title="print list 中文"></a>print list 中文</h4><p>如果查看print list 的时候里面中文也显示正确，方便调试可这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import uniout</div></pre></td></tr></table></figure></p>
+<p>引入该包 就可以显示list中的中文了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;文件编码&quot;&gt;&lt;a href=&quot;#文件编码&quot; class=&quot;headerlink&quot; title=&quot;文件编码&quot;&gt;&lt;/a&gt;文件编码&lt;/h4&gt;&lt;p&gt;Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。&lt;/p&gt;
+&lt;p
+    
+    </summary>
+    
+      <category term="Python" scheme="http://pzhen.github.io/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="http://pzhen.github.io/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Php 一致性哈希</title>
+    <link href="http://pzhen.github.io/2017/07/20/Php-%E5%AE%9E%E7%8E%B0%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E5%8C%85%E5%90%AB%E8%99%9A%E6%8B%9F%E8%8A%82%E7%82%B9/"/>
+    <id>http://pzhen.github.io/2017/07/20/Php-实现一致性哈希包含虚拟节点/</id>
+    <published>2017-07-20T02:43:35.000Z</published>
+    <updated>2017-07-20T09:32:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">function myHash($str) &#123;</div><div class="line">    $hash = 0;</div><div class="line">    $s    = md5($str);</div><div class="line">    $seed = 5;</div><div class="line">    $len  = 32;</div><div class="line">    for ($i = 0; $i &lt; $len; $i++) &#123;</div><div class="line">        $hash = ($hash &lt;&lt; $seed) + $hash + ord($s&#123;$i&#125;);</div><div class="line">    &#125;</div><div class="line">    return $hash &amp; 0x7FFFFFFF;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class ConsistentHash &#123;</div><div class="line"></div><div class="line">    #每个物理节点生成虚拟节点个数</div><div class="line">    public $virtual_num = 300;</div><div class="line"></div><div class="line">    // server列表</div><div class="line">    public $_server_list = array();</div><div class="line">    // 延迟排序，因为可能会执行多次addServer</div><div class="line">    private $_layze_sorted = FALSE;</div><div class="line"></div><div class="line">    #server物理节点</div><div class="line">    public function addServer($server) &#123;</div><div class="line">        $hash = myHash($server);</div><div class="line">        $this-&gt;_layze_sorted = FALSE;</div><div class="line"></div><div class="line">        if (!isset($this-&gt;_server_list[$hash])) &#123;</div><div class="line">            $this-&gt;_server_list[$hash] = $server;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return $this;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    #server虚拟节点</div><div class="line">    public function addServerVir($server) &#123;</div><div class="line"></div><div class="line">        for ($i = 1; $i &lt;= $this-&gt;virtual_num; $i++)</div><div class="line">        &#123;</div><div class="line">            $hash_key = myHash($server.&quot;#&quot;.$i);</div><div class="line">            if(!isset($this-&gt;_server_list[$hash_key]))</div><div class="line">            &#123;</div><div class="line">                $this-&gt;_server_list[$hash_key] = $server;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return $this;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public function find($key) &#123;</div><div class="line">        // 排序</div><div class="line">        if (!$this-&gt;_layze_sorted) &#123;</div><div class="line">            ksort($this-&gt;_server_list);</div><div class="line">            $this-&gt;_layze_sorted = TRUE;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        #print_r($this-&gt;_server_list);exit();</div><div class="line"></div><div class="line">        $hash = myHash($key);</div><div class="line">        $len  = sizeof($this-&gt;_server_list);</div><div class="line">        if ($len == 0) &#123;</div><div class="line">            return FALSE;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $keys   = array_keys($this-&gt;_server_list);  #server hash 值</div><div class="line">        $values = array_values($this-&gt;_server_list);  #server 地址</div><div class="line"></div><div class="line">        if ($hash &lt;= $keys[0] || $hash &gt;= $keys[$len - 1]) &#123;</div><div class="line">            return $values[0];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        foreach ($keys as $key=&gt;$pos) &#123;</div><div class="line">            $next_pos = NULL;</div><div class="line">            if (isset($keys[$key + 1]))</div><div class="line">            &#123;</div><div class="line">                $next_pos = $keys[$key + 1];</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (is_null($next_pos)) &#123;</div><div class="line">                return $values[$key];</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            // 区间判断</div><div class="line">            if ($hash &gt;= $pos &amp;&amp; $hash &lt;= $next_pos) &#123;</div><div class="line">                return $values[$key];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">$consisHash = new ConsistentHash();</div><div class="line"></div><div class="line">#物理节点hash环</div><div class="line">#$consisHash-&gt;addServer(&quot;server1&quot;)-&gt;addServer(&quot;server2&quot;)-&gt;addServer(&quot;server3&quot;)-&gt;addServer(&quot;server4&quot;);</div><div class="line"></div><div class="line">#带虚拟节点的hash环</div><div class="line">$consisHash-&gt;addServerVir(&quot;server1&quot;)-&gt;addServerVir(&quot;server2&quot;)-&gt;addServerVir(&quot;server3&quot;)-&gt;addServerVir(&quot;server4&quot;);</div><div class="line"></div><div class="line">$total_server1_num = $total_server2_num = $total_server3_num = $total_server4_num = 0;</div><div class="line">for ($i=1; $i &lt;= 200000; $i++) &#123;</div><div class="line">    # code...</div><div class="line">    $key = uniqid(TRUE,TRUE);</div><div class="line"></div><div class="line">    $server_name = $consisHash-&gt;find($key);</div><div class="line">    if($server_name == &quot;server1&quot;)&#123;</div><div class="line">        $total_server1_num += 1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if($server_name == &quot;server2&quot;)&#123;</div><div class="line">        $total_server2_num += 1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if($server_name == &quot;server3&quot;)&#123;</div><div class="line">        $total_server3_num += 1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if($server_name == &quot;server4&quot;)&#123;</div><div class="line">        $total_server4_num += 1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">echo &quot;server1 num :&quot; .$total_server1_num .&quot;\n&quot;;</div><div class="line">echo &quot;server2 num :&quot; .$total_server2_num .&quot;\n&quot;;</div><div class="line">echo &quot;server3 num :&quot; .$total_server3_num .&quot;\n&quot;;</div><div class="line">echo &quot;server4 num :&quot; .$total_server4_num .&quot;\n&quot;;</div></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://github.com/pda/flexihash" target="_blank" rel="external">flexihash</a></li>
+</ul>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
+    
+    
+      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
+    
+      <category term="一致性Hash" scheme="http://pzhen.github.io/tags/%E4%B8%80%E8%87%B4%E6%80%A7Hash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Php7 安装Redis扩展</title>
+    <link href="http://pzhen.github.io/2017/07/20/Php7-%E5%AE%89%E8%A3%85Redis%E6%89%A9%E5%B1%95/"/>
+    <id>http://pzhen.github.io/2017/07/20/Php7-安装Redis扩展/</id>
+    <published>2017-07-20T02:39:26.000Z</published>
+    <updated>2017-07-20T09:32:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">下载  https://github.com/phpredis/phpredis/tree/php7</div><div class="line"></div><div class="line">解压  unzip phpredis-php7.zip</div><div class="line"></div><div class="line">phpize  #用phpize生成configure配置文件</div><div class="line"></div><div class="line">./configure  配置</div><div class="line"></div><div class="line">make  #编译</div><div class="line"></div><div class="line">make install  #安装</div><div class="line"></div><div class="line">安装完成后将出现的安装路径添加到php.ini中:</div><div class="line"></div><div class="line">extension_dir = &quot;/usr/lib/php/20151012&quot;</div><div class="line"></div><div class="line">extension = redis.so</div><div class="line"></div><div class="line">重启服务器,查看phpinfo,是不是搞定.</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+      <category term="Redis" scheme="http://pzhen.github.io/categories/Redis/"/>
+    
+    
+      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
+    
+      <category term="Redis" scheme="http://pzhen.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu安装jdk</title>
+    <link href="http://pzhen.github.io/2017/07/20/Ubuntu%E5%AE%89%E8%A3%85jdk/"/>
+    <id>http://pzhen.github.io/2017/07/20/Ubuntu安装jdk/</id>
+    <published>2017-07-20T02:32:47.000Z</published>
+    <updated>2017-07-20T02:37:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Ubuntu 下安装 jdk </p>
+<h4 id="1-解压"><a href="#1-解压" class="headerlink" title="1.解压"></a>1.解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar zxvf ./jdk-7u45-linux-x64.tar.gz</div></pre></td></tr></table></figure>
+<h4 id="2-环境变量"><a href="#2-环境变量" class="headerlink" title="2.环境变量"></a>2.环境变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vi ~/.bashrc 或者 ~/.zshrc</div><div class="line"></div><div class="line">export JAVA_HOME=/opt/Java/jdk/jdk1.7 </div><div class="line">export CLASSPATH=$&#123;JAVA_HOME&#125;/lib</div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</div></pre></td></tr></table></figure>
+<h4 id="3-立即生效"><a href="#3-立即生效" class="headerlink" title="3.立即生效"></a>3.立即生效</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Ubuntu 下安装 jdk &lt;/p&gt;
+&lt;h4 id=&quot;1-解压&quot;&gt;&lt;a href=&quot;#1-解压&quot; class=&quot;headerlink&quot; title=&quot;1.解压&quot;&gt;&lt;/a&gt;1.解压&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Jdk" scheme="http://pzhen.github.io/categories/Linux/Jdk/"/>
+    
+    
+      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
+    
+      <category term="Jdk" scheme="http://pzhen.github.io/tags/Jdk/"/>
+    
+      <category term="Ubuntu" scheme="http://pzhen.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mac 安装 zsh</title>
+    <link href="http://pzhen.github.io/2017/07/20/Mac-%E5%AE%89%E8%A3%85-zsh/"/>
+    <id>http://pzhen.github.io/2017/07/20/Mac-安装-zsh/</id>
+    <published>2017-07-20T02:07:00.000Z</published>
+    <updated>2017-07-20T02:12:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash，但是真正强大的 Shell 是深藏不露的 zsh， 这货绝对是马车中的跑车，跑车中的飞行车，史称『终极 Shell』，但是由于配置过于复杂，所以初期无人问津，很多人跑过来看看 zsh 的配置指南，什么都不说转身就走了。直到有一天，国外有个穷极无聊的程序员开发出了一个能够让你快速上手的zsh项目，叫做「oh my zsh」，<br>这玩意就像「X天叫你学会 C++」系列，可以让你神功速成，而且是真的。</p>
+</blockquote>
+<p>地址：<a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="external">https://github.com/robbyrussell/oh-my-zsh</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash，但是真正强大的 Shell 是深藏不露的 zsh， 这货绝对是马车中的跑车，跑车中的飞行车，史称『终极 Shell』，但是由于配置过于复杂，所以初期无人问津，很多人跑
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
+    
+    
+      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
+    
+      <category term="Zsh" scheme="http://pzhen.github.io/tags/Zsh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux下 SSH 登录脚本</title>
+    <link href="http://pzhen.github.io/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/"/>
+    <id>http://pzhen.github.io/2017/07/19/Linux下-ssh-自动登录脚本/</id>
+    <published>2017-07-19T14:58:13.000Z</published>
+    <updated>2017-07-20T09:33:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
+<h4 id="1-创建脚本-xxx-sh"><a href="#1-创建脚本-xxx-sh" class="headerlink" title="1.创建脚本 xxx.sh"></a>1.创建脚本 xxx.sh</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/expect</div><div class="line">set timeout 30</div><div class="line">spawn ssh -l root ip地址</div><div class="line">expect &quot;password:&quot;</div><div class="line">send &quot;密码\r&quot;</div></pre></td></tr></table></figure>
+<h4 id="2-将脚本目录加入环境变量"><a href="#2-将脚本目录加入环境变量" class="headerlink" title="2.将脚本目录加入环境变量"></a>2.将脚本目录加入环境变量</h4><p>export PATH=/Users/zhen/Documents/shell:$PATH<br>这样一来在命令行随时可以调用脚本远程登录。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。&lt;/p&gt;
+&lt;h4 id=&quot;1-创建脚本-xxx-sh&quot;&gt;&lt;a href=&quot;#1-创建脚本-xxx-sh&quot; class=&quot;headerlink&quot; title=&quot;1.创建脚本 xxx.sh&quot;&gt;&lt;/
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
+    
+    
+      <category term="SSH" scheme="http://pzhen.github.io/tags/SSH/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vim 常用命令</title>
+    <link href="http://pzhen.github.io/2017/07/19/Vim-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://pzhen.github.io/2017/07/19/Vim-常用命令/</id>
+    <published>2017-07-19T09:42:58.000Z</published>
+    <updated>2017-07-19T14:29:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line">----------------------------光标移动-------------------------</div><div class="line">h 向左移动一个字符</div><div class="line">j 向下移动一行</div><div class="line">k 向上移动一行</div><div class="line">l 向右移动一个字符</div><div class="line"> </div><div class="line">control f 向下翻一页</div><div class="line">control b 向上翻一页</div><div class="line">control d 向下翻半页</div><div class="line">control u 向上翻半页</div><div class="line"> </div><div class="line">+ 非空格下一行</div><div class="line">- 非空格上一行</div><div class="line"> </div><div class="line">n + 空格  移动n个字符</div><div class="line">0  移动到当前行第一个字符处</div><div class="line">$  移动到当前行最后一个字符处</div><div class="line">G  移动到最后一行</div><div class="line">nG 跳到n行</div><div class="line">gg 第一行</div><div class="line"> </div><div class="line">n 回车  向下n行</div><div class="line">?keyword 向上查找 配合 n N 来上下查找</div><div class="line">/keyword 向下查找 配合 n N 来上下查找</div><div class="line"> </div><div class="line">:n1,n2s/keyword1/keyword2/g  在n1到n2行之间，查找keyword1并且替换成keyword2</div><div class="line">:1,$s/keyword1/keyword2/g  同上只不过是从1-最后一行</div><div class="line">:n1,n2/keyword1/keyword2/gc 只不过要确认后才替换</div><div class="line"> </div><div class="line">-----------------------------粘贴复制------------------------</div><div class="line">x 向后删除一个字符</div><div class="line">X 向前删除一个字符</div><div class="line">nx 连续向后删除n个字符</div><div class="line">dd 删除当前行</div><div class="line">ndd 删除向下n行</div><div class="line"> </div><div class="line">d1G 删除光标之前所有</div><div class="line">dG  删除光标到最后</div><div class="line">d$  删除光标到行末</div><div class="line">d0  删除光标行首</div><div class="line"> </div><div class="line">yy 复制当前航</div><div class="line">nyy 向下复制n行</div><div class="line">y1G 复制光标到行首</div><div class="line">yG  复制光标到最后一行</div><div class="line">y0  复制光标到行首</div><div class="line">y$  复制光标到行末</div><div class="line"> </div><div class="line">p 光标下一行粘贴</div><div class="line">P 光标上一行粘贴</div><div class="line"> </div><div class="line">---------------------------------插入------------------------</div><div class="line">i 光标位置插入</div><div class="line">I 当前行非空第一个字符处插入</div><div class="line">a 光标处下一个字符插入</div><div class="line">A 当前行最后一个字符插入</div><div class="line">o 下一行插入</div><div class="line">o 上一行插入</div><div class="line"> </div><div class="line">:w filename 保存到另一个文件</div><div class="line">:r filename 读取文件内容到当前</div><div class="line"> </div><div class="line">:! command  暂时离开vim 执行命令</div><div class="line">---------------------区块选择-------------------------------</div><div class="line">v 字符区块选择</div><div class="line">V 行区块选择</div><div class="line">y 复制区块</div><div class="line">d 删除区块</div><div class="line">contrl + v 范围区块</div><div class="line">区块选择下 按 = 键 自动排版，代码会自动排版</div><div class="line">--------------------多文件同时编辑--------------------------</div><div class="line">vim filename1 filename2</div><div class="line">:n 下一个文件</div><div class="line">:N 上一个文件</div><div class="line">:files 打开的文件列表</div><div class="line">-------------------分屏---------------------</div><div class="line">:sp filename</div><div class="line">ctrl + w 来切换光标</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Vim" scheme="http://pzhen.github.io/categories/Linux/Vim/"/>
+    
+    
+      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
+    
+      <category term="Vim" scheme="http://pzhen.github.io/tags/Vim/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Svn log shell</title>
+    <link href="http://pzhen.github.io/2017/07/19/svn-log-shell/"/>
+    <id>http://pzhen.github.io/2017/07/19/svn-log-shell/</id>
+    <published>2017-07-19T08:44:22.000Z</published>
+    <updated>2017-07-19T14:51:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="1-命令繁琐"><a href="#1-命令繁琐" class="headerlink" title="1.命令繁琐"></a>1.命令繁琐</h5><p>由于每次查看log需要输入好长的命令，在这里写成shell，方便许多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user_name=$1</div><div class="line">few_days_ago=$2</div><div class="line"></div><div class="line">if [ ! -n &quot;$user_name&quot; ]</div><div class="line">then</div><div class="line">	user_name=&apos;xxxxxxxxxxxx&apos;</div><div class="line">fi</div><div class="line"></div><div class="line">if [ ! -n &quot;$few_days_ago&quot; ]</div><div class="line">then</div><div class="line">	few_days_ago=30</div><div class="line">fi</div><div class="line"></div><div class="line">start_time=`date -v -&quot;$few_days_ago&quot;d +%Y-%m-%d`</div><div class="line">end_time=`date -v +1d +%Y-%m-%d`</div><div class="line"></div><div class="line">svn log -r &#123;$start_time&#125;:&#123;$end_time&#125; -v | sed -n &quot;/$user_name/,/--$/ p&quot;</div></pre></td></tr></table></figure>
+<h5 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法:"></a>2.使用方法:</h5><p>将shell加入环境变量，在项目里面:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">└─[$] &lt;&gt; svnlog.sh  username  days</div></pre></td></tr></table></figure>
+<h5 id="3-默认参数"><a href="#3-默认参数" class="headerlink" title="3.默认参数"></a>3.默认参数</h5><p>如果不传参数默认脚本中username,30天的log。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h5 id=&quot;1-命令繁琐&quot;&gt;&lt;a href=&quot;#1-命令繁琐&quot; class=&quot;headerlink&quot; title=&quot;1.命令繁琐&quot;&gt;&lt;/a&gt;1.命令繁琐&lt;/h5&gt;&lt;p&gt;由于每次查看log需要输入好长的命令，在这里写成shell，方便许多。&lt;/p&gt;
+&lt;figure class=
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
+    
+    
+      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
+    
+      <category term="Svn" scheme="http://pzhen.github.io/tags/Svn/"/>
+    
+  </entry>
+  
+</feed>
