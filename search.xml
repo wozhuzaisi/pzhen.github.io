@@ -3,6 +3,42 @@
   
     
     <entry>
+      <title><![CDATA[Shell – 正则表达式]]></title>
+      <url>/2017/07/21/Shell-%E2%80%93-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<h4 id="正则表达式的分类"><a href="#正则表达式的分类" class="headerlink" title="正则表达式的分类"></a>正则表达式的分类</h4><ul>
+<li>基本的正则表达式（Basic Regular Expression 又叫Basic RegEx 简称BREs）</li>
+<li>扩展的正则表达式（Extended Regular Expression 又叫Extended RegEx 简称EREs）</li>
+<li>Perl的正则表达式（Perl Regular Expression 又叫Perl RegEx 简称PREs）</li>
+</ul>
+<h4 id="基本组成部分"><a href="#基本组成部分" class="headerlink" title="基本组成部分"></a>基本组成部分</h4><p>正则表达式的基本组成部分。</p>
+<p><img src="WX20170517-1442082x.png" alt="image"></p>
+<h4 id="POSIX字符类"><a href="#POSIX字符类" class="headerlink" title="POSIX字符类"></a>POSIX字符类</h4><p>POSIX字符类是一个形如[:…:]的特殊元序列（meta sequence），他可以用于匹配特定的字符范围。</p>
+<p><img src="WX20170517-1440442x.png" alt="image"></p>
+<h4 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h4><p>元字符（meta character）是一种Perl风格的正则表达式，只有一部分文本处理工具支持它，并不是所有的文本处理工具都支持。</p>
+<p><img src="WX20170517-1443312x.png" alt="image"></p>
+<p>文章来源：<a href="http://man.linuxde.net/docs/shell_regex.html" target="_blank" rel="external">http://man.linuxde.net/docs/shell_regex.html</a> </p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Shell </tag>
+            
+            <tag> 正则 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Git – 操作配置别名]]></title>
       <url>/2017/07/21/Git-%E2%80%93-%E6%93%8D%E4%BD%9C%E9%85%8D%E7%BD%AE%E5%88%AB%E5%90%8D/</url>
       <content type="html"><![CDATA[<p>有没有经常敲错命令？比如Git status？status这个单词真心不好记。</p>
@@ -63,6 +99,40 @@
             <tag> 集中式管理 </tag>
             
             <tag> 分布式管理 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Shell – Grep 常见用法]]></title>
+      <url>/2017/07/21/Shell-%E2%80%93-Grep%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/</url>
+      <content type="html"><![CDATA[<p>是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。<br>我经常用来查找字符串比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -rn "字符串" .</div></pre></td></tr></table></figure>
+<p>递归查找当前目录下所有文件中 “字符串” 并且所在标出所在行。</p>
+<p>下面来看看具体参数：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">grep [-acinv] [--color=auto] '搜寻字符串' filename 选项参数:</div><div class="line">-a :将 binary 档案以 text 档案方式搜寻数据</div><div class="line">-c :计算找刡 '搜寻字符串' 次数</div><div class="line">-i :忽略大小写</div><div class="line">-n :输出行号</div><div class="line">-v :反向选择，亦即显示出没有 '搜寻字符串' 内容癿那一行! --color=auto :可以将找刡癿关键词部分加上颜色癿显示!</div><div class="line">-A :后面可加数字，为 after 癿意思，除了列出该行外，后续的 n 行也列出; </div><div class="line">-B :后面可加数字，为 befer 癿意思，除了列出该行外，前面的 n 行也列出;</div></pre></td></tr></table></figure></p>
+<p>grep 只支持基础正则表示法，若要延伸型正则，则要用egrep或者  grep -E。</p>
+<p>基础正则表示法总结如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">^word：查找字符串(word)在行首  grep -n '^word' filename</div><div class="line"><span class="meta">word$</span>:  查找字符串(word)在行末  grep -n 'word$' filename</div><div class="line">. : 任意字符</div><div class="line">\ : 转译</div><div class="line">*：前面字符 0 到 任意多个</div><div class="line">[] : 字符集合</div><div class="line">[n1-n2] : 范围  如[0-9]</div><div class="line">[^]: 字符取反，就是不能是里面的字符</div><div class="line">\&#123;n,m\&#125;: 出现n到m次</div></pre></td></tr></table></figure>
+<p>延伸正则表示总结如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+  ：一个或者一个以上</div><div class="line">？ ：零个或者一个</div><div class="line">|   ： 或</div><div class="line">()  :  群组   egrep -n 'g(la|oo)d' filename  找出 glad 或者 good 两个字符串</div><div class="line">()+:  群组出现一次或者多次</div></pre></td></tr></table></figure>
+<p>grep 还有很多高级用法，请感兴趣的自己去补给，我只列出了基础的常见的用法。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Grep </tag>
+            
+            <tag> Shell </tag>
             
         </tags>
         
@@ -294,78 +364,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Shell 正则表达式]]></title>
-      <url>/2017/07/21/Shell-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<h4 id="正则表达式的分类"><a href="#正则表达式的分类" class="headerlink" title="正则表达式的分类"></a>正则表达式的分类</h4><ul>
-<li>基本的正则表达式（Basic Regular Expression 又叫Basic RegEx 简称BREs）</li>
-<li>扩展的正则表达式（Extended Regular Expression 又叫Extended RegEx 简称EREs）</li>
-<li>Perl的正则表达式（Perl Regular Expression 又叫Perl RegEx 简称PREs）</li>
-</ul>
-<h4 id="基本组成部分"><a href="#基本组成部分" class="headerlink" title="基本组成部分"></a>基本组成部分</h4><p>正则表达式的基本组成部分。</p>
-<p><img src="WX20170517-1442082x.png" alt="image"></p>
-<h4 id="POSIX字符类"><a href="#POSIX字符类" class="headerlink" title="POSIX字符类"></a>POSIX字符类</h4><p>POSIX字符类是一个形如[:…:]的特殊元序列（meta sequence），他可以用于匹配特定的字符范围。</p>
-<p><img src="WX20170517-1440442x.png" alt="image"></p>
-<h4 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h4><p>元字符（meta character）是一种Perl风格的正则表达式，只有一部分文本处理工具支持它，并不是所有的文本处理工具都支持。</p>
-<p><img src="WX20170517-1443312x.png" alt="image"></p>
-<p>文章来源：<a href="http://man.linuxde.net/docs/shell_regex.html" target="_blank" rel="external">http://man.linuxde.net/docs/shell_regex.html</a> </p>
-]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-            <category> Shell </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Shell </tag>
-            
-            <tag> 正则 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[grep 简单用法]]></title>
-      <url>/2017/07/21/grep-%E7%AE%80%E5%8D%95%E7%94%A8%E6%B3%95/</url>
-      <content type="html"><![CDATA[<p>是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。<br>我经常用来查找字符串比如：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -rn "字符串" .</div></pre></td></tr></table></figure>
-<p>递归查找当前目录下所有文件中 “字符串” 并且所在标出所在行。</p>
-<p>下面来看看具体参数：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">grep [-acinv] [--color=auto] '搜寻字符串' filename 选项参数:</div><div class="line">-a :将 binary 档案以 text 档案方式搜寻数据</div><div class="line">-c :计算找刡 '搜寻字符串' 次数</div><div class="line">-i :忽略大小写</div><div class="line">-n :输出行号</div><div class="line">-v :反向选择，亦即显示出没有 '搜寻字符串' 内容癿那一行! --color=auto :可以将找刡癿关键词部分加上颜色癿显示!</div><div class="line">-A :后面可加数字，为 after 癿意思，除了列出该行外，后续的 n 行也列出; </div><div class="line">-B :后面可加数字，为 befer 癿意思，除了列出该行外，前面的 n 行也列出;</div></pre></td></tr></table></figure></p>
-<p>grep 只支持基础正则表示法，若要延伸型正则，则要用egrep或者  grep -E。</p>
-<p>基础正则表示法总结如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">^word：查找字符串(word)在行首  grep -n '^word' filename</div><div class="line"><span class="meta">word$</span>:  查找字符串(word)在行末  grep -n 'word$' filename</div><div class="line">. : 任意字符</div><div class="line">\ : 转译</div><div class="line">*：前面字符 0 到 任意多个</div><div class="line">[] : 字符集合</div><div class="line">[n1-n2] : 范围  如[0-9]</div><div class="line">[^]: 字符取反，就是不能是里面的字符</div><div class="line">\&#123;n,m\&#125;: 出现n到m次</div></pre></td></tr></table></figure>
-<p>延伸正则表示总结如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+  ：一个或者一个以上</div><div class="line">？ ：零个或者一个</div><div class="line">|   ： 或</div><div class="line">()  :  群组   egrep -n 'g(la|oo)d' filename  找出 glad 或者 good 两个字符串</div><div class="line">()+:  群组出现一次或者多次</div></pre></td></tr></table></figure>
-<p>grep 还有很多高级用法，请感兴趣的自己去补给，我只列出了基础的常见的用法。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-            <category> Shell </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Shell </tag>
-            
-            <tag> Grep </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Hexo 'Deployer not found']]></title>
-      <url>/2017/07/21/Hexo-Deployer-not-found/</url>
+      <title><![CDATA[Hexo – 'Deployer not found']]></title>
+      <url>/2017/07/21/Hexo-%E2%80%93-Deployer-not-found/</url>
       <content type="html"><![CDATA[<p>重新部署了Hexo，结果无法部署，解决方法如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
 ]]></content>
@@ -849,8 +849,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Linux下 SSH 登录脚本]]></title>
-      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
+      <title><![CDATA[Shell – SSH自动登录]]></title>
+      <url>/2017/07/19/Shell-%E2%80%93-SSH%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95/</url>
       <content type="html"><![CDATA[<p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
 <h4 id="1-创建脚本-xxx-sh"><a href="#1-创建脚本-xxx-sh" class="headerlink" title="1.创建脚本 xxx.sh"></a>1.创建脚本 xxx.sh</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/expect</div><div class="line">set timeout 30</div><div class="line">spawn ssh -l root ip地址</div><div class="line">expect &quot;password:&quot;</div><div class="line">send &quot;密码\r&quot;</div></pre></td></tr></table></figure>
 <h4 id="2-将脚本目录加入环境变量"><a href="#2-将脚本目录加入环境变量" class="headerlink" title="2.将脚本目录加入环境变量"></a>2.将脚本目录加入环境变量</h4><p>export PATH=/Users/zhen/Documents/shell:$PATH<br>这样一来在命令行随时可以调用脚本远程登录。</p>
@@ -867,11 +867,21 @@
         
         <tags>
             
-            <tag> SSH </tag>
-            
             <tag> Shell </tag>
             
+            <tag> SSH </tag>
+            
         </tags>
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
+      <content type="html"><![CDATA[<hr>
+<p>title: Linux下 SSH 登录脚本</p>
+]]></content>
+      
         
     </entry>
     
@@ -901,8 +911,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Svn log shell]]></title>
-      <url>/2017/07/19/svn-log-shell/</url>
+      <title><![CDATA[Shell – Svn Log]]></title>
+      <url>/2017/07/19/Shell-%E2%80%93-Svn-Log/</url>
       <content type="html"><![CDATA[<h5 id="1-命令繁琐"><a href="#1-命令繁琐" class="headerlink" title="1.命令繁琐"></a>1.命令繁琐</h5><p>由于每次查看log需要输入好长的命令，在这里写成shell，方便许多。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user_name=$1</div><div class="line">few_days_ago=$2</div><div class="line"></div><div class="line">if [ ! -n &quot;$user_name&quot; ]</div><div class="line">then</div><div class="line">	user_name=&apos;xxxxxxxxxxxx&apos;</div><div class="line">fi</div><div class="line"></div><div class="line">if [ ! -n &quot;$few_days_ago&quot; ]</div><div class="line">then</div><div class="line">	few_days_ago=30</div><div class="line">fi</div><div class="line"></div><div class="line">start_time=`date -v -&quot;$few_days_ago&quot;d +%Y-%m-%d`</div><div class="line">end_time=`date -v +1d +%Y-%m-%d`</div><div class="line"></div><div class="line">svn log -r &#123;$start_time&#125;:&#123;$end_time&#125; -v | sed -n &quot;/$user_name/,/--$/ p&quot;</div></pre></td></tr></table></figure>
 <h5 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法:"></a>2.使用方法:</h5><p>将shell加入环境变量，在项目里面:</p>
