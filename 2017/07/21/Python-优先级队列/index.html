@@ -3,24 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Linux下 SSH 登录脚本 | 斑斓的梦</title>
+    <title>Python 优先级队列 | 斑斓的梦</title>
     
     
-        <meta name="keywords" content="SSH,Shell" />
+        <meta name="keywords" content="Python,队列,优先级队列" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。 1.创建脚本 xxx.sh12345#!/usr/bin/expectset timeout 30spawn ssh -l root ip地址expect &amp;quot;password:&amp;quot;send &amp;quot;密码\r&amp;quot; 2.将脚本目录加入环境变量export PATH=/Users/zhen/">
-<meta name="keywords" content="SSH,Shell">
+    <meta name="description" content="优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。 你可以认为优先级队列是一种修改过的普通队列：普通队列依据记录插入的时间来获取下一个记录，优先级队列依据优先级来获取下一个记录，而优先级取决于排序字段的值。 优先级队列经常用来解决调度问题，比如给更紧急的任务更高的优先级。 我们以操">
+<meta name="keywords" content="Python,队列,优先级队列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux下 SSH 登录脚本">
-<meta property="og:url" content="http://pzhen.github.io/2017/07/19/Linux下-ssh-自动登录脚本/index.html">
+<meta property="og:title" content="Python 优先级队列">
+<meta property="og:url" content="http://pzhen.github.io/2017/07/21/Python-优先级队列/index.html">
 <meta property="og:site_name" content="斑斓的梦">
-<meta property="og:description" content="最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。 1.创建脚本 xxx.sh12345#!/usr/bin/expectset timeout 30spawn ssh -l root ip地址expect &amp;quot;password:&amp;quot;send &amp;quot;密码\r&amp;quot; 2.将脚本目录加入环境变量export PATH=/Users/zhen/">
+<meta property="og:description" content="优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。 你可以认为优先级队列是一种修改过的普通队列：普通队列依据记录插入的时间来获取下一个记录，优先级队列依据优先级来获取下一个记录，而优先级取决于排序字段的值。 优先级队列经常用来解决调度问题，比如给更紧急的任务更高的优先级。 我们以操">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2017-07-20T09:33:37.000Z">
+<meta property="og:updated_time" content="2017-07-21T07:35:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux下 SSH 登录脚本">
-<meta name="twitter:description" content="最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。 1.创建脚本 xxx.sh12345#!/usr/bin/expectset timeout 30spawn ssh -l root ip地址expect &amp;quot;password:&amp;quot;send &amp;quot;密码\r&amp;quot; 2.将脚本目录加入环境变量export PATH=/Users/zhen/">
+<meta name="twitter:title" content="Python 优先级队列">
+<meta name="twitter:description" content="优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。 你可以认为优先级队列是一种修改过的普通队列：普通队列依据记录插入的时间来获取下一个记录，优先级队列依据优先级来获取下一个记录，而优先级取决于排序字段的值。 优先级队列经常用来解决调度问题，比如给更紧急的任务更高的优先级。 我们以操">
     
 
     
@@ -231,9 +231,9 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Hexo-Deployer-not-found/">Hexo 'Deployer not found'</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             Linux
                         </a>
@@ -247,13 +247,13 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Ubuntu安装jdk/">Ubuntu安装jdk</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             Shell
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Iterm2-配色主题/">Iterm2 配色主题</a></li>  <li class="file active"><a href="/2017/07/19/Linux下-ssh-自动登录脚本/">Linux下 SSH 登录脚本</a></li>  <li class="file"><a href="/2017/07/20/Mac-安装-zsh/">Mac 安装 zsh</a></li>  <li class="file"><a href="/2017/07/21/Shell-正则表达式/">Shell 正则表达式</a></li>  <li class="file"><a href="/2017/07/21/grep-简单用法/">grep 简单用法</a></li>  <li class="file"><a href="/2017/07/19/svn-log-shell/">Svn log shell</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Iterm2-配色主题/">Iterm2 配色主题</a></li>  <li class="file"><a href="/2017/07/19/Linux下-ssh-自动登录脚本/">Linux下 SSH 登录脚本</a></li>  <li class="file"><a href="/2017/07/20/Mac-安装-zsh/">Mac 安装 zsh</a></li>  <li class="file"><a href="/2017/07/21/Shell-正则表达式/">Shell 正则表达式</a></li>  <li class="file"><a href="/2017/07/21/grep-简单用法/">grep 简单用法</a></li>  <li class="file"><a href="/2017/07/19/svn-log-shell/">Svn log shell</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -276,13 +276,13 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Php-实现一致性哈希包含虚拟节点/">Php 一致性哈希</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             Python
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file active"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -364,7 +364,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-Linux下-ssh-自动登录脚本" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Python-优先级队列" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -374,20 +374,20 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Linux/">Linux</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Linux/Shell/">Shell</a>
+        <a class="article-category-link" href="/categories/Python/">Python</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/SSH/">SSH</a>, <a class="tag-link" href="/tags/Shell/">Shell</a>
+        <a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/优先级队列/">优先级队列</a>, <a class="tag-link" href="/tags/队列/">队列</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/07/19/Linux下-ssh-自动登录脚本/">
-            <time datetime="2017-07-19T14:58:13.000Z" itemprop="datePublished">2017-07-19</time>
+        <a href="/2017/07/21/Python-优先级队列/">
+            <time datetime="2017-07-21T07:22:32.000Z" itemprop="datePublished">2017-07-21</time>
         </a>
     </div>
 
@@ -398,7 +398,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Linux下 SSH 登录脚本
+            Python 优先级队列
         </h1>
     
 
@@ -411,14 +411,20 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-创建脚本-xxx-sh"><span class="toc-number">1.</span> <span class="toc-text">1.创建脚本 xxx.sh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-将脚本目录加入环境变量"><span class="toc-number">2.</span> <span class="toc-text">2.将脚本目录加入环境变量</span></a></li></ol>
+                    
                 </div>
             
         
         
-            <p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
-<h4 id="1-创建脚本-xxx-sh"><a href="#1-创建脚本-xxx-sh" class="headerlink" title="1.创建脚本 xxx.sh"></a>1.创建脚本 xxx.sh</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/expect</div><div class="line">set timeout 30</div><div class="line">spawn ssh -l root ip地址</div><div class="line">expect &quot;password:&quot;</div><div class="line">send &quot;密码\r&quot;</div></pre></td></tr></table></figure>
-<h4 id="2-将脚本目录加入环境变量"><a href="#2-将脚本目录加入环境变量" class="headerlink" title="2.将脚本目录加入环境变量"></a>2.将脚本目录加入环境变量</h4><p>export PATH=/Users/zhen/Documents/shell:$PATH<br>这样一来在命令行随时可以调用脚本远程登录。</p>
+            <p>优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。</p>
+<p>你可以认为优先级队列是一种修改过的普通队列：普通队列依据记录插入的时间来获取下一个记录，优先级队列依据优先级来获取下一个记录，而优先级取决于排序字段的值。</p>
+<p>优先级队列经常用来解决调度问题，比如给更紧急的任务更高的优先级。</p>
+<p>我们以操作系统的任务调度为例：高优先级的任务（比如实时游戏）应该先于低优先级的任务（比如后台下载软件更新）执行。通过在优先级队列中依据任务的紧急程度排序，我们能让最紧急的任务优先得到执行。</p>
+<p>queue.PriorityQueue类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Queue</div><div class="line"></div><div class="line">q = Queue.PriorityQueue()</div><div class="line"></div><div class="line">q.put((<span class="number">2</span>,<span class="string">'code'</span>))</div><div class="line">q.put((<span class="number">1</span>,<span class="string">'eat'</span>))</div><div class="line">q.put((<span class="number">3</span>,<span class="string">'sleep'</span>))</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">not</span> q.empty():</div><div class="line">	next_item = q.get()</div><div class="line">	print(next_item)</div><div class="line"></div><div class="line"><span class="comment"># Result</span></div><div class="line"><span class="comment"># (1,'eat')</span></div><div class="line"><span class="comment"># (2, 'code')</span></div><div class="line"><span class="comment"># (3, 'sleep')</span></div></pre></td></tr></table></figure>
+<p>这个优先级队列内部使用了heapq，所以它的时间复杂度和heapq是相同的。</p>
+<p>不同的是PriorityQueue的操作是同步的，提供锁操作，支持并发的生产者和消费者。</p>
+<p>依据使用场景，它可能很有用，也可能有点太大了。通常来说它的基于类接口要比heapq的基于函数的接口更友好。</p>
 
             </div>
         
@@ -431,19 +437,10 @@
     
 <nav id="article-nav">
     
-        <a href="/2017/07/20/Mac-安装-zsh/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    Mac 安装 zsh
-                
-            </div>
-        </a>
     
-    
-        <a href="/2017/07/19/Vim-常用命令/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/07/21/Shell-正则表达式/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Vim 常用命令</div>
+            <div class="article-nav-title">Shell 正则表达式</div>
         </a>
     
 </nav>

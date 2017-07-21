@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://pzhen.github.io/"/>
-  <updated>2017-07-21T07:11:30.000Z</updated>
+  <updated>2017-07-21T07:35:28.000Z</updated>
   <id>http://pzhen.github.io/</id>
   
   <author>
@@ -14,6 +14,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python 优先级队列</title>
+    <link href="http://pzhen.github.io/2017/07/21/Python-%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97/"/>
+    <id>http://pzhen.github.io/2017/07/21/Python-优先级队列/</id>
+    <published>2017-07-21T07:22:32.000Z</published>
+    <updated>2017-07-21T07:35:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。</p>
+<p>你可以认为优先级队列是一种修改过的普通队列：普通队列依据记录插入的时间来获取下一个记录，优先级队列依据优先级来获取下一个记录，而优先级取决于排序字段的值。</p>
+<p>优先级队列经常用来解决调度问题，比如给更紧急的任务更高的优先级。</p>
+<p>我们以操作系统的任务调度为例：高优先级的任务（比如实时游戏）应该先于低优先级的任务（比如后台下载软件更新）执行。通过在优先级队列中依据任务的紧急程度排序，我们能让最紧急的任务优先得到执行。</p>
+<p>queue.PriorityQueue类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Queue</div><div class="line"></div><div class="line">q = Queue.PriorityQueue()</div><div class="line"></div><div class="line">q.put((<span class="number">2</span>,<span class="string">'code'</span>))</div><div class="line">q.put((<span class="number">1</span>,<span class="string">'eat'</span>))</div><div class="line">q.put((<span class="number">3</span>,<span class="string">'sleep'</span>))</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">not</span> q.empty():</div><div class="line">	next_item = q.get()</div><div class="line">	print(next_item)</div><div class="line"></div><div class="line"><span class="comment"># Result</span></div><div class="line"><span class="comment"># (1,'eat')</span></div><div class="line"><span class="comment"># (2, 'code')</span></div><div class="line"><span class="comment"># (3, 'sleep')</span></div></pre></td></tr></table></figure>
+<p>这个优先级队列内部使用了heapq，所以它的时间复杂度和heapq是相同的。</p>
+<p>不同的是PriorityQueue的操作是同步的，提供锁操作，支持并发的生产者和消费者。</p>
+<p>依据使用场景，它可能很有用，也可能有点太大了。通常来说它的基于类接口要比heapq的基于函数的接口更友好。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;优先级队列是一种容器型数据结构，它能管理一队记录，并按照排序字段（例如一个数字类型的权重值）为其排序。由于是排序的，所以在优先级队列中你可以快速获取到最大的和最小的值。&lt;/p&gt;
+&lt;p&gt;你可以认为优先级队列是一种修改过的普通队列：普通队列依据记录插入的时间来获取下一个记录，优
+    
+    </summary>
+    
+      <category term="Python" scheme="http://pzhen.github.io/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="http://pzhen.github.io/tags/Python/"/>
+    
+      <category term="队列" scheme="http://pzhen.github.io/tags/%E9%98%9F%E5%88%97/"/>
+    
+      <category term="优先级队列" scheme="http://pzhen.github.io/tags/%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97/"/>
+    
+  </entry>
   
   <entry>
     <title>Shell 正则表达式</title>
