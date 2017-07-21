@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Git – 操作配置别名 | 斑斓的梦</title>
+    
+    
+        <meta name="keywords" content="Git,别名" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="有没有经常敲错命令？比如Git status？status这个单词真心不好记。 如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。 我们只需要敲一行命令，告诉Git，以后st就表示status：1$ git config --global alias.st status 好了，现在敲git st看看效果。 当然还有别的命令可以简写，很多人都用co表示ch">
+<meta name="keywords" content="Git,别名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git – 操作配置别名">
+<meta property="og:url" content="http://pzhen.github.io/2017/07/21/Git-–-操作配置别名/index.html">
+<meta property="og:site_name" content="斑斓的梦">
+<meta property="og:description" content="有没有经常敲错命令？比如Git status？status这个单词真心不好记。 如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。 我们只需要敲一行命令，告诉Git，以后st就表示status：1$ git config --global alias.st status 好了，现在敲git st看看效果。 当然还有别的命令可以简写，很多人都用co表示ch">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-07-21T08:43:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git – 操作配置别名">
+<meta name="twitter:description" content="有没有经常敲错命令？比如Git status？status这个单词真心不好记。 如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。 我们只需要敲一行命令，告诉Git，以后st就表示status：1$ git config --global alias.st status 好了，现在敲git st看看效果。 当然还有别的命令可以简写，很多人都用co表示ch">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">斑斓的梦</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/woailuo.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" style="float:left">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/woailuo.jpg" />
+            <h2 id="name">P.Zhen</h2>
+            <h3 id="title">Designer &amp; Programmer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Bei Jing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/pzhen/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                26
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                33
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/pzhen/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="3stack-overflow" class=tooltip>
+                            <i class="fa fa-3stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            
+                <aside id="sidebar" style="float:right">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Git-–-全局配置与局部项目配置/">Git – 全局配置与局部项目配置</a></li>  <li class="file"><a href="/2017/07/21/Git-–-基本工作流程/">Git – 基本工作流程</a></li>  <li class="file active"><a href="/2017/07/21/Git-–-操作配置别名/">Git – 操作配置别名</a></li>  <li class="file"><a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Hexo
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Hexo-Deployer-not-found/">Hexo 'Deployer not found'</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Jdk
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Ubuntu安装jdk/">Ubuntu安装jdk</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Maven
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Mac-安装-Maven/">Mac 安装 Maven</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Shell
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Iterm2-配色主题/">Iterm2 配色主题</a></li>  <li class="file"><a href="/2017/07/19/Linux下-ssh-自动登录脚本/">Linux下 SSH 登录脚本</a></li>  <li class="file"><a href="/2017/07/20/Mac-安装-zsh/">Mac 安装 zsh</a></li>  <li class="file"><a href="/2017/07/21/Shell-正则表达式/">Shell 正则表达式</a></li>  <li class="file"><a href="/2017/07/21/grep-简单用法/">grep 简单用法</a></li>  <li class="file"><a href="/2017/07/19/svn-log-shell/">Svn log shell</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Vim-colorschemes/">Vim colorschemes</a></li>  <li class="file"><a href="/2017/07/19/Vim-常用命令/">Vim 常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Php
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Php-实现一致性哈希包含虚拟节点/">Php 一致性哈希</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Redis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Php7-安装Redis扩展/">Php7 安装Redis扩展</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Git-–-操作配置别名" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Git/">Git</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Git/">Git</a>, <a class="tag-link" href="/tags/别名/">别名</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/07/21/Git-–-操作配置别名/">
+            <time datetime="2017-07-21T08:40:57.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Git – 操作配置别名
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    
+                </div>
+            
+        
+        
+            <p>有没有经常敲错命令？比如Git status？status这个单词真心不好记。</p>
+<p>如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。</p>
+<p>我们只需要敲一行命令，告诉Git，以后st就表示status：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.st status</div></pre></td></tr></table></figure></p>
+<p>好了，现在敲git st看看效果。</p>
+<p>当然还有别的命令可以简写，很多人都用co表示checkout，ci表示commit，br表示branch：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.co checkout</div><div class="line">$ git config --global alias.ci commit</div><div class="line">$ git config --global alias.br branch</div></pre></td></tr></table></figure></p>
+<p>以后提交就可以简写成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git ci -m &quot;bala bala bala...&quot;</div></pre></td></tr></table></figure></p>
+<p>–global参数是全局参数，也就是这些命令在这台电脑的所有Git仓库下都有用。</p>
+<p>在撤销修改一节中，我们知道，命令git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区。既然是一个unstage操作，就可以配置一个unstage别名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.unstage &apos;reset HEAD&apos;</div></pre></td></tr></table></figure></p>
+<p>当你敲入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git unstage test.py</div></pre></td></tr></table></figure></p>
+<p>实际上Git执行的是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git reset HEAD test.py</div></pre></td></tr></table></figure></p>
+<p>配置一个git last，让其显示最后一次提交信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.last &apos;log -1&apos;</div></pre></td></tr></table></figure></p>
+<p>这样，用git last就能显示最近一次的提交：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ git last</div><div class="line">commit adca45d317e6d8a4b23f9811c3d7b7f0f180bfe2</div><div class="line">Merge: bd6ae48 291bea8</div><div class="line">Author: Michael Liao &lt;askxuefeng@gmail.com&gt;</div><div class="line">Date:   Thu Aug 22 22:49:22 2013 +0800</div><div class="line"></div><div class="line">merge &amp; fix hello.py</div></pre></td></tr></table></figure></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Git – 集中式与分布式</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            P.Zhen &copy; 2017 Powered by <a href="http://github.com/" target="_blank">GitHub</a>.
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

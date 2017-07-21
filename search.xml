@@ -3,7 +3,129 @@
   
     
     <entry>
-      <title><![CDATA[Elasticsearch – 安装插件]]></title>
+      <title><![CDATA[Git – 操作配置别名]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E6%93%8D%E4%BD%9C%E9%85%8D%E7%BD%AE%E5%88%AB%E5%90%8D/</url>
+      <content type="html"><![CDATA[<p>有没有经常敲错命令？比如Git status？status这个单词真心不好记。</p>
+<p>如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。</p>
+<p>我们只需要敲一行命令，告诉Git，以后st就表示status：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.st status</div></pre></td></tr></table></figure></p>
+<p>好了，现在敲git st看看效果。</p>
+<p>当然还有别的命令可以简写，很多人都用co表示checkout，ci表示commit，br表示branch：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.co checkout</div><div class="line">$ git config --global alias.ci commit</div><div class="line">$ git config --global alias.br branch</div></pre></td></tr></table></figure></p>
+<p>以后提交就可以简写成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git ci -m &quot;bala bala bala...&quot;</div></pre></td></tr></table></figure></p>
+<p>–global参数是全局参数，也就是这些命令在这台电脑的所有Git仓库下都有用。</p>
+<p>在撤销修改一节中，我们知道，命令git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区。既然是一个unstage操作，就可以配置一个unstage别名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.unstage &apos;reset HEAD&apos;</div></pre></td></tr></table></figure></p>
+<p>当你敲入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git unstage test.py</div></pre></td></tr></table></figure></p>
+<p>实际上Git执行的是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git reset HEAD test.py</div></pre></td></tr></table></figure></p>
+<p>配置一个git last，让其显示最后一次提交信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.last &apos;log -1&apos;</div></pre></td></tr></table></figure></p>
+<p>这样，用git last就能显示最近一次的提交：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ git last</div><div class="line">commit adca45d317e6d8a4b23f9811c3d7b7f0f180bfe2</div><div class="line">Merge: bd6ae48 291bea8</div><div class="line">Author: Michael Liao &lt;askxuefeng@gmail.com&gt;</div><div class="line">Date:   Thu Aug 22 22:49:22 2013 +0800</div><div class="line"></div><div class="line">merge &amp; fix hello.py</div></pre></td></tr></table></figure></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 别名 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git – 集中式与分布式]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
+<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
+<p><img src="userid1labid485time1423115040073.png" alt=""></p>
+<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 集中式管理 </tag>
+            
+            <tag> 分布式管理 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git – 全局配置与局部项目配置]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%B1%80%E9%83%A8%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/</url>
+      <content type="html"><![CDATA[<h4 id="Git全局配置的文件"><a href="#Git全局配置的文件" class="headerlink" title="Git全局配置的文件"></a>Git全局配置的文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat ~/.gitconfig</div></pre></td></tr></table></figure>
+<p>上面就是全局配置文件位置。</p>
+<p>git config –global &lt;配置名称&gt; &lt;配置的值&gt;  例如：</p>
+<p>$ git config –global user.name “用户名”<br>$ git config –global user.email “邮箱”</p>
+<h4 id="Git局部项目的配置文件"><a href="#Git局部项目的配置文件" class="headerlink" title="Git局部项目的配置文件"></a>Git局部项目的配置文件</h4><p>你可以在项目中使用git config 命令不带 –global 选项来设置. 这会在你当前的项目目录下创建 .git/config，从而使用针对当前项目的配置。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git – 基本工作流程]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/</url>
+      <content type="html"><![CDATA[<p>git的基本流程如下：</p>
+<h4 id="首先获取项目"><a href="#首先获取项目" class="headerlink" title="首先获取项目"></a>首先获取项目</h4><p>为了得一个项目的拷贝(copy),我们需要知道这个项目仓库的地址(Git URL). Git能在许多协议下使用，所以Git URL可能以ssh://, http(s)://, git://. 有些仓库可以通过不只一种协议来访问。</p>
+<p>例如ssh方式获取远程你在阿里云下的项目：git clone git@code.aliyun.com:username/xxxx(项目).git</p>
+<p>另一种方式是还没有仓库，我们要把当前文件夹设为项目仓库 ：git init  </p>
+<p>在当前目录下就会有 .git 的文件夹了。</p>
+<h4 id="修改项目"><a href="#修改项目" class="headerlink" title="修改项目"></a>修改项目</h4><ul>
+<li>创建或修改文件</li>
+<li>使用git add命令添加新创建或修改的文件到本地的缓存区（Index）</li>
+<li>使用git commit命令提交到本地代码库</li>
+<li>（可选，有的时候并没有可以同步的远端代码库）使用git push命令将本地代码库同步到远端代码库</li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Es – 安装插件]]></title>
       <url>/2017/07/21/Elasticsearch-%E2%80%93-%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6/</url>
       <content type="html"><![CDATA[<p>由于Elasticsearch-head 插件不支持5.3.0，比较费事，装个低版本的，安装个插件。</p>
 <p>来看下 2.3.0 插件安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./plugin install mobz/elasticsearch-head</div><div class="line"></div><div class="line">http://localhost:9200/_plugin/head</div></pre></td></tr></table></figure></p>
@@ -22,8 +144,27 @@
 <p>把 major ==1 改成 major &gt;=1，然后保存</p>
 <p>6.搞定，浏览器查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:9200/_plugin/bigdesk-master/#nodes</div></pre></td></tr></table></figure></p>
 <p>最后附上我的目录结构：</p>
+<p><img src="E9B80FA8-56F0-49DE-85E0-129215E63B28.jpg" alt=""></p>
 ]]></content>
       
+        <categories>
+            
+            <category> Elasticsearch </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Elasticsearch </tag>
+            
+            <tag> Es </tag>
+            
+            <tag> Ik </tag>
+            
+            <tag> 插件 </tag>
+            
+        </tags>
         
     </entry>
     
