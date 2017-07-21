@@ -69,9 +69,9 @@
       <category term="Composer" scheme="http://pzhen.github.io/categories/Composer/"/>
     
     
-      <category term="Composer" scheme="http://pzhen.github.io/tags/Composer/"/>
-    
       <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
+    
+      <category term="Composer" scheme="http://pzhen.github.io/tags/Composer/"/>
     
   </entry>
   
@@ -183,9 +183,9 @@
       <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
     
     
-      <category term="Grep" scheme="http://pzhen.github.io/tags/Grep/"/>
-    
       <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
+    
+      <category term="Grep" scheme="http://pzhen.github.io/tags/Grep/"/>
     
   </entry>
   
@@ -383,9 +383,9 @@
     
       <category term="Es" scheme="http://pzhen.github.io/tags/Es/"/>
     
-      <category term="Ik" scheme="http://pzhen.github.io/tags/Ik/"/>
-    
       <category term="集群" scheme="http://pzhen.github.io/tags/%E9%9B%86%E7%BE%A4/"/>
+    
+      <category term="Ik" scheme="http://pzhen.github.io/tags/Ik/"/>
     
   </entry>
   
@@ -820,9 +820,9 @@
       <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
     
     
-      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
-    
       <category term="Iterm2" scheme="http://pzhen.github.io/tags/Iterm2/"/>
+    
+      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
     
   </entry>
   
