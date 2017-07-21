@@ -197,7 +197,7 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Git – 全局配置与局部项目配置]]></title>
+      <title><![CDATA[Git – 全局与局部项目配置]]></title>
       <url>/2017/07/21/Git-%E2%80%93-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%B1%80%E9%83%A8%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/</url>
       <content type="html"><![CDATA[<h4 id="Git全局配置的文件"><a href="#Git全局配置的文件" class="headerlink" title="Git全局配置的文件"></a>Git全局配置的文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat ~/.gitconfig</div></pre></td></tr></table></figure>
 <p>上面就是全局配置文件位置。</p>
@@ -351,8 +351,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Mac 安装 Maven]]></title>
-      <url>/2017/07/21/Mac-%E5%AE%89%E8%A3%85-Maven/</url>
+      <title><![CDATA[Maven - Mac 安装]]></title>
+      <url>/2017/07/21/Maven-Mac-%E5%AE%89%E8%A3%85/</url>
       <content type="html"><![CDATA[<p>1.下载maven</p>
 <p><a href="http://mirror.bit.edu.cn/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.zip" target="_blank" rel="external">http://mirror.bit.edu.cn/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.zip</a></p>
 <p>2.解压</p>
@@ -727,8 +727,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Iterm2 配色主题]]></title>
-      <url>/2017/07/20/Iterm2-%E9%85%8D%E8%89%B2%E4%B8%BB%E9%A2%98/</url>
+      <title><![CDATA[Shell – item2 配色]]></title>
+      <url>/2017/07/20/Shell-%E2%80%93-item2-%E9%85%8D%E8%89%B2/</url>
       <content type="html"><![CDATA[<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>请到 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="external">https://github.com/mbadolato/iTerm2-Color-Schemes</a> 下载。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/mbadolato/iTerm2-Color-Schemes.git</div></pre></td></tr></table></figure>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>To install:</p>
@@ -755,9 +755,9 @@
         
         <tags>
             
-            <tag> Iterm2 </tag>
-            
             <tag> Mac </tag>
+            
+            <tag> Iterm2 </tag>
             
         </tags>
         
@@ -827,9 +827,19 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Php7 安装Redis扩展]]></title>
-      <url>/2017/07/20/Php7-%E5%AE%89%E8%A3%85Redis%E6%89%A9%E5%B1%95/</url>
-      <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">下载  https://github.com/phpredis/phpredis/tree/php7</div><div class="line"></div><div class="line">解压  unzip phpredis-php7.zip</div><div class="line"></div><div class="line">phpize  #用phpize生成configure配置文件</div><div class="line"></div><div class="line">./configure  配置</div><div class="line"></div><div class="line">make  #编译</div><div class="line"></div><div class="line">make install  #安装</div><div class="line"></div><div class="line">安装完成后将出现的安装路径添加到php.ini中:</div><div class="line"></div><div class="line">extension_dir = &quot;/usr/lib/php/20151012&quot;</div><div class="line"></div><div class="line">extension = redis.so</div><div class="line"></div><div class="line">重启服务器,查看phpinfo,是不是搞定.</div></pre></td></tr></table></figure>]]></content>
+      <title><![CDATA[Redis - PHP7扩展]]></title>
+      <url>/2017/07/20/Redis-PHP7%E6%89%A9%E5%B1%95/</url>
+      <content type="html"><![CDATA[<p>下载  <a href="https://github.com/phpredis/phpredis/tree/php7" target="_blank" rel="external">https://github.com/phpredis/phpredis/tree/php7</a></p>
+<p>解压  unzip phpredis-php7.zip</p>
+<p>phpize  #用phpize生成configure配置文件</p>
+<p>./configure  配置</p>
+<p>make  #编译</p>
+<p>make install  #安装</p>
+<p>安装完成后将出现的安装路径添加到php.ini中:</p>
+<p>extension_dir = “/usr/lib/php/20151012”</p>
+<p>extension = redis.so</p>
+<p>重启服务器,查看phpinfo,是不是搞定.</p>
+]]></content>
       
         <categories>
             
@@ -849,8 +859,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Ubuntu安装jdk]]></title>
-      <url>/2017/07/20/Ubuntu%E5%AE%89%E8%A3%85jdk/</url>
+      <title><![CDATA[Jdk - Ubuntu安装]]></title>
+      <url>/2017/07/20/Jdk-Ubuntu%E5%AE%89%E8%A3%85/</url>
       <content type="html"><![CDATA[<p>Ubuntu 下安装 jdk </p>
 <h4 id="1-解压"><a href="#1-解压" class="headerlink" title="1.解压"></a>1.解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar zxvf ./jdk-7u45-linux-x64.tar.gz</div></pre></td></tr></table></figure>
 <h4 id="2-环境变量"><a href="#2-环境变量" class="headerlink" title="2.环境变量"></a>2.环境变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vi ~/.bashrc 或者 ~/.zshrc</div><div class="line"></div><div class="line">export JAVA_HOME=/opt/Java/jdk/jdk1.7 </div><div class="line">export CLASSPATH=$&#123;JAVA_HOME&#125;/lib</div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</div></pre></td></tr></table></figure>
@@ -879,8 +889,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Mac 安装 zsh]]></title>
-      <url>/2017/07/20/Mac-%E5%AE%89%E8%A3%85-zsh/</url>
+      <title><![CDATA[Shell – Mac zsh]]></title>
+      <url>/2017/07/20/Shell-%E2%80%93-Mac-zsh/</url>
       <content type="html"><![CDATA[<blockquote>
 <p>目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash，但是真正强大的 Shell 是深藏不露的 zsh， 这货绝对是马车中的跑车，跑车中的飞行车，史称『终极 Shell』，但是由于配置过于复杂，所以初期无人问津，很多人跑过来看看 zsh 的配置指南，什么都不说转身就走了。直到有一天，国外有个穷极无聊的程序员开发出了一个能够让你快速上手的zsh项目，叫做「oh my zsh」，<br>这玩意就像「X天叫你学会 C++」系列，可以让你神功速成，而且是真的。</p>
 </blockquote>
