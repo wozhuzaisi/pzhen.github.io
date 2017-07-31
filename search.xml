@@ -3,6 +3,39 @@
   
     
     <entry>
+      <title><![CDATA[Shell – Wget 克隆网站]]></title>
+      <url>/2017/07/31/Shell-%E2%80%93-Wget-%E5%85%8B%E9%9A%86%E7%BD%91%E7%AB%99%E5%88%B0%E6%9C%AC%E5%9C%B0/</url>
+      <content type="html"><![CDATA[<p>有时候觉得网上看到的漂亮的模板，想下载怎么办哈哈哈wget就搞定了。</p>
+<a id="more"></a>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -k -p -nH -N http://www.baidu.com</div></pre></td></tr></table></figure>
+<p>-k   把已下载文件中的所有链接都转换为本地引用，不在依赖原始或在线内容</p>
+<p>-p   下载所有必要文件，确保离线可用，包括图片和样式表</p>
+<p>-nH  禁止把文件下载到以主机名为前缀的文件夹中。</p>
+<p>-N   启用文件的时间戳,以匹配来源的时间戳.</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Shell </tag>
+            
+            <tag> Wget </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Php 一Api通信规则]]></title>
       <url>/2017/07/31/Php-Api%E9%80%9A%E4%BF%A1%E8%A7%84%E5%88%99/</url>
       <content type="html"><![CDATA[<p>Api 通信中，可以采用非对称加密的方式，来提高安全性，也可以采用，下面的通信规则。</p>
@@ -942,16 +975,6 @@
     </entry>
     
     <entry>
-      <title></title>
-      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
-      <content type="html"><![CDATA[<hr>
-<p>title: Linux下 SSH 登录脚本</p>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Shell – SSH自动登录]]></title>
       <url>/2017/07/19/Shell-%E2%80%93-SSH%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95/</url>
       <content type="html"><![CDATA[<p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
@@ -975,6 +998,16 @@
             <tag> SSH </tag>
             
         </tags>
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
+      <content type="html"><![CDATA[<hr>
+<p>title: Linux下 SSH 登录脚本</p>
+]]></content>
+      
         
     </entry>
     

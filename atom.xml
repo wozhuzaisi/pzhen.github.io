@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://pzhen.github.io/"/>
-  <updated>2017-07-31T07:53:37.000Z</updated>
+  <updated>2017-07-31T08:18:20.000Z</updated>
   <id>http://pzhen.github.io/</id>
   
   <author>
@@ -14,6 +14,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Shell – Wget 克隆网站</title>
+    <link href="http://pzhen.github.io/2017/07/31/Shell-%E2%80%93-Wget-%E5%85%8B%E9%9A%86%E7%BD%91%E7%AB%99%E5%88%B0%E6%9C%AC%E5%9C%B0/"/>
+    <id>http://pzhen.github.io/2017/07/31/Shell-–-Wget-克隆网站到本地/</id>
+    <published>2017-07-31T08:14:22.000Z</published>
+    <updated>2017-07-31T08:18:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>有时候觉得网上看到的漂亮的模板，想下载怎么办哈哈哈wget就搞定了。</p>
+<a id="more"></a>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -k -p -nH -N http://www.baidu.com</div></pre></td></tr></table></figure>
+<p>-k   把已下载文件中的所有链接都转换为本地引用，不在依赖原始或在线内容</p>
+<p>-p   下载所有必要文件，确保离线可用，包括图片和样式表</p>
+<p>-nH  禁止把文件下载到以主机名为前缀的文件夹中。</p>
+<p>-N   启用文件的时间戳,以匹配来源的时间戳.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有时候觉得网上看到的漂亮的模板，想下载怎么办哈哈哈wget就搞定了。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
+    
+    
+      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
+    
+      <category term="Wget" scheme="http://pzhen.github.io/tags/Wget/"/>
+    
+  </entry>
   
   <entry>
     <title>Php 一Api通信规则</title>
@@ -812,45 +847,6 @@
       <category term="Vim" scheme="http://pzhen.github.io/tags/Vim/"/>
     
       <category term="colorschemes" scheme="http://pzhen.github.io/tags/colorschemes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell – item2 配色</title>
-    <link href="http://pzhen.github.io/2017/07/20/Shell-%E2%80%93-item2-%E9%85%8D%E8%89%B2/"/>
-    <id>http://pzhen.github.io/2017/07/20/Shell-–-item2-配色/</id>
-    <published>2017-07-20T03:29:58.000Z</published>
-    <updated>2017-07-21T09:47:02.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>请到 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="external">https://github.com/mbadolato/iTerm2-Color-Schemes</a> 下载。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/mbadolato/iTerm2-Color-Schemes.git</div></pre></td></tr></table></figure>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>To install:</p>
-<ul>
-<li>Launch iTerm 2. Get the latest version at iterm2.com</li>
-<li>Type CMD+i (⌘+i)</li>
-<li>Navigate to Colors tab</li>
-<li>Click on Color Presets</li>
-<li>Click on Import</li>
-<li>Select the .itermcolors file(s) of the scheme(s) you’d like to use</li>
-<li>Click on Color Presets and choose a color scheme</li>
-</ul>
-<p><img src="WX20170511-1352312x.png" alt="image"></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a&gt;下载&lt;/h4&gt;&lt;p&gt;请到 &lt;a href=&quot;https://github.com/mbadolato/iTerm2-Color-Schemes&quot; target=
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
-    
-      <category term="Iterm2" scheme="http://pzhen.github.io/tags/Iterm2/"/>
     
   </entry>
   
