@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://pzhen.github.io/"/>
-  <updated>2017-07-22T08:30:34.000Z</updated>
+  <updated>2017-07-31T07:50:18.000Z</updated>
   <id>http://pzhen.github.io/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Php-Api通信规则</title>
+    <link href="http://pzhen.github.io/2017/07/31/Php-Api%E9%80%9A%E4%BF%A1%E8%A7%84%E5%88%99/"/>
+    <id>http://pzhen.github.io/2017/07/31/Php-Api通信规则/</id>
+    <published>2017-07-31T07:34:52.000Z</published>
+    <updated>2017-07-31T07:50:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Api 通信中，可以采用非对称加密的方式，来提高安全性，也可以采用，下面的通信规则。</p>
+<p>如果采用下面方式，可以将时间戳取前7位有效数字来加密这样每隔十几分钟MD5<br>就一换，还能避开服务器时间不同步问题，也是不错的选择。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *生成THQS算法的信息查询串（Query string）</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">get_query_string</span><span class="params">($info)</span> </span>&#123;</div><div class="line">    ksort($info);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;http_build_query($info);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 根据数组生成HTTP请求URL参数</div><div class="line"> * <span class="doctag">@param</span> unknown_type $array</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">http_build_query</span><span class="params">($array)</span> </span>&#123;</div><div class="line">    $query = <span class="string">''</span>;</div><div class="line">    <span class="keyword">foreach</span> ($array <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">        $key = <span class="keyword">self</span>::urlencode($key);</div><div class="line">        $value = <span class="keyword">self</span>::urlencode($value);</div><div class="line">        $query .= <span class="string">"$key=$value&amp;"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (strlen($query)) &#123;</div><div class="line">        $query = substr($query, <span class="number">0</span>, <span class="number">-1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $query;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * *不要被转义了。</div><div class="line"> * <span class="doctag">@param</span> $string</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">urlencode</span><span class="params">($string)</span> </span>&#123;</div><div class="line">    $string = str_replace(<span class="string">'*'</span>, <span class="string">'-tSl2nWmMsagD-gEr'</span>, $string);</div><div class="line">    $string = urlencode($string);</div><div class="line">    <span class="keyword">return</span> str_replace(<span class="string">'-tSl2nWmMsagD-gEr'</span>, <span class="string">'*'</span>, $string);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 	生成THQS算法的hash值</div><div class="line"> *  $salt = API Key 秘钥</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">get_hashed_value</span><span class="params">($qs, $time, $salt)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> strtoupper(md5($qs . <span class="string">"&amp;time=$time&amp;salt=$salt"</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> *	return string</div><div class="line">*/</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">ccXml</span><span class="params">()</span></span>&#123;</div><div class="line">    header(<span class="string">'Content-Type:text/xml'</span>);</div><div class="line">    $str = <span class="string">''</span>;</div><div class="line">    $str .= <span class="string">"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt;\n"</span>;</div><div class="line">    $str .= <span class="string">"&lt;result&gt;OK&lt;/result&gt;"</span>;</div><div class="line">    <span class="keyword">return</span> $str;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Api 通信中，可以采用非对称加密的方式，来提高安全性，也可以采用，下面的通信规则。&lt;/p&gt;
+&lt;p&gt;如果采用下面方式，可以将时间戳取前7位有效数字来加密这样每隔十几分钟MD5&lt;br&gt;就一换，还能避开服务器时间不同步问题，也是不错的选择。&lt;/p&gt;
+&lt;figure class=
+    
+    </summary>
+    
+      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
+    
+    
+      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
+    
+      <category term="Api" scheme="http://pzhen.github.io/tags/Api/"/>
+    
+  </entry>
   
   <entry>
     <title>Composer - 管理PHP依赖</title>
@@ -822,43 +851,6 @@
       <category term="Mac" scheme="http://pzhen.github.io/tags/Mac/"/>
     
       <category term="Iterm2" scheme="http://pzhen.github.io/tags/Iterm2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python 中文编码问题</title>
-    <link href="http://pzhen.github.io/2017/07/20/Python-%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/"/>
-    <id>http://pzhen.github.io/2017/07/20/Python-中文编码问题/</id>
-    <published>2017-07-20T03:10:21.000Z</published>
-    <updated>2017-07-20T03:23:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。</p>
-<p>解决方法为只要在文件开头加入 # -<em>- coding: UTF-8 -</em>- 或者 #coding=utf-8 就行了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">print &quot;你好，世界&quot;;</div></pre></td></tr></table></figure>
-<p>所以如果大家在学习过程中，代码中包含中文，就需要在头部指定编码。</p>
-<p>注意：Python3.X 源码文件默认使用utf-8编码，所以可以正常解析中文，无需指定 UTF-8 编码。</p>
-<p>如果你使用编辑器，同时需要设置好编辑器的编码，如 Pycharm 设置步骤：</p>
-<ul>
-<li>1.进入 file &gt; Settings，在输入框搜索 encoding。</li>
-<li>2.找到 Editor &gt; File encodings，将 IDE Encoding 和 Project Encoding 设置为utf-8。</li>
-</ul>
-<h4 id="编码之间的转换"><a href="#编码之间的转换" class="headerlink" title="编码之间的转换"></a>编码之间的转换</h4><p>例如 类Unix系统上编写的python，如果放到windows下面执行，比如输出的信息包含中文，就需要转换了，<br>不管是 gb2312 转 utf8 还是 utf8 转 gb2312 都需要现将字符串转换成Unicode的编码，然后再转换成<br>正确的编码例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print &quot;2.结算表格读取完成&quot;.decode(&apos;utf-8&apos;).encode(&apos;gb2312&apos;)</div></pre></td></tr></table></figure></p>
-<p>将输出的提示语utf8转成gb2312。</p>
-<h4 id="print-list-中文"><a href="#print-list-中文" class="headerlink" title="print list 中文"></a>print list 中文</h4><p>如果查看print list 的时候里面中文也显示正确，方便调试可这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import uniout</div></pre></td></tr></table></figure></p>
-<p>引入该包 就可以显示list中的中文了。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;文件编码&quot;&gt;&lt;a href=&quot;#文件编码&quot; class=&quot;headerlink&quot; title=&quot;文件编码&quot;&gt;&lt;/a&gt;文件编码&lt;/h4&gt;&lt;p&gt;Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。&lt;/p&gt;
-&lt;p
-    
-    </summary>
-    
-      <category term="Python" scheme="http://pzhen.github.io/categories/Python/"/>
-    
-    
-      <category term="Python" scheme="http://pzhen.github.io/tags/Python/"/>
     
   </entry>
   
