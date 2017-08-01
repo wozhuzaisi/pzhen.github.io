@@ -3,6 +3,28 @@
   
     
     <entry>
+      <title><![CDATA[Funny-小漫画大道理]]></title>
+      <url>/2017/08/01/Funny-%E5%B0%8F%E6%BC%AB%E7%94%BB%E5%A4%A7%E9%81%93%E7%90%86/</url>
+      <content type="html"><![CDATA[<h1 id="小猫咪的哲理人生"><a href="#小猫咪的哲理人生" class="headerlink" title="小猫咪的哲理人生"></a>小猫咪的哲理人生</h1><a id="more"></a>
+<p><img src="p1zz9771rfsd.jpg" alt="1"><br><img src="59gx9o4dks5c.jpg" alt="2"><br><img src="5dc5k5vz56sf.jpg" alt="3"><br><img src="s72u3edi6e7f.jpg" alt="4"><br><img src="a2oa2xxc57a1.jpg" alt="5"><br><img src="df44ergr2ess.jpg" alt="6"><br><img src="djj2xxqxdjx5.jpg" alt="7"><br><img src="mh67e2j7lo7y.jpg" alt="8"><br><img src="3uqls0l200zz.jpg" alt="9"><br><img src="wlj7rl3fj5cg.jpg" alt="10"><br><img src="rlr4l5xrdsrh.jpg" alt="11"><br><img src="1wv75v8iyww8.jpg" alt="12"><br><img src="jjnj24r456pp.jpg" alt="13"><br><img src="p8bdooodoso2.jpg" alt="14"><br><img src="kny4arhkynkn.jpg" alt="15"><br><img src="duuzdepltpdy.jpg" alt="16"><br><img src="a2dzq46dzxx2.jpg" alt="17"><br><img src="iccnyttyu9cf.jpg" alt="18"><br><img src="6844aa44taff.jpg" alt="19"><br><img src="ojj8rrfruqy2.jpg" alt="20"><br><img src="txmxihh6dxjq.jpg" alt="21"><br><img src="gbgd7q1uqgtt.jpg" alt="22"><br><img src="mb0lmvbmmlol.jpg" alt="23"><br><img src="r6h4dwy3wyr8.jpg" alt="24"><br><img src="z28c2fgtvceb.jpg" alt="25"><br><img src="fzxxkq1nkkvk.jpg" alt="26"><br><img src="8lrt3xkbka69.jpg" alt="27"><br><img src="enqeq7e75cey.jpg" alt="28"><br><img src="e5muqxqqsxu.jpeg" alt="29"><br><img src="ncec00mderdz.jpg" alt="30"><br><img src="f5axrqz7y64y.jpg" alt="31"><br><img src="gpfrrrsjyrzr.jpg" alt="32"><br><img src="t6stytzm5tky.jpg" alt="33"><br><img src="we50g5dupurd.jpg" alt="34"><br><img src="1zwqbh73iwde.jpg" alt="35"><br><img src="k2o9x5seyezi.jpg" alt="36"><br><img src="sl6zm2l1e11w.jpg" alt="37"><br><img src="ucuov79hs5u0.jpg" alt="38"><br><img src="no0didd33nss.jpg" alt="39"><br><img src="s62kz5j2mt25.jpg" alt="40"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Funny </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Funny </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mem-内存管理原理]]></title>
       <url>/2017/08/01/Memcached-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8E%9F%E7%90%86/</url>
       <content type="html"><![CDATA[<p>内存管理中一个令人头痛的问题就是内存碎片管理。操作系统、虚拟机垃圾回收在这方面<br>想了许多方法：压缩、复制。Memcached使用了一个非常简单的办法—固定空间分配。</p>
@@ -431,38 +453,6 @@ BIGINT        8                    -9223372036854775808                922337203
     </entry>
     
     <entry>
-      <title><![CDATA[Git – 集中式与分布式]]></title>
-      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
-      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
-<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
-<p><img src="git1.png" alt=""></p>
-<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
-<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
-<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
-<p><img src="userid1labid485time1423115040073.png" alt=""></p>
-<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> Git </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Git </tag>
-            
-            <tag> 集中式管理 </tag>
-            
-            <tag> 分布式管理 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Shell – Grep 常见用法]]></title>
       <url>/2017/07/21/Shell-%E2%80%93-Grep%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/</url>
       <content type="html"><![CDATA[<p>是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。<br>我经常用来查找字符串比如：</p>
@@ -491,6 +481,38 @@ BIGINT        8                    -9223372036854775808                922337203
             <tag> Grep </tag>
             
             <tag> Shell </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git – 集中式与分布式]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
+<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
+<p><img src="userid1labid485time1423115040073.png" alt=""></p>
+<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 集中式管理 </tag>
+            
+            <tag> 分布式管理 </tag>
             
         </tags>
         
