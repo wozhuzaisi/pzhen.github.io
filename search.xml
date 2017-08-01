@@ -3,6 +3,67 @@
   
     
     <entry>
+      <title><![CDATA[Mysql-CONCAT及GROUP_CONCAT]]></title>
+      <url>/2017/08/01/Mysql-CONCAT%E5%8F%8AGROUP-CONCAT/</url>
+      <content type="html"><![CDATA[<h3 id="一、CONCAT（）函数"><a href="#一、CONCAT（）函数" class="headerlink" title="一、CONCAT（）函数"></a>一、CONCAT（）函数</h3><p>CONCAT（）函数用于将多个字符串连接成一个字符串。<br>使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为<br>+—-+——–+<br>| id | name   |<br>+—-+——–+<br>|  1 | BioCyc |<br>+—-+——–+</p>
+<h4 id="1、语法及使用特点："><a href="#1、语法及使用特点：" class="headerlink" title="1、语法及使用特点："></a>1、语法及使用特点：</h4><p>CONCAT(str1,str2,…)<br>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL。可以有一个或多个参数。</p>
+<h4 id="2、使用示例："><a href="#2、使用示例：" class="headerlink" title="2、使用示例："></a>2、使用示例：</h4><p>SELECT CONCAT(id, ‘，’, name) AS con FROM info LIMIT 1;返回结果为<br>+———-+<br>| con      |<br>+———-+<br>| 1,BioCyc |<br>+———-+</p>
+<p>SELECT CONCAT(‘My’, NULL, ‘QL’);返回结果为<br>+————————–+<br>| CONCAT(‘My’, NULL, ‘QL’) |<br>+————————–+<br>| NULL                     |<br>+————————–+</p>
+<h4 id="3、如何指定参数之间的分隔符"><a href="#3、如何指定参数之间的分隔符" class="headerlink" title="3、如何指定参数之间的分隔符"></a>3、如何指定参数之间的分隔符</h4><p>使用函数CONCAT_WS（）。使用语法为：CONCAT_WS(separator,str1,str2,…)<br>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。但是CONCAT_WS()不会忽略任何空字符串。 (然而会忽略所有的 NULL）。</p>
+<p>如SELECT CONCAT<em>WS(‘</em>‘,id,name) AS con_ws FROM info LIMIT 1;返回结果为<br>+———-+<br>| con_ws   |<br>+———-+<br>| 1_BioCyc |<br>+———-+</p>
+<p>SELECT CONCAT_WS(‘,’,’First name’,NULL,’Last Name’);返回结果为<br>+———————————————-+<br>| CONCAT_WS(‘,’,’First name’,NULL,’Last Name’) |<br>+———————————————-+<br>| First name,Last Name                         |<br>+———————————————-+</p>
+<h3 id="二、GROUP-CONCAT（）函数"><a href="#二、GROUP-CONCAT（）函数" class="headerlink" title="二、GROUP_CONCAT（）函数"></a>二、GROUP_CONCAT（）函数</h3><p>GROUP_CONCAT函数返回一个字符串结果，该结果由分组中的值连接组合而成。<br>使用表info作为示例，其中语句SELECT locus,id,journal FROM info WHERE locus IN(‘AB086827’,’AF040764’);的返回结果为<br>+———-+—-+————————–+<br>| locus    | id | journal                  |<br>+———-+—-+————————–+<br>| AB086827 |  1 | Unpublished              |<br>| AB086827 |  2 | Submitted (20-JUN-2002)  |<br>| AF040764 | 23 | Unpublished              |<br>| AF040764 | 24 | Submitted (31-DEC-1997)  |<br>+———-+—-+————————–+</p>
+<h4 id="1、使用语法及特点："><a href="#1、使用语法及特点：" class="headerlink" title="1、使用语法及特点："></a>1、使用语法及特点：</h4><p>GROUP_CONCAT([DISTINCT] expr [,expr …]<br>[ORDER BY {unsigned_integer | col_name | formula} [ASC | DESC] [,col …]]<br>[SEPARATOR str_val])<br>在 MySQL 中，你可以得到表达式结合体的连结值。通过使用 DISTINCT 可以排除重复值。如果希望对结果中的值进行排序，可以使用 ORDER BY 子句。<br>SEPARATOR 是一个字符串值，它被用于插入到结果值中。缺省为一个逗号 (“,”)，可以通过指定 SEPARATOR “” 完全地移除这个分隔符。<br>可以通过变量 group_concat_max_len 设置一个最大的长度。在运行时执行的句法如下： SET [SESSION | GLOBAL] group_concat_max_len = unsigned_integer;<br>如果最大长度被设置，结果值被剪切到这个最大长度。如果分组的字符过长，可以对系统参数进行设置：SET @@global.group_concat_max_len=40000;</p>
+<h4 id="2、使用示例：-1"><a href="#2、使用示例：-1" class="headerlink" title="2、使用示例："></a>2、使用示例：</h4><p>语句 SELECT locus,GROUP_CONCAT(id) FROM info WHERE locus IN(‘AB086827’,’AF040764’) GROUP BY locus; 的返回结果为<br>+———-+——————+<br>| locus    | GROUP_CONCAT(id) |<br>+———-+——————+<br>| AB086827 | 1,2              |<br>| AF040764 | 23,24            |<br>+———-+——————+</p>
+<p>语句 SELECT locus,GROUP<em>CONCAT(distinct id ORDER BY id DESC SEPARATOR ‘</em>‘) FROM info WHERE locus IN(‘AB086827’,’AF040764’) GROUP BY locus;的返回结果为<br>+———-+———————————————————-+<br>| locus    | GROUP<em>CONCAT(distinct id ORDER BY id DESC SEPARATOR ‘</em>‘) |<br>+———-+———————————————————-+<br>| AB086827 | 2_1                                                      |<br>| AF040764 | 24_23                                                    |<br>+———-+———————————————————-+</p>
+<p>语句SELECT locus,GROUP_CONCAT(concat_ws(‘, ‘,id,journal) ORDER BY id DESC SEPARATOR ‘. ‘) FROM info WHERE locus IN(‘AB086827’,’AF040764’) GROUP BY locus;的返回结果为<br>+———-+————————————————————————–+<br>| locus    | GROUP_CONCAT(concat_ws(‘, ‘,id,journal) ORDER BY id DESC SEPARATOR ‘. ‘) |<br>+———-+————————————————————————–+<br>| AB086827 | 2, Submitted (20-JUN-2002). 1, Unpublished                               |<br>| AF040764 | 24, Submitted (31-DEC-1997) . 23, Unpublished                            |<br>+———-+————————————————————————–+</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> Concat </tag>
+            
+            <tag> Group_concat </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mysql-Datediff()函数]]></title>
+      <url>/2017/08/01/Mysql-Datediff-%E5%87%BD%E6%95%B0/</url>
+      <content type="html"><![CDATA[<p>DATEDIFF() 函数返回两个日期之间的天数。</p>
+<p>DATEDIFF(date1,date2)</p>
+<p>事例：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">SELECT</span> *</div><div class="line"><span class="keyword">FROM</span> con_contract</div><div class="line"><span class="keyword">WHERE</span></div><div class="line">    <span class="keyword">datediff</span>(</div><div class="line">        FROM_UNIXTIME(remindtime, <span class="string">'%Y-%m-%d'</span>),<span class="keyword">CURDATE</span>()</div><div class="line">    ) = &#123;$limit_time&#125; <span class="keyword">and</span> state = <span class="number">3</span> <span class="keyword">and</span> archivestate &lt;&gt; <span class="number">4</span> <span class="keyword">and</span> archivestate &lt;&gt; <span class="number">5</span><span class="string">";</span></div></pre></td></tr></table></figure></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> Datediff </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mysql-Int类型]]></title>
       <url>/2017/07/31/Mysql-Int%E7%B1%BB%E5%9E%8B/</url>
       <content type="html"><![CDATA[<p>几种整形数据类型的长度</p>

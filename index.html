@@ -161,11 +161,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                35
+                37
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                41
+                44
                 <span>tags</span>
             </div>
         </div>
@@ -226,7 +226,7 @@
                             &nbsp;
                             Elasticsearch
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -298,7 +298,7 @@
                             &nbsp;
                             Mysql
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/31/Mysql-Int类型/">Mysql-Int类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Varchar类型/">Mysql-Varchar类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-开启日志/">Mysql-开启日志</a></li>  <li class="file"><a href="/2017/07/31/Mysql-蠕虫复制/">Mysql-蠕虫复制</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/">Mysql-CONCAT及GROUP_CONCAT</a></li>  <li class="file"><a href="/2017/08/01/Mysql-Datediff-函数/">Mysql-Datediff()函数</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Int类型/">Mysql-Int类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Varchar类型/">Mysql-Varchar类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-蠕虫复制/">Mysql-蠕虫复制</a></li>  <li class="file"><a href="/2017/07/31/Mysql-开启日志/">Mysql-开启日志</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -399,6 +399,168 @@
 </aside>
             
             <section id="main">
+        <article id="post-Mysql-CONCAT及GROUP-CONCAT" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Mysql/">Mysql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Concat/">Concat</a>, <a class="tag-link" href="/tags/Group-concat/">Group_concat</a>, <a class="tag-link" href="/tags/Mysql/">Mysql</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/">
+            <time datetime="2017-08-01T03:43:23.000Z" itemprop="datePublished">2017-08-01</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/">Mysql-CONCAT及GROUP_CONCAT</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p><h3 id="一、CONCAT（）函数"><a href="#一、CONCAT（）函数" class="headerlink" title="一、CONCAT（）函数"></a>一、CONCAT（）函数</h3><p>CONCAT（）函数用于将多个字符串连接成一个字符串。<br>使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为<br>+—-+——–+<br>| id | name   |<br>+—-+——–+<br>|  1 | BioCyc |<br>+—-+——–+</p>
+<h4 id="1、语法及使用特点："><a href="#1、语法及使用特点：" class="headerlink" title="1、语法及使用特点："></a>1、语法及使用特点：</h4><p>CONCAT(str1,str2,…)<br>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL。可以有一个或多个参数。</p>
+<h4 id="2、使用示例："><a href="#2、使用示例：" class="headerlink" title="2、使用示例："></a>2、使用示例：</h4><p>SELECT CONCAT(id, ‘，’, name) AS con FROM info LIMIT 1;返回结果为<br>+———-+<br>| con      |<br>+———-+<br>| 1,BioCyc |<br>+———-+</p>
+<p>
+                
+            
+        
+        
+            </div>   
+            <div class="article-more-link">
+                <a href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+    
+        <article id="post-Mysql-Datediff-函数" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Mysql/">Mysql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Datediff/">Datediff</a>, <a class="tag-link" href="/tags/Mysql/">Mysql</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/01/Mysql-Datediff-函数/">
+            <time datetime="2017-08-01T03:18:30.000Z" itemprop="datePublished">2017-08-01</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/08/01/Mysql-Datediff-函数/">Mysql-Datediff()函数</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p><p>DATEDIFF() 函数返回两个日期之间的天数。</p>
+<p>DATEDIFF(date1,date2)</p>
+<p>事例：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">SELECT</span> *</div><div class="line"><span class="keyword">FROM</span> con_contract</div><div class="line"><span class="keyword">WHERE</span></div><div class="line">    <span class="keyword">datediff</span>(</div><div class="line">        FROM_UNIXTIME(remindtime, <span class="string">'%Y-%m-%d'</span>),<span class="keyword">CURDATE</span>()</div><div class="line">    ) = &#123;$limit_time&#125; <span class="keyword">and</span> state = <span class="number">3</span> <span class="keyword">and</span> archivestate &lt;&gt; <span class="number">4</span> <span class="keyword">and</span> archivestate &lt;&gt; <span class="number">5</span><span class="string">";</span></div></pre></td></tr></table></figure></p>
+<p>
+                
+            
+        
+        
+            </div>   
+            <div class="article-more-link">
+                <a href="/2017/08/01/Mysql-Datediff-函数/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+    
         <article id="post-Mysql-Int类型" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -947,168 +1109,6 @@
             </div>   
             <div class="article-more-link">
                 <a href="/2017/07/21/Composer-管理PHP依赖关系/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-    
-        <article id="post-Shell-–-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Linux/">Linux</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Linux/Shell/">Shell</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Shell/">Shell</a>, <a class="tag-link" href="/tags/正则/">正则</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/07/21/Shell-–-正则表达式/">
-            <time datetime="2017-07-21T09:00:23.000Z" itemprop="datePublished">2017-07-21</time>
-        </a>
-    </div>
-
-
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/07/21/Shell-–-正则表达式/">Shell – 正则表达式</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p><h4 id="正则表达式的分类"><a href="#正则表达式的分类" class="headerlink" title="正则表达式的分类"></a>正则表达式的分类</h4><ul>
-<li>基本的正则表达式（Basic Regular Expression 又叫Basic RegEx 简称BREs）</li>
-<li>扩展的正则表达式（Extended Regular Expression 又叫Extended RegEx 简称EREs）</li>
-<p>
-                
-            
-        
-        
-            </div>   
-            <div class="article-more-link">
-                <a href="/2017/07/21/Shell-–-正则表达式/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-    
-        <article id="post-Git-–-操作配置别名" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Git/">Git</a>, <a class="tag-link" href="/tags/别名/">别名</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/07/21/Git-–-操作配置别名/">
-            <time datetime="2017-07-21T08:40:57.000Z" itemprop="datePublished">2017-07-21</time>
-        </a>
-    </div>
-
-
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/07/21/Git-–-操作配置别名/">Git – 操作配置别名</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p><p>有没有经常敲错命令？比如Git status？status这个单词真心不好记。</p>
-<p>如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。</p>
-<p>我们只需要敲一行命令，告诉Git，以后st就表示status：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global alias.st status</div></pre></td></tr></table></figure></p>
-<p>
-                
-            
-        
-        
-            </div>   
-            <div class="article-more-link">
-                <a href="/2017/07/21/Git-–-操作配置别名/#more">Read More</a>
             </div>
         
         <footer class="article-footer">

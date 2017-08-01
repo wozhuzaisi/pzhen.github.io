@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Mysql-CONCAT及GROUP_CONCAT | 斑斓的梦</title>
+    
+    
+        <meta name="keywords" content="Mysql,Concat,Group_concat" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="一、CONCAT（）函数CONCAT（）函数用于将多个字符串连接成一个字符串。使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为+—-+——–+| id | name   |+—-+——–+|  1 | BioCyc |+—-+——–+ 1、语法及使用特点：CONCAT(str1,str2,…)返回结果为连接参数产生的字符串。如有任何一个">
+<meta name="keywords" content="Mysql,Concat,Group_concat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql-CONCAT及GROUP_CONCAT">
+<meta property="og:url" content="http://pzhen.github.io/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/index.html">
+<meta property="og:site_name" content="斑斓的梦">
+<meta property="og:description" content="一、CONCAT（）函数CONCAT（）函数用于将多个字符串连接成一个字符串。使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为+—-+——–+| id | name   |+—-+——–+|  1 | BioCyc |+—-+——–+ 1、语法及使用特点：CONCAT(str1,str2,…)返回结果为连接参数产生的字符串。如有任何一个">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-08-01T03:46:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql-CONCAT及GROUP_CONCAT">
+<meta name="twitter:description" content="一、CONCAT（）函数CONCAT（）函数用于将多个字符串连接成一个字符串。使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为+—-+——–+| id | name   |+—-+——–+|  1 | BioCyc |+—-+——–+ 1、语法及使用特点：CONCAT(str1,str2,…)返回结果为连接参数产生的字符串。如有任何一个">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">斑斓的梦</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/woailuo.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/woailuo.jpg" />
+            <h2 id="name">P.Zhen</h2>
+            <h3 id="title">Designer &amp; Programmer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Bei Jing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/pzhen/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                37
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                44
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/pzhen/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="3stack-overflow" class=tooltip>
+                            <i class="fa fa-3stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Composer
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Composer-管理PHP依赖关系/">Composer - 管理PHP依赖</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Git-–-全局配置与局部项目配置/">Git – 全局与局部项目配置</a></li>  <li class="file"><a href="/2017/07/21/Git-–-基本工作流程/">Git – 基本工作流程</a></li>  <li class="file"><a href="/2017/07/21/Git-–-操作配置别名/">Git – 操作配置别名</a></li>  <li class="file"><a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Hexo
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Hexo-–-Deployer-not-found/">Hexo – 'Deployer not found'</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Jdk
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Jdk-Ubuntu安装/">Jdk - Ubuntu安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Maven
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Maven-Mac-安装/">Maven - Mac 安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Shell
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Shell-–-Grep常见用法/">Shell – Grep 常见用法</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-Mac-zsh/">Shell – Mac zsh</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-SSH自动登录/">Shell – SSH自动登录</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-Svn-Log/">Shell – Svn Log</a></li>  <li class="file"><a href="/2017/07/31/Shell-–-Wget-克隆网站到本地/">Shell – Wget 克隆网站</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-item2-配色/">Shell – item2 配色</a></li>  <li class="file"><a href="/2017/07/21/Shell-–-正则表达式/">Shell – 正则表达式</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Vim-colorschemes/">Vim colorschemes</a></li>  <li class="file"><a href="/2017/07/19/Vim-常用命令/">Vim 常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Mysql
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/">Mysql-CONCAT及GROUP_CONCAT</a></li>  <li class="file"><a href="/2017/08/01/Mysql-Datediff-函数/">Mysql-Datediff()函数</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Int类型/">Mysql-Int类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Varchar类型/">Mysql-Varchar类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-蠕虫复制/">Mysql-蠕虫复制</a></li>  <li class="file"><a href="/2017/07/31/Mysql-开启日志/">Mysql-开启日志</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Php
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/31/Php-Api通信规则/">Php 一Api通信规则</a></li>  <li class="file"><a href="/2017/07/31/Php-phpStorm快捷键/">Php 一phpStorm快捷键</a></li>  <li class="file"><a href="/2017/07/20/Php-实现一致性哈希包含虚拟节点/">Php 一致性哈希</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Redis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Redis-PHP7扩展/">Redis - PHP7扩展</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/2017/07/19/Linux下-ssh-自动登录脚本/"></a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Mysql-CONCAT及GROUP-CONCAT" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Mysql/">Mysql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Concat/">Concat</a>, <a class="tag-link" href="/tags/Group-concat/">Group_concat</a>, <a class="tag-link" href="/tags/Mysql/">Mysql</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/">
+            <time datetime="2017-08-01T03:43:23.000Z" itemprop="datePublished">2017-08-01</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Mysql-CONCAT及GROUP_CONCAT
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、CONCAT（）函数"><span class="toc-number">1.</span> <span class="toc-text">一、CONCAT（）函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、语法及使用特点："><span class="toc-number">1.1.</span> <span class="toc-text">1、语法及使用特点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、使用示例："><span class="toc-number">1.2.</span> <span class="toc-text">2、使用示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、如何指定参数之间的分隔符"><span class="toc-number">1.3.</span> <span class="toc-text">3、如何指定参数之间的分隔符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、GROUP-CONCAT（）函数"><span class="toc-number">2.</span> <span class="toc-text">二、GROUP_CONCAT（）函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、使用语法及特点："><span class="toc-number">2.1.</span> <span class="toc-text">1、使用语法及特点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、使用示例：-1"><span class="toc-number">2.2.</span> <span class="toc-text">2、使用示例：</span></a></li></ol></li></ol>
+                </div>
+            
+        
+        
+            <h3 id="一、CONCAT（）函数"><a href="#一、CONCAT（）函数" class="headerlink" title="一、CONCAT（）函数"></a>一、CONCAT（）函数</h3><p>CONCAT（）函数用于将多个字符串连接成一个字符串。<br>使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为<br>+—-+——–+<br>| id | name   |<br>+—-+——–+<br>|  1 | BioCyc |<br>+—-+——–+</p>
+<h4 id="1、语法及使用特点："><a href="#1、语法及使用特点：" class="headerlink" title="1、语法及使用特点："></a>1、语法及使用特点：</h4><p>CONCAT(str1,str2,…)<br>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL。可以有一个或多个参数。</p>
+<h4 id="2、使用示例："><a href="#2、使用示例：" class="headerlink" title="2、使用示例："></a>2、使用示例：</h4><p>SELECT CONCAT(id, ‘，’, name) AS con FROM info LIMIT 1;返回结果为<br>+———-+<br>| con      |<br>+———-+<br>| 1,BioCyc |<br>+———-+</p>
+<p>SELECT CONCAT(‘My’, NULL, ‘QL’);返回结果为<br>+————————–+<br>| CONCAT(‘My’, NULL, ‘QL’) |<br>+————————–+<br>| NULL                     |<br>+————————–+</p>
+<h4 id="3、如何指定参数之间的分隔符"><a href="#3、如何指定参数之间的分隔符" class="headerlink" title="3、如何指定参数之间的分隔符"></a>3、如何指定参数之间的分隔符</h4><p>使用函数CONCAT_WS（）。使用语法为：CONCAT_WS(separator,str1,str2,…)<br>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。但是CONCAT_WS()不会忽略任何空字符串。 (然而会忽略所有的 NULL）。</p>
+<p>如SELECT CONCAT<em>WS(‘</em>‘,id,name) AS con_ws FROM info LIMIT 1;返回结果为<br>+———-+<br>| con_ws   |<br>+———-+<br>| 1_BioCyc |<br>+———-+</p>
+<p>SELECT CONCAT_WS(‘,’,’First name’,NULL,’Last Name’);返回结果为<br>+———————————————-+<br>| CONCAT_WS(‘,’,’First name’,NULL,’Last Name’) |<br>+———————————————-+<br>| First name,Last Name                         |<br>+———————————————-+</p>
+<h3 id="二、GROUP-CONCAT（）函数"><a href="#二、GROUP-CONCAT（）函数" class="headerlink" title="二、GROUP_CONCAT（）函数"></a>二、GROUP_CONCAT（）函数</h3><p>GROUP_CONCAT函数返回一个字符串结果，该结果由分组中的值连接组合而成。<br>使用表info作为示例，其中语句SELECT locus,id,journal FROM info WHERE locus IN(‘AB086827’,’AF040764’);的返回结果为<br>+———-+—-+————————–+<br>| locus    | id | journal                  |<br>+———-+—-+————————–+<br>| AB086827 |  1 | Unpublished              |<br>| AB086827 |  2 | Submitted (20-JUN-2002)  |<br>| AF040764 | 23 | Unpublished              |<br>| AF040764 | 24 | Submitted (31-DEC-1997)  |<br>+———-+—-+————————–+</p>
+<h4 id="1、使用语法及特点："><a href="#1、使用语法及特点：" class="headerlink" title="1、使用语法及特点："></a>1、使用语法及特点：</h4><p>GROUP_CONCAT([DISTINCT] expr [,expr …]<br>[ORDER BY {unsigned_integer | col_name | formula} [ASC | DESC] [,col …]]<br>[SEPARATOR str_val])<br>在 MySQL 中，你可以得到表达式结合体的连结值。通过使用 DISTINCT 可以排除重复值。如果希望对结果中的值进行排序，可以使用 ORDER BY 子句。<br>SEPARATOR 是一个字符串值，它被用于插入到结果值中。缺省为一个逗号 (“,”)，可以通过指定 SEPARATOR “” 完全地移除这个分隔符。<br>可以通过变量 group_concat_max_len 设置一个最大的长度。在运行时执行的句法如下： SET [SESSION | GLOBAL] group_concat_max_len = unsigned_integer;<br>如果最大长度被设置，结果值被剪切到这个最大长度。如果分组的字符过长，可以对系统参数进行设置：SET @@global.group_concat_max_len=40000;</p>
+<h4 id="2、使用示例：-1"><a href="#2、使用示例：-1" class="headerlink" title="2、使用示例："></a>2、使用示例：</h4><p>语句 SELECT locus,GROUP_CONCAT(id) FROM info WHERE locus IN(‘AB086827’,’AF040764’) GROUP BY locus; 的返回结果为<br>+———-+——————+<br>| locus    | GROUP_CONCAT(id) |<br>+———-+——————+<br>| AB086827 | 1,2              |<br>| AF040764 | 23,24            |<br>+———-+——————+</p>
+<p>语句 SELECT locus,GROUP<em>CONCAT(distinct id ORDER BY id DESC SEPARATOR ‘</em>‘) FROM info WHERE locus IN(‘AB086827’,’AF040764’) GROUP BY locus;的返回结果为<br>+———-+———————————————————-+<br>| locus    | GROUP<em>CONCAT(distinct id ORDER BY id DESC SEPARATOR ‘</em>‘) |<br>+———-+———————————————————-+<br>| AB086827 | 2_1                                                      |<br>| AF040764 | 24_23                                                    |<br>+———-+———————————————————-+</p>
+<p>语句SELECT locus,GROUP_CONCAT(concat_ws(‘, ‘,id,journal) ORDER BY id DESC SEPARATOR ‘. ‘) FROM info WHERE locus IN(‘AB086827’,’AF040764’) GROUP BY locus;的返回结果为<br>+———-+————————————————————————–+<br>| locus    | GROUP_CONCAT(concat_ws(‘, ‘,id,journal) ORDER BY id DESC SEPARATOR ‘. ‘) |<br>+———-+————————————————————————–+<br>| AB086827 | 2, Submitted (20-JUN-2002). 1, Unpublished                               |<br>| AF040764 | 24, Submitted (31-DEC-1997) . 23, Unpublished                            |<br>+———-+————————————————————————–+</p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/2017/08/01/Mysql-Datediff-函数/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Mysql-Datediff()函数</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            P.Zhen &copy; 2017 Powered by <a href="http://github.com/" target="_blank">GitHub</a>.
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
