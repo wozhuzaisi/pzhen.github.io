@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title><![CDATA[Mem-内存管理原理]]></title>
+      <url>/2017/08/01/Memcached-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8E%9F%E7%90%86/</url>
+      <content type="html"><![CDATA[<p>内存管理中一个令人头痛的问题就是内存碎片管理。操作系统、虚拟机垃圾回收在这方面<br>想了许多方法：压缩、复制。Memcached使用了一个非常简单的办法—固定空间分配。</p>
+<p>Memcached 将内存空间分为一组slab，每个slab里面又包含一组chunk，同一个slab里面的<br>每个chunk的大小是固定的，拥有相同大小的chunk的slab被组织在一起，叫做slab_class，<br>如图所示。</p>
+<p>存储数据时根据数据的size大小，寻找一个大于size的最小chunk<br>将数据写入。这种内存管理方式避免了内存碎片的管理问题，内存<br>的分配和释放都是以chunk为单位的。和其他缓存一样，memcached<br>采用LRU算法释放最近最久未被访问的数据占用的空间，释放的<br>chunk被标记为魏永，等待下一个合适大小数据的写入。</p>
+<p>当然这种方式也会带来内存浪费的问题。数据只能存入一个比他大的<br>chunk里，而一个chunk只能存一个数据，其他的空间被浪费了。<br>如果启动参数配置不合理，浪费会更加惊人，发现没有缓存多少<br>数据，内存空间就用尽了。</p>
+<p><img src="Image.png" alt="image"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Memcached </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Memcached </tag>
+            
+            <tag> 原理 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mysql-CONCAT及GROUP_CONCAT]]></title>
       <url>/2017/08/01/Mysql-CONCAT%E5%8F%8AGROUP-CONCAT/</url>
       <content type="html"><![CDATA[<h3 id="一、CONCAT（）函数"><a href="#一、CONCAT（）函数" class="headerlink" title="一、CONCAT（）函数"></a>一、CONCAT（）函数</h3><p>CONCAT（）函数用于将多个字符串连接成一个字符串。<br>使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为<br>+—-+——–+<br>| id | name   |<br>+—-+——–+<br>|  1 | BioCyc |<br>+—-+——–+</p>
