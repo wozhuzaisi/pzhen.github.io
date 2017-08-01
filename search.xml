@@ -3,6 +3,160 @@
   
     
     <entry>
+      <title><![CDATA[Mysql-Int类型]]></title>
+      <url>/2017/07/31/Mysql-Int%E7%B1%BB%E5%9E%8B/</url>
+      <content type="html"><![CDATA[<p>几种整形数据类型的长度</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><pre><code>类型            占用空间(字节)        最小值(带符号的/无符号的)                最大值(带符号的/无符号的)
+----------------------------------------------------------------------------------------------------
+TINYINT        1                    -128                                127
+                                0                                    255
+----------------------------------------------------------------------------------------------------
+SMALLINT    2                    -32768                                32767
+                                0                                    65535
+----------------------------------------------------------------------------------------------------
+MEDIUMINT    3                    -8388608                            8388607
+                                0                                    16777215
+----------------------------------------------------------------------------------------------------
+int            4                    -2147483648                            2147483647
+                                0                                    4294967295
+----------------------------------------------------------------------------------------------------
+BIGINT        8                    -9223372036854775808                9223372036854775807
+                                0                                    18446744073709551615
+----------------------------------------------------------------------------------------------------
+注:1字节=8位
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> Int </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mysql-Varchar类型]]></title>
+      <url>/2017/07/31/Mysql-Varchar%E7%B1%BB%E5%9E%8B/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>1.varchar存储规则：<br>    5.0版本以上，varchar(20)，指的是20字符，无论存放的是数字、字母还是UTF8汉字（每个汉字3字节），都可以存放20个.<br>    上面测试过了如果超过20个字符mysql截取前20个插入<br>    但是 最大大小是65532字节 也就是 varchar字节最大65535，utf8编码一个字符3个字节65535/3=21785。汉字不能超过21785.</p>
+<p>2.关于varchar与set 类型中存储的字符串使用’,’隔开时<br>    可以采用:SELECT * FROM <code>表名</code> WHERE FIND_IN_SET(‘要找的字符串’,<code>字段</code>);这种写法来找出;<br>    最多可以有64个成员  枚举最多有65535种不同值</p>
+</blockquote>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> Varchar </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mysql-蠕虫复制]]></title>
+      <url>/2017/07/31/Mysql-%E8%A0%95%E8%99%AB%E5%A4%8D%E5%88%B6/</url>
+      <content type="html"><![CDATA[<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`table`</span> (<span class="string">`id`</span>,<span class="string">`aa`</span>,<span class="string">`bb`</span>,<span class="string">`cc`</span> ) <span class="keyword">SELECT</span> <span class="string">''</span>,<span class="string">'aa内容'</span>,<span class="string">'bb注意cc符号区别'</span>,<span class="string">`cc`</span> <span class="keyword">FROM</span> <span class="string">`table`</span> (<span class="keyword">WHERE</span> .....)</div></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mysql-开启日志]]></title>
+      <url>/2017/07/31/Mysql-%E5%BC%80%E5%90%AF%E6%97%A5%E5%BF%97/</url>
+      <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[mysqld]</div><div class="line"></div><div class="line">port=3306</div><div class="line">log=D:/mysql.log</div><div class="line">log_slow_queries=C:/temp/mysql_slow.log</div><div class="line">long_query_time=1</div></pre></td></tr></table></figure>
+<p>show binary logs;</p>
+<p>//查看binlog日志<br>show binlog events in ‘mysql-bin.000181’;</p>
+<p>查看日志是否开启<br>1).可以通过Mysql配置文件my.cnf来确认（Mysql默认开启二进制日志记录）：<br>Replication Master Server (default)<br>binary logging is required for replication<br>log-bin=mysql-bin<br>刷新日志<br>flush logs;<br>查看当前日志位置<br>show master status;<br>查看当前所有日志<br>show master logs;<br>清空所有的bin-log日志<br>reset master;</p>
+<p>查看日志内容<br>mysqlbinlog –no-defaults mysql-bin.00001;<br>删除bin-log<br>mysql&gt; purge binary logs to ‘ablelee.000003’;<br>Query OK, 0 rows affected (0.16 sec)<br>关闭 bin-log 日志<br>找到配置文件my.cnf，对于linux，一般默认在/etc目录下，打开此文件，使用井号(#)注释掉如下两个配置项目即可。<br>log-bin=mysql-bin<br>binlog_format=mixed<br>显示所有日志<br>mysql&gt; show binary logs;</p>
+<p>//查看所有日志<br>show binary logs;<br>//查看正在使用的binlog<br>show master status;</p>
+<p>purge binary logs to ‘mysql-tb-bin.000005’;<br>这个命令就是清理除mysql-tb-bin.000005以外的其他二进制日志；</p>
+<p>//查看binlog日志<br>show binlog events in ‘mysql-bin.000181’;</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> 日志 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Php 一phpStorm快捷键]]></title>
+      <url>/2017/07/31/Php-phpStorm%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
+      <content type="html"><![CDATA[<p>现在把一些使用技巧记录下来,免得到时候忘了再查.</p>
+<p>来源于网络。</p>
+<a id="more"></a>
+<p>1,从版本控制系统创建项目:<br>CVS -&gt; Checkout from Version Control</p>
+<p>2, 关联DOC文档:<br>右键External Librariese -&gt; Configure PHP include paths</p>
+<p>3, 去掉波浪线:<br>settings -&gt; Editor -&gt; Colors &amp; Fonts -&gt; General -&gt; TYPO-&gt;Effects</p>
+<p>4, 显示行号:<br>settings -&gt; Editor-&gt;Appearance-&gt;Show line numbers </p>
+<p>5,远程或本地同步文件:<br>Tools -&gt; Deploments -&gt; Configuration</p>
+<p>6, 去掉右上角浏览器图标:<br>settings -&gt; tools -&gt; WebBrowsers</p>
+<p>7, 添加VIM插件:<br>settings-&gt;editor -&gt;plugins-&gt;browse repositories -&gt;搜索VIM</p>
+<p>8,启动的时候不打开工程文件<br>Settings-&gt;General去掉Reopen last project on startup.</p>
+<p>9, 取消自动保存<br>appearance -&gt; system settings -&gt; save file的两个选项 去掉</p>
+<p>10, 将编辑的文件加星号标识:<br>settings -&gt; editor -&gt; editor tabs -&gt; 勾选 mark modifed tabs…</p>
+<p>11, 添加扩展名高亮显示:<br>settings -&gt; editor -&gt; file types  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">常用快捷键:</div><div class="line">control + option + l    将代码格式化</div><div class="line">command + shift + u    切换大小写</div><div class="line">command + shift + + / command + shift + -     折叠/展开所有区块</div><div class="line">command + e     列出最后打开的文件</div><div class="line">control + tab  / control + shift + tab     切换打开的文件</div><div class="line">command + /     行注释</div><div class="line">ctrl + shift + /      块注释</div><div class="line">command + b     函数追踪,同command +单击</div><div class="line">command + alt + 左右箭头      操作动作前进/回退</div><div class="line">shift + command + r      按文件名搜索对应文件所在路径</div><div class="line">shift + command + t      按类名搜索对应文件所在路径</div><div class="line">shift + command + c      复制当前文件所在路径</div><div class="line">Command + Shift + O     打开文件</div><div class="line">Command + O          打开类</div><div class="line">alt + F1        定位编辑文件所在位置:</div><div class="line">alt + F12        打开命令行栏</div></pre></td></tr></table></figure>]]></content>
+      
+        <categories>
+            
+            <category> Php </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Php </tag>
+            
+            <tag> PhpStorm </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Shell – Wget 克隆网站]]></title>
       <url>/2017/07/31/Shell-%E2%80%93-Wget-%E5%85%8B%E9%9A%86%E7%BD%91%E7%AB%99%E5%88%B0%E6%9C%AC%E5%9C%B0/</url>
       <content type="html"><![CDATA[<p>有时候觉得网上看到的漂亮的模板，想下载怎么办哈哈哈wget就搞定了。</p>
@@ -189,6 +343,38 @@
     </entry>
     
     <entry>
+      <title><![CDATA[Git – 集中式与分布式]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
+<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
+<p><img src="userid1labid485time1423115040073.png" alt=""></p>
+<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 集中式管理 </tag>
+            
+            <tag> 分布式管理 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Shell – Grep 常见用法]]></title>
       <url>/2017/07/21/Shell-%E2%80%93-Grep%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/</url>
       <content type="html"><![CDATA[<p>是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。<br>我经常用来查找字符串比如：</p>
@@ -217,38 +403,6 @@
             <tag> Grep </tag>
             
             <tag> Shell </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Git – 集中式与分布式]]></title>
-      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
-      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
-<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
-<p><img src="git1.png" alt=""></p>
-<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
-<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
-<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
-<p><img src="userid1labid485time1423115040073.png" alt=""></p>
-<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> Git </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Git </tag>
-            
-            <tag> 集中式管理 </tag>
-            
-            <tag> 分布式管理 </tag>
             
         </tags>
         
