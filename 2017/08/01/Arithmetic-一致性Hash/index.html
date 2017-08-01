@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Arithmetic-一致性Hash | 斑斓的梦</title>
+    
+    
+        <meta name="keywords" content="Arithmetic" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="一致性哈希算法在1997年由麻省理工学院提出的一种分布式哈希（DHT）实现算法，设计目标是为了解决因特网中的热点(Hot spot)问题，初衷和CARP十分类似。一致性哈希修正了CARP使用的简 单哈希算法带来的问题，使得分布式哈希（DHT）可以在P2P环境中真正得到应用。  一致性hash算法提出了在动态变化的Cache环境中，判定哈希算法好坏的四个定义：  1、平衡性(Balance)：平衡性">
+<meta name="keywords" content="Arithmetic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arithmetic-一致性Hash">
+<meta property="og:url" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/index.html">
+<meta property="og:site_name" content="斑斓的梦">
+<meta property="og:description" content="一致性哈希算法在1997年由麻省理工学院提出的一种分布式哈希（DHT）实现算法，设计目标是为了解决因特网中的热点(Hot spot)问题，初衷和CARP十分类似。一致性哈希修正了CARP使用的简 单哈希算法带来的问题，使得分布式哈希（DHT）可以在P2P环境中真正得到应用。  一致性hash算法提出了在动态变化的Cache环境中，判定哈希算法好坏的四个定义：  1、平衡性(Balance)：平衡性">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411000507734.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411000620656.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411000853609.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411001033656.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411001211062.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411001433375.png">
+<meta property="og:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411001540656.png">
+<meta property="og:updated_time" content="2017-08-01T06:52:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Arithmetic-一致性Hash">
+<meta name="twitter:description" content="一致性哈希算法在1997年由麻省理工学院提出的一种分布式哈希（DHT）实现算法，设计目标是为了解决因特网中的热点(Hot spot)问题，初衷和CARP十分类似。一致性哈希修正了CARP使用的简 单哈希算法带来的问题，使得分布式哈希（DHT）可以在P2P环境中真正得到应用。  一致性hash算法提出了在动态变化的Cache环境中，判定哈希算法好坏的四个定义：  1、平衡性(Balance)：平衡性">
+<meta name="twitter:image" content="http://pzhen.github.io/2017/08/01/Arithmetic-一致性Hash/20140411000507734.png">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">斑斓的梦</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/woailuo.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/woailuo.jpg" />
+            <h2 id="name">P.Zhen</h2>
+            <h3 id="title">Designer &amp; Programmer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Bei Jing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/pzhen/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                46
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                52
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/pzhen/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="3stack-overflow" class=tooltip>
+                            <i class="fa fa-3stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Arithmetic
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/2017/08/01/Arithmetic-一致性Hash/">Arithmetic-一致性Hash</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Composer
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Composer-管理PHP依赖关系/">Composer - 管理PHP依赖</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Elasticsearch-–-Ik-分词器/">Es – Ik 分词器</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-倒排索引/">Es – 倒排索引</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-单机多节点集群/">Es - 单机多节点集群</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-安装/">Es – 安装</a></li>  <li class="file"><a href="/2017/07/21/Elasticsearch-–-安装插件/">Es – 安装插件</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-核心概念/">Es – 核心概念</a></li>  <li class="file"><a href="/2017/07/20/Elasticsearch-–-集群生态总结/">Es – 集群生态总结</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Funny
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/01/Funny-书生拿着书在打瞌睡/">Funny-书生拿着书在打瞌睡</a></li>  <li class="file"><a href="/2017/08/01/Funny-你笑了吗/">Funny-你笑了吗?</a></li>  <li class="file"><a href="/2017/08/01/Funny-小漫画大道理/">Funny-小漫画大道理</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Git-–-全局配置与局部项目配置/">Git – 全局与局部项目配置</a></li>  <li class="file"><a href="/2017/07/21/Git-–-基本工作流程/">Git – 基本工作流程</a></li>  <li class="file"><a href="/2017/07/21/Git-–-操作配置别名/">Git – 操作配置别名</a></li>  <li class="file"><a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Hexo
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Hexo-–-Deployer-not-found/">Hexo – 'Deployer not found'</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Html
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/01/Html-漂亮的后台模板/">Html-漂亮的后台模板</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Jdk
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Jdk-Ubuntu安装/">Jdk - Ubuntu安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Maven
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Maven-Mac-安装/">Maven - Mac 安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Shell
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Shell-–-Grep常见用法/">Shell – Grep 常见用法</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-Mac-zsh/">Shell – Mac zsh</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-SSH自动登录/">Shell – SSH自动登录</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-Svn-Log/">Shell – Svn Log</a></li>  <li class="file"><a href="/2017/07/31/Shell-–-Wget-克隆网站到本地/">Shell – Wget 克隆网站</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-item2-配色/">Shell – item2 配色</a></li>  <li class="file"><a href="/2017/07/21/Shell-–-正则表达式/">Shell – 正则表达式</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Vim-colorschemes/">Vim colorschemes</a></li>  <li class="file"><a href="/2017/07/19/Vim-常用命令/">Vim 常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Memcached
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/01/Memcached-内存管理原理/">Mem-内存管理原理</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Mysql
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/01/Mysql-CONCAT及GROUP-CONCAT/">Mysql-CONCAT及GROUP_CONCAT</a></li>  <li class="file"><a href="/2017/08/01/Mysql-Datediff-函数/">Mysql-Datediff()函数</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Int类型/">Mysql-Int类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-Varchar类型/">Mysql-Varchar类型</a></li>  <li class="file"><a href="/2017/07/31/Mysql-开启日志/">Mysql-开启日志</a></li>  <li class="file"><a href="/2017/07/31/Mysql-蠕虫复制/">Mysql-蠕虫复制</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Php
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/31/Php-Api通信规则/">Php 一Api通信规则</a></li>  <li class="file"><a href="/2017/07/31/Php-phpStorm快捷键/">Php 一phpStorm快捷键</a></li>  <li class="file"><a href="/2017/07/20/Php-实现一致性哈希包含虚拟节点/">Php 一致性哈希</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Redis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/20/Redis-PHP7扩展/">Redis - PHP7扩展</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Tools
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/01/Tools-Vmware-fusion-8-5-pro-注册码/">Tools-Vmware fusion 8.5 pro 注册码</a></li>  <li class="file"><a href="/2017/08/01/Tools-Window8-1专业版本秘钥/">Tools-Win8.1专业版秘钥</a></li>  <li class="file"><a href="/2017/08/01/Tools-XP注册码/">Tools-XP注册码</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/2017/07/19/Linux下-ssh-自动登录脚本/"></a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Arithmetic-一致性Hash" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Arithmetic/">Arithmetic</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Arithmetic/">Arithmetic</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/01/Arithmetic-一致性Hash/">
+            <time datetime="2017-08-01T06:43:30.000Z" itemprop="datePublished">2017-08-01</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Arithmetic-一致性Hash
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#环形Hash空间"><span class="toc-number">1.</span> <span class="toc-text">环形Hash空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#把数据通过一定的hash算法处理后映射到环上"><span class="toc-number">2.</span> <span class="toc-text">把数据通过一定的hash算法处理后映射到环上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将机器通过hash算法映射到环上"><span class="toc-number">3.</span> <span class="toc-text">将机器通过hash算法映射到环上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#机器的删除与添加"><span class="toc-number">4.</span> <span class="toc-text">机器的删除与添加</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-节点（机器）的删除"><span class="toc-number">4.1.</span> <span class="toc-text">1. 节点（机器）的删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-节点（机器）的添加"><span class="toc-number">4.2.</span> <span class="toc-text">2. 节点（机器）的添加</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平衡性"><span class="toc-number">5.</span> <span class="toc-text">平衡性</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>一致性哈希算法在1997年由麻省理工学院提出的一种分布式哈希（DHT）实现算法，设计目标是为了解决因特网中的热点(Hot spot)问题，初衷和CARP十分类似。一致性哈希修正了CARP使用的简 单哈希算法带来的问题，使得分布式哈希（DHT）可以在P2P环境中真正得到应用。 </p>
+<p>一致性hash算法提出了在动态变化的Cache环境中，判定哈希算法好坏的四个定义：</p>
+<ul>
+<li>1、平衡性(Balance)：平衡性是指哈希的结果能够尽可能分布到所有的缓冲中去，这样可以使得所有的缓冲空间都得到利用。很多哈希算法都能够满足这一条件。</li>
+<li>2、单调性(Monotonicity)：单调性是指如果已经有一些内容通过哈希分派到了相应的缓冲中，又有新的缓冲加入到系统中。哈希的结果应能够保证原有已分配的内容可以被映射到原有的或者新的缓冲中去，而不会被映射到旧的缓冲集合中的其他缓冲区。 </li>
+<li>3、分散性(Spread)：在分布式环境中，终端有可能看不到所有的缓冲，而是只能看到其中的一部分。当终端希望通过哈希过程将内容映射到缓冲上时，由于不同终端所见的缓冲范围有可能不同，从而导致哈希的结果不一致，最终的结果是相同的内容被不同的终端映射到不同的缓冲区中。这种情况显然是应该避免的，因为它导致相同内容被存储到不同缓冲中去，降低了系统存储的效率。分散性的定义就是上述情况发生的严重程度。好的哈希算法应能够尽量避免不一致的情况发生，也就是尽量降低分散性。 </li>
+<li>4、负载(Load)：负载问题实际上是从另一个角度看待分散性问题。既然不同的终端可能将相同的内容映射到不同的缓冲区中，那么对于一个特定的缓冲区而言，也可能被不同的用户映射为不同 的内容。与分散性一样，这种情况也是应当避免的，因此好的哈希算法应能够尽量降低缓冲的负荷。</li>
+</ul>
+<p>在分布式集群中，对机器的添加删除，或者机器故障后自动脱离集群这些操作是分布式集群管理最基本的功能。如果采用常用的hash(object)%N算法，那么在有机器添加或者删除后，很多原有的数据就无法找到了，这样严重的违反了单调性原则。接下来主要讲解一下一致性哈希算法是如何设计的：</p>
+<h3 id="环形Hash空间"><a href="#环形Hash空间" class="headerlink" title="环形Hash空间"></a>环形Hash空间</h3><p>按照常用的hash算法来将对应的key哈希到一个具有2^32次方个桶的空间中，即0~(2^32)-1的数字空间中。现在我们可以将这些数字头尾相连，想象成一个闭合的环形。如下图<br><img src="20140411000507734.png" alt=""></p>
+<h3 id="把数据通过一定的hash算法处理后映射到环上"><a href="#把数据通过一定的hash算法处理后映射到环上" class="headerlink" title="把数据通过一定的hash算法处理后映射到环上"></a>把数据通过一定的hash算法处理后映射到环上</h3><p>现在我们将object1、object2、object3、object4四个对象通过特定的Hash函数计算出对应的key值，然后散列到Hash环上。如下图：</p>
+<pre><code>Hash(object1) = key1；
+Hash(object2) = key2；
+Hash(object3) = key3；
+Hash(object4) = key4；
+</code></pre><p><img src="20140411000620656.png" alt=""></p>
+<h3 id="将机器通过hash算法映射到环上"><a href="#将机器通过hash算法映射到环上" class="headerlink" title="将机器通过hash算法映射到环上"></a>将机器通过hash算法映射到环上</h3><p>在采用一致性哈希算法的分布式集群中将新的机器加入，其原理是通过使用与对象存储一样的Hash算法将机器也映射到环中（一般情况下对机器的hash计算是采用机器的IP或者机器唯一的别名作为输入值），然后以顺时针的方向计算，将所有对象存储到离自己最近的机器中。<br>假设现在有NODE1，NODE2，NODE3三台机器，通过Hash算法得到对应的KEY值，映射到环中，其示意图如下：</p>
+<pre><code>Hash(NODE1) = KEY1;
+Hash(NODE2) = KEY2;
+Hash(NODE3) = KEY3;
+</code></pre><p><img src="20140411000853609.png" alt=""></p>
+<p>通过上图可以看出对象与机器处于同一哈希空间中，这样按顺时针转动object1存储到了NODE1中，object3存储到了NODE2中，object2、object4存储到了NODE3中。在这样的部署环境中，hash环是不会变更的，因此，通过算出对象的hash值就能快速的定位到对应的机器中，这样就能找到对象真正的存储位置了。</p>
+<h3 id="机器的删除与添加"><a href="#机器的删除与添加" class="headerlink" title="机器的删除与添加"></a>机器的删除与添加</h3><p>普通hash求余算法最为不妥的地方就是在有机器的添加或者删除之后会照成大量的对象存储位置失效，这样就大大的不满足单调性了。下面来分析一下一致性哈希算法是如何处理的。</p>
+<h4 id="1-节点（机器）的删除"><a href="#1-节点（机器）的删除" class="headerlink" title="1. 节点（机器）的删除"></a>1. 节点（机器）的删除</h4><p>以上面的分布为例，如果NODE2出现故障被删除了，那么按照顺时针迁移的方法，object3将会被迁移到NODE3中，这样仅仅是object3的映射位置发生了变化，其它的对象没有任何的改动。如下图：<br><img src="20140411001033656.png" alt=""></p>
+<h4 id="2-节点（机器）的添加"><a href="#2-节点（机器）的添加" class="headerlink" title="2. 节点（机器）的添加"></a>2. 节点（机器）的添加</h4><p>如果往集群中添加一个新的节点NODE4，通过对应的哈希算法得到KEY4，并映射到环中，如下图：<br><img src="20140411001211062.png" alt="">    </p>
+<p>通过按顺时针迁移的规则，那么object2被迁移到了NODE4中，其它对象还保持这原有的存储位置。通过对节点的添加和删除的分析，一致性哈希算法在保持了单调性的同时，还是数据的迁移达到了最小，这样的算法对分布式集群来说是非常合适的，避免了大量数据迁移，减小了服务器的的压力。</p>
+<h3 id="平衡性"><a href="#平衡性" class="headerlink" title="平衡性"></a>平衡性</h3><p>根据上面的图解分析，一致性哈希算法满足了单调性和负载均衡的特性以及一般hash算法的分散性，但这还并不能当做其被广泛应用的原由，因为还缺少了平衡性。下面将分析一致性哈希算法是如何满足平衡性的。hash算法是不保证平衡的，如上面只部署了NODE1和NODE3的情况（NODE2被删除的图），object1存储到了NODE1中，而object2、object3、object4都存储到了NODE3中，这样就照成了非常不平衡的状态。在一致性哈希算法中，为了尽可能的满足平衡性，其引入了虚拟节点。<br>——“虚拟节点”（ virtual node ）是实际节点（机器）在 hash 空间的复制品（ replica ），一实际个节点（机器）对应了若干个“虚拟节点”，这个对应个数也成为“复制个数”，“虚拟节点”在 hash 空间中以hash值排列。<br>以上面只部署了NODE1和NODE3的情况（NODE2被删除的图）为例，之前的对象在机器上的分布很不均衡，现在我们以2个副本（复制个数）为例，这样整个hash环中就存在了4个虚拟节点，最后对象映射的关系图如下：</p>
+<p><img src="20140411001433375.png" alt=""><br>根据上图可知对象的映射关系：object1-&gt;NODE1-1，object2-&gt;NODE1-2，object3-&gt;NODE3-2，object4-&gt;NODE3-1。通过虚拟节点的引入，对象的分布就比较均衡了。那么在实际操作中，正真的对象查询是如何工作的呢？对象从hash到虚拟节点到实际节点的转换如下图：<br><img src="20140411001540656.png" alt=""><br>“虚拟节点”的hash计算可以采用对应节点的IP地址加数字后缀的方式。例如假设NODE1的IP地址为192.168.1.100。引入“虚拟节点”前，计算 cache A 的 hash 值：<br>Hash(“192.168.1.100”);<br>引入“虚拟节点”后，计算“虚拟节”点NODE1-1和NODE1-2的hash值：<br>Hash(“192.168.1.100#1”); // NODE1-1<br>Hash(“192.168.1.100#2”); // NODE1-2</p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/2017/08/01/Funny-书生拿着书在打瞌睡/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Funny-书生拿着书在打瞌睡
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/08/01/Funny-你笑了吗/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Funny-你笑了吗?</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            P.Zhen &copy; 2017 Powered by <a href="http://github.com/" target="_blank">GitHub</a>.
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
