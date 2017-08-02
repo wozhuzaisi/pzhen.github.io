@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://pzhen.github.io/"/>
-  <updated>2017-08-01T07:23:49.000Z</updated>
+  <updated>2017-08-02T03:14:44.000Z</updated>
   <id>http://pzhen.github.io/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Php 一Ubuntu apt-get LAMP</title>
+    <link href="http://pzhen.github.io/2017/08/02/Php-Ubuntu-apt-get-LAMP/"/>
+    <id>http://pzhen.github.io/2017/08/02/Php-Ubuntu-apt-get-LAMP/</id>
+    <published>2017-08-02T02:21:39.000Z</published>
+    <updated>2017-08-02T03:14:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3><p>第一步 安装Apache2<br>sudo apt-get install apache2<br>第二步 安装PHP模块<br>sudo apt-get install php5<br>第三步 安装Mysql<br>sudo apt-get install mysql-server<br>sudo apt-get install mysql-client<br>第四步 其他模块安装<a id="more"></a><br>sudo apt-get install libapache2-mod-php5<br>sudo apt-get install libapache2-mod-auth-mysql<br>sudo apt-get install php5-mysql<br>sudo apt-get install php5-gd<br>第五步 测试Apache是否正常工作<br>打开浏览器，输入localhost，看看是否有It Works!网页展示。目录为/var/www<br>第六步 修改权限/var/www<br>sudo chomod 777 /var/www<br>第七步 安装phpmyadmin<br>sudo apt-get install phpmyadmin<br>安装过程中选择apache2，点击确定。下一步选择是要配置数据库，并输入密码。<br>第八步 测试phpmyadmin</p>
+<h3 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h3><p>第一步 启用mod_rewrite模块<br>sudo a2enmod rewrite<br>重启Apache服务器：sudo<br>/etc/init.d/apache2<br>restart或者sudo service apache2 restart</p>
+<p>第二步 设置Apache支持.htm .html .php<br>第三步 测试php网页<br>编辑mysql_test.php代码如下：<br>&lt;?php<br>$link = mysql_connect(“localhost”, “root”, “password”);<br>if(!$link)<br>die(‘Could not connect: ‘ . mysql_error());<br>else<br>echo “Mysql 配置正确!”;<br>mysql_close($link);<br>?&gt;<br>访问 <a href="http://localhost/mysql_test.php" target="_blank" rel="external">http://localhost/mysql_test.php</a> 显示’Mysql 配置正确‘就代表配置正确。<br>第四步 第三步这里出现了乱码以后解决方法<br>到此为止配置OK。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;安装过程&quot;&gt;&lt;a href=&quot;#安装过程&quot; class=&quot;headerlink&quot; title=&quot;安装过程&quot;&gt;&lt;/a&gt;安装过程&lt;/h3&gt;&lt;p&gt;第一步 安装Apache2&lt;br&gt;sudo apt-get install apache2&lt;br&gt;第二步 安装PHP模块&lt;br&gt;sudo apt-get install php5&lt;br&gt;第三步 安装Mysql&lt;br&gt;sudo apt-get install mysql-server&lt;br&gt;sudo apt-get install mysql-client&lt;br&gt;第四步 其他模块安装
+    
+    </summary>
+    
+      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
+    
+    
+      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
+    
+      <category term="Ubuntu" scheme="http://pzhen.github.io/tags/Ubuntu/"/>
+    
+      <category term="LAMP" scheme="http://pzhen.github.io/tags/LAMP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Solr-Mmseg4j分词</title>
+    <link href="http://pzhen.github.io/2017/08/01/Solr-Mmseg4j%E5%88%86%E8%AF%8D/"/>
+    <id>http://pzhen.github.io/2017/08/01/Solr-Mmseg4j分词/</id>
+    <published>2017-08-01T07:30:25.000Z</published>
+    <updated>2017-08-01T07:31:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">fieldtype</span> <span class="attr">name</span>=<span class="string">"textComplex"</span> <span class="attr">class</span>=<span class="string">"solr.TextField"</span> <span class="attr">positionIncrementGap</span>=<span class="string">"100"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">analyzer</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tokenizer</span> <span class="attr">class</span>=<span class="string">"com.chenlb.mmseg4j.solr.MMSegTokenizerFactory"</span> <span class="attr">mode</span>=<span class="string">"complex"</span> <span class="attr">dicPath</span>=<span class="string">"/Users/zhen/opt/solr-5.5.3/server/solr/comic/conf/dic/"</span> /&gt;</span></div><div class="line">    	<span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.StopFilterFactory"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">words</span>=<span class="string">"/Users/zhen/opt/solr-5.5.3/server/solr/comic/conf/stopwords.txt"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">analyzer</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">fieldtype</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line">&lt;fieldtype name="textMaxWord" class="solr.TextField" positionIncrementGap="100"&gt;</div><div class="line">    &lt;analyzer&gt;</div><div class="line">        &lt;tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" /&gt;</div><div class="line">    &lt;/analyzer&gt;</div><div class="line">&lt;/fieldtype&gt;</div><div class="line">&lt;fieldtype name="textSimple" class="solr.TextField" positionIncrementGap="100"&gt;</div><div class="line">    &lt;analyzer&gt;</div><div class="line">        &lt;tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="simple" dicPath="n:/custom/path/to/my_dic" /&gt;</div><div class="line">    &lt;/analyzer&gt;</div><div class="line">&lt;/fieldtype&gt;</div><div class="line">--&gt;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;
+    
+    </summary>
+    
+      <category term="Solr" scheme="http://pzhen.github.io/categories/Solr/"/>
+    
+    
+      <category term="Solr" scheme="http://pzhen.github.io/tags/Solr/"/>
+    
+      <category term="Mmseg4j" scheme="http://pzhen.github.io/tags/Mmseg4j/"/>
+    
+  </entry>
   
   <entry>
     <title>Html-漂亮的后台模板</title>
@@ -562,104 +616,6 @@ BIGINT        8                    -9223372036854775808                922337203
       <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
     
       <category term="Api" scheme="http://pzhen.github.io/tags/Api/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Composer - 管理PHP依赖</title>
-    <link href="http://pzhen.github.io/2017/07/21/Composer-%E7%AE%A1%E7%90%86PHP%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/"/>
-    <id>http://pzhen.github.io/2017/07/21/Composer-管理PHP依赖关系/</id>
-    <published>2017-07-21T09:32:30.000Z</published>
-    <updated>2017-07-22T08:30:34.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>现在软件规模越来越大，PHP项目的开发模式和许多年前已经有了很大变化。记得初学PHP那会儿，boblog是一个很好的例子，几乎可以代表 PHP项目的开发模式。当时PHP 5.x以上的版本刚开始流行，仍然有大量的生产环境使用PHP4.x。由于历史遗留的问题，OOP思想在PHP项目中还不是那么广泛流行。随着 PHP5.3的发布，PHP项目规模的扩大，在其他语言领域大展身手的OOP开发模式也在PHP中崭露头角。<br><a id="more"></a><br>大型项目不可能是从头开始的，使用社区已经提供的资源可以为项目带来很大的便利。然而各自为政的打包方式、依赖关系的处理，导致了很难将两个开源项 目集成到一起。虽然有pear这种PHP官方支持的包管理工具，但是依然没有很好的统一的依赖关系管理的办法。直到Composer的出现。</p>
-<p>Composer的依赖关系管理风格，看上去更像Java的Maven。项目编译和打包、依赖关系的解决都可以很轻松的实现。再也不用费神去寻找或者更新第三方库，或者将他们集成到一起。这一切全部都可以交给Composer来完成。</p>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>首先来看一个类似于Helloworld的例子，让我们对Composer先有一个感性的认识吧。</p>
-<p>如何在一个PHP项目中启用Composer，很简单，只需要在项目根目录中创建一个composer.json文件即可，它包含如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">        &quot;require&quot;: &#123;</div><div class="line">	        &quot;monolog/monolog&quot;: &quot;1.2.*&quot;</div><div class="line">	 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样我们便添加了对monolog这个库的引用。没错，就是这样简单。不过，你还需要使用composer来为你更新依赖包，打开你的Shell，切换到项目目录下执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">composer install</div></pre></td></tr></table></figure></p>
-<p>这时，Composer便自动从互联网上更新指定依赖的库了。你会发现你的项目文件夹里面多了一个vendor文件夹，那就是依赖库包了。</p>
-<p>接下来，你需要在你的系统的公共入口文件中引用自动加载器，以便自动加载类：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;</div></pre></td></tr></table></figure></p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>上面的例子让大家对composer的使用有了一个大概的认识。下面将向大家介绍如何在PHP环境中安装composer。<br>Unix/Linux/OSX环境</p>
-<p>很幸运，利用Unix Like环境安装composer是一件很简单的事情。只需要一行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -sS https://getcomposer.org/installer | php</div></pre></td></tr></table></figure></p>
-<p>此时会为你在当前工作目录安装composer.phar文件，使用php composer.phar即可运行。当然，你可能更想让composer变成像其他一样的Unix命令，很简单，只需要再加一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mv composer.phar /usr/local/bin/composer</div></pre></td></tr></table></figure></p>
-<p>注意，在权限受限的系统上，你可能需要使用sudo命令来提升至管理员账号执行。</p>
-<p>这时，你就可以像例子里面那样使用composer了。<br>Windows环境</p>
-<p>Composer官方推荐使用安装包进行安装，据说下载Composer-Setup.exe这个即可用向导模式安装。</p>
-<p>关于手工安装的方法，请参考<a href="http://getcomposer.org/doc/00-intro.md的介绍吧。" target="_blank" rel="external">http://getcomposer.org/doc/00-intro.md的介绍吧。</a></p>
-<h4 id="自动加载"><a href="#自动加载" class="headerlink" title="自动加载"></a>自动加载</h4><p>为了实现PHP类的随取随用，类的命名空间定义建议遵从一定的规则。这种规则可以是某一项目组约定的。不过为了使得类库统一，PHP-FIG项目指 定了一种PHP命名空间的规范PSR-0，被一些流行PHP项目采用。Composer支持这种规范的类库自动装载器，只需要向 composer.json文件中添加autoload节点即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	    &quot;autoload&quot;: &#123;</div><div class="line">	        &quot;psr-0&quot;: &#123;&quot;Acme\\&quot;: &quot;src/&quot;&#125;</div><div class="line">	    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>关于PSR-0规范，有这么几点重要的要求：</p>
-<ul>
-<li>命名空间规范参考：\<vendor name="">(<namespace>)*<class name=""></class></namespace></vendor></li>
-<li>每个namespace需要一个顶层空间，即vendor name。用来指定在软件包级别上区别。</li>
-<li>命名空间和PHP文件的路径是一一对应的，最终命名空间分隔符会被转为DIRECTORY_SEPARATOR</li>
-<li>文件名必须为类名.php</li>
-</ul>
-<p>关于这个规范，可以参考<a href="http://blog.mosil.biz/2012/08/psr-0-autoloading-standard/这篇文章。有关PSR-0的更多内容，可以参考他们的官方网站：https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md" target="_blank" rel="external">http://blog.mosil.biz/2012/08/psr-0-autoloading-standard/这篇文章。有关PSR-0的更多内容，可以参考他们的官方网站：https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md</a></p>
-<p>注意，修改了autoload后，要重新使用composer install。</p>
-<p>注意：composer默认类库是使用PSR-0规范自动加载的。所以一般无需额外配置。</p>
-<h4 id="查找所需类库"><a href="#查找所需类库" class="headerlink" title="查找所需类库"></a>查找所需类库</h4><p>composer提供了一个类库的“商店”，在这里，你可以立即找到想要使用的开源类库包，然后把他们添加到你的项目中即可。传送门：<a href="https://packagist.org/" target="_blank" rel="external">https://packagist.org/</a></p>
-<h4 id="打包自己的类库"><a href="#打包自己的类库" class="headerlink" title="打包自己的类库"></a>打包自己的类库</h4><p>将自己的类库贡献给大家，首先需要为自己的类库设置打包信息（要首先保证自己的类库是利用composer管理的）。在composer.json文件中设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;name&quot;: &quot;your-vendor-name/package-name&quot;,</div><div class="line">    &quot;require&quot;: &#123;</div><div class="line">        &quot;php&quot;: &quot;&gt;=5.3.0&quot;,</div><div class="line">        &quot;another-vendor/package&quot;: &quot;1.*&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后就可以前去<a href="https://packagist.org/提交你的类库了。" target="_blank" rel="external">https://packagist.org/提交你的类库了。</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="http://getcomposer.org/doc/00-intro.md" target="_blank" rel="external">快速入门</a></li>
-<li><a href="http://getcomposer.org/doc/" target="_blank" rel="external">文档</a></li>
-<li><a href="https://packagist.org/" target="_blank" rel="external">包列表</a></li>
-</ul>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h4&gt;&lt;p&gt;现在软件规模越来越大，PHP项目的开发模式和许多年前已经有了很大变化。记得初学PHP那会儿，boblog是一个很好的例子，几乎可以代表 PHP项目的开发模式。当时PHP 5.x以上的版本刚开始流行，仍然有大量的生产环境使用PHP4.x。由于历史遗留的问题，OOP思想在PHP项目中还不是那么广泛流行。随着 PHP5.3的发布，PHP项目规模的扩大，在其他语言领域大展身手的OOP开发模式也在PHP中崭露头角。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Composer" scheme="http://pzhen.github.io/categories/Composer/"/>
-    
-    
-      <category term="Composer" scheme="http://pzhen.github.io/tags/Composer/"/>
-    
-      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell – 正则表达式</title>
-    <link href="http://pzhen.github.io/2017/07/21/Shell-%E2%80%93-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>http://pzhen.github.io/2017/07/21/Shell-–-正则表达式/</id>
-    <published>2017-07-21T09:00:23.000Z</published>
-    <updated>2017-07-21T09:02:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="正则表达式的分类"><a href="#正则表达式的分类" class="headerlink" title="正则表达式的分类"></a>正则表达式的分类</h4><ul>
-<li>基本的正则表达式（Basic Regular Expression 又叫Basic RegEx 简称BREs）</li>
-<li>扩展的正则表达式（Extended Regular Expression 又叫Extended RegEx 简称EREs）</li>
-<li>Perl的正则表达式（Perl Regular Expression 又叫Perl RegEx 简称PREs）</li>
-</ul>
-<h4 id="基本组成部分"><a href="#基本组成部分" class="headerlink" title="基本组成部分"></a>基本组成部分</h4><p>正则表达式的基本组成部分。</p>
-<p><img src="WX20170517-1442082x.png" alt="image"></p>
-<h4 id="POSIX字符类"><a href="#POSIX字符类" class="headerlink" title="POSIX字符类"></a>POSIX字符类</h4><p>POSIX字符类是一个形如[:…:]的特殊元序列（meta sequence），他可以用于匹配特定的字符范围。</p>
-<p><img src="WX20170517-1440442x.png" alt="image"></p>
-<h4 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h4><p>元字符（meta character）是一种Perl风格的正则表达式，只有一部分文本处理工具支持它，并不是所有的文本处理工具都支持。</p>
-<p><img src="WX20170517-1443312x.png" alt="image"></p>
-<p>文章来源：<a href="http://man.linuxde.net/docs/shell_regex.html" target="_blank" rel="external">http://man.linuxde.net/docs/shell_regex.html</a> </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;正则表达式的分类&quot;&gt;&lt;a href=&quot;#正则表达式的分类&quot; class=&quot;headerlink&quot; title=&quot;正则表达式的分类&quot;&gt;&lt;/a&gt;正则表达式的分类&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;基本的正则表达式（Basic Regular Expression 又叫Basi
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
-    
-      <category term="正则" scheme="http://pzhen.github.io/tags/%E6%AD%A3%E5%88%99/"/>
     
   </entry>
   
