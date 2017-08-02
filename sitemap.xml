@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://pzhen.github.io/story/index.html</loc>
+    
+    <lastmod>2017-08-02T08:35:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://pzhen.github.io/links/index.html</loc>
+    
+    <lastmod>2017-08-02T08:16:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://pzhen.github.io/about/index.html</loc>
+    
+    <lastmod>2017-08-02T07:40:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://pzhen.github.io/2017/08/02/Php-Ubuntu-apt-get-LAMP/</loc>
     
     <lastmod>2017-08-02T03:14:44.000Z</lastmod>
@@ -341,13 +362,6 @@
     <loc>http://pzhen.github.io/2017/07/20/Python-%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</loc>
     
     <lastmod>2017-07-20T03:23:13.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://pzhen.github.io/about/index.html</loc>
-    
-    <lastmod>2017-07-20T03:01:43.000Z</lastmod>
     
   </url>
   
