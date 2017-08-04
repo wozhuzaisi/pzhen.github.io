@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://pzhen.github.io/"/>
-  <updated>2017-08-02T03:14:44.000Z</updated>
+  <updated>2017-08-03T07:46:39.000Z</updated>
   <id>http://pzhen.github.io/</id>
   
   <author>
@@ -14,6 +14,143 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Shell – Tail读取中间行</title>
+    <link href="http://pzhen.github.io/2017/08/03/Shell-%E2%80%93-Tail%E8%AF%BB%E5%8F%96%E4%B8%AD%E9%97%B4%E8%A1%8C/"/>
+    <id>http://pzhen.github.io/2017/08/03/Shell-–-Tail读取中间行/</id>
+    <published>2017-08-03T07:43:26.000Z</published>
+    <updated>2017-08-03T07:46:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>linux 如何显示一个文件的某几行(中间几行)<a id="more"></a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>从第3000行开始，显示1000行。即显示3000~3999行</div><div class="line">cat filename | tail -n +3000 | head -n 1000 </div><div class="line"><span class="meta"> </span></div><div class="line"># sed  5-10 行</div><div class="line">sed -n '5,10p' filename</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;linux 如何显示一个文件的某几行(中间几行)
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
+    
+      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
+    
+    
+      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
+    
+      <category term="Tail" scheme="http://pzhen.github.io/tags/Tail/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Php 一逐行读取文件</title>
+    <link href="http://pzhen.github.io/2017/08/03/Php-%E9%80%90%E8%A1%8C%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/"/>
+    <id>http://pzhen.github.io/2017/08/03/Php-逐行读取文件/</id>
+    <published>2017-08-03T07:38:04.000Z</published>
+    <updated>2017-08-03T07:39:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>PHP逐行读取数据<a id="more"></a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$file = fopen(<span class="string">"Minot.txt"</span>, <span class="string">"r"</span>) <span class="keyword">or</span> <span class="keyword">exit</span>(<span class="string">"Unable to open file!"</span>);</div><div class="line"><span class="comment">//Output a line of the file until the end is reached</span></div><div class="line"><span class="comment">//feof() check if file read end EOF</span></div><div class="line"><span class="keyword">while</span>(!feof($file))</div><div class="line">&#123;</div><div class="line"> <span class="comment">//fgets() Read row by row</span></div><div class="line"> <span class="keyword">echo</span> fgets($file). <span class="string">"&lt;br /&gt;"</span>;</div><div class="line">&#125;</div><div class="line">fclose($file);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;PHP逐行读取数据
+    
+    </summary>
+    
+      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
+    
+    
+      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
+    
+      <category term="读取文件" scheme="http://pzhen.github.io/tags/%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python 验证日期格式</title>
+    <link href="http://pzhen.github.io/2017/08/03/Python-%E9%AA%8C%E8%AF%81%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F/"/>
+    <id>http://pzhen.github.io/2017/08/03/Python-验证日期格式/</id>
+    <published>2017-08-03T07:18:46.000Z</published>
+    <updated>2017-08-03T07:20:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">print</span> re.search(<span class="string">r'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;'</span>, <span class="string">'xxxx1990-12-20xxxx'</span>).group(<span class="number">0</span>)</div><div class="line"><span class="keyword">print</span> re.search(<span class="string">r'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;T\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;'</span>, <span class="string">'xxxx2005-06-04T18:37:11xxxx'</span>).group(<span class="number">0</span>)</div><div class="line"><span class="keyword">print</span> re.search(<span class="string">r'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;T\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;.\d&#123;3&#125;'</span>, <span class="string">'xxxx2005-06-04T18:37:11.111xxxx'</span>).group(<span class="number">0</span>)</div><div class="line"> </div><div class="line">pattern=re.compile(<span class="string">r'(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;)((T\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;|))((.\d&#123;3&#125;)|)'</span>)</div><div class="line"><span class="keyword">print</span> pattern.search(<span class="string">'xxxx2005-06-04T18:37:11.111xxxx'</span>).group(<span class="number">0</span>)</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/d
+    
+    </summary>
+    
+      <category term="Python" scheme="http://pzhen.github.io/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="http://pzhen.github.io/tags/Python/"/>
+    
+      <category term="日期格式" scheme="http://pzhen.github.io/tags/%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python Isinstance</title>
+    <link href="http://pzhen.github.io/2017/08/03/Python-Isinstance/"/>
+    <id>http://pzhen.github.io/2017/08/03/Python-Isinstance/</id>
+    <published>2017-08-03T07:13:50.000Z</published>
+    <updated>2017-08-03T07:15:27.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在Python中只需要使用内置的函数isinstance，使用起来非常简单<a id="more"></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">objA</span>:</span> </div><div class="line"><span class="keyword">pass</span> </div><div class="line"></div><div class="line">A = objA() </div><div class="line">B = <span class="string">'a'</span>,<span class="string">'v'</span> </div><div class="line">C = <span class="string">'a string'</span> </div><div class="line"></div><div class="line"><span class="keyword">print</span> isinstance(A, objA) </div><div class="line"><span class="keyword">print</span> isinstance(B, tuple) </div><div class="line"><span class="keyword">print</span> isinstance(C, basestring)</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在Python中只需要使用内置的函数isinstance，使用起来非常简单
+    
+    </summary>
+    
+      <category term="Python" scheme="http://pzhen.github.io/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="http://pzhen.github.io/tags/Python/"/>
+    
+      <category term="Isinstance" scheme="http://pzhen.github.io/tags/Isinstance/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Php 一浮点数精确运算</title>
+    <link href="http://pzhen.github.io/2017/08/03/Php-%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E7%A1%AE%E8%BF%90%E7%AE%97/"/>
+    <id>http://pzhen.github.io/2017/08/03/Php-浮点数精确运算/</id>
+    <published>2017-08-03T06:55:40.000Z</published>
+    <updated>2017-08-03T07:20:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>如果用php的+-*/计算浮点数的时候，可能会遇到一些计算结果错误的问题，所以基本上大部分语言都提供了精准计算的类库或函数库，比如php有BC高精确度函数库，下面我们介绍一下一些常用的BC高精确度函数使用。<a id="more"></a></p>
+<p>bc是Binary Calculator的缩写。bc*函数的参数都是操作数加上一个可选的 [int scale]，比如string bcadd(string $left_operand, string $right_operand[, int $scale])，如果scale没有提供，就用bcscale的缺省值。这里大数直接用一个由0-9组成的string表示，计算结果返回的也是一个 string。<br>bcadd — 将两个高精度数字相加<br>bccomp — 比较两个高精度数字，返回-1, 0, 1<br>bcdiv — 将两个高精度数字相除<br>bcmod — 求高精度数字余数<br>bcmul — 将两个高精度数字相乘<br>bcpow — 求高精度数字乘方<br>bcpowmod — 求高精度数字乘方求模，数论里非常常用<br>bcscale — 配置默认小数点位数，相当于就是Linux bc中的”scale=”<br>bcsqrt — 求高精度数字平方根<br>bcsub — 将两个高精度数字相减</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$a = <span class="number">0.1</span>;</div><div class="line">$b = <span class="number">0.7</span>;</div><div class="line">var_dump(($a + $b) == <span class="number">0.8</span>);</div></pre></td></tr></table></figure>
+<p>打印出来的值居然为 boolean false<br>这是为啥?PHP手册对于浮点数有以下警告信息:<br>Warning<br>浮点数精度<br>显然简单的十进制分数如同 0.1 或 0.7 不能在不丢失一点点精度的情况下转换为内部二进制的格式。这就会造成混乱的结果：例如，floor((0.1+0.7)*10) 通常会返回 7 而不是预期中的 8，因为该结果内部的表示其实是类似 7.9999999999…。<br>这和一个事实有关，那就是不可能精确的用有限位数表达某些十进制分数。例如，十进制的 1/3 变成了 0.3333333. . .。<br>所以永远不要相信浮点数结果精确到了最后一位，也永远不要比较两个浮点数是否相等。如果确实需要更高的精度，应该使用任意精度数学函数或者 gmp 函数<br>那么上面的算式我们应该改写为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$a = <span class="number">0.1</span>;</div><div class="line">$b = <span class="number">0.7</span>;</div><div class="line">var_dump(bcadd($a,$b,<span class="number">2</span>) == <span class="number">0.8</span>);</div></pre></td></tr></table></figure>
+<p>这样就能解决浮点数的计算问题了</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;如果用php的+-*/计算浮点数的时候，可能会遇到一些计算结果错误的问题，所以基本上大部分语言都提供了精准计算的类库或函数库，比如php有BC高精确度函数库，下面我们介绍一下一些常用的BC高精确度函数使用。
+    
+    </summary>
+    
+      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
+    
+    
+      <category term="浮点数" scheme="http://pzhen.github.io/tags/%E6%B5%AE%E7%82%B9%E6%95%B0/"/>
+    
+      <category term="运算" scheme="http://pzhen.github.io/tags/%E8%BF%90%E7%AE%97/"/>
+    
+      <category term="精度" scheme="http://pzhen.github.io/tags/%E7%B2%BE%E5%BA%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>Php 一Ubuntu apt-get LAMP</title>
@@ -458,164 +595,6 @@ BIGINT        8                    -9223372036854775808                922337203
       <category term="Mysql" scheme="http://pzhen.github.io/tags/Mysql/"/>
     
       <category term="Varchar" scheme="http://pzhen.github.io/tags/Varchar/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql-蠕虫复制</title>
-    <link href="http://pzhen.github.io/2017/07/31/Mysql-%E8%A0%95%E8%99%AB%E5%A4%8D%E5%88%B6/"/>
-    <id>http://pzhen.github.io/2017/07/31/Mysql-蠕虫复制/</id>
-    <published>2017-07-31T09:22:04.000Z</published>
-    <updated>2017-07-31T09:23:19.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`table`</span> (<span class="string">`id`</span>,<span class="string">`aa`</span>,<span class="string">`bb`</span>,<span class="string">`cc`</span> ) <span class="keyword">SELECT</span> <span class="string">''</span>,<span class="string">'aa内容'</span>,<span class="string">'bb注意cc符号区别'</span>,<span class="string">`cc`</span> <span class="keyword">FROM</span> <span class="string">`table`</span> (<span class="keyword">WHERE</span> .....)</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;
-    
-    </summary>
-    
-      <category term="Mysql" scheme="http://pzhen.github.io/categories/Mysql/"/>
-    
-    
-      <category term="Mysql" scheme="http://pzhen.github.io/tags/Mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql-开启日志</title>
-    <link href="http://pzhen.github.io/2017/07/31/Mysql-%E5%BC%80%E5%90%AF%E6%97%A5%E5%BF%97/"/>
-    <id>http://pzhen.github.io/2017/07/31/Mysql-开启日志/</id>
-    <published>2017-07-31T09:18:58.000Z</published>
-    <updated>2017-07-31T09:20:36.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[mysqld]</div><div class="line"></div><div class="line">port=3306</div><div class="line">log=D:/mysql.log</div><div class="line">log_slow_queries=C:/temp/mysql_slow.log</div><div class="line">long_query_time=1</div></pre></td></tr></table></figure>
-<p>show binary logs;</p>
-<p>//查看binlog日志<br>show binlog events in ‘mysql-bin.000181’;</p>
-<p>查看日志是否开启<br>1).可以通过Mysql配置文件my.cnf来确认（Mysql默认开启二进制日志记录）：<br>Replication Master Server (default)<br>binary logging is required for replication<br>log-bin=mysql-bin<br>刷新日志<br>flush logs;<br>查看当前日志位置<br>show master status;<br>查看当前所有日志<br>show master logs;<br>清空所有的bin-log日志<br>reset master;</p>
-<p>查看日志内容<br>mysqlbinlog –no-defaults mysql-bin.00001;<br>删除bin-log<br>mysql&gt; purge binary logs to ‘ablelee.000003’;<br>Query OK, 0 rows affected (0.16 sec)<br>关闭 bin-log 日志<br>找到配置文件my.cnf，对于linux，一般默认在/etc目录下，打开此文件，使用井号(#)注释掉如下两个配置项目即可。<br>log-bin=mysql-bin<br>binlog_format=mixed<br>显示所有日志<br>mysql&gt; show binary logs;</p>
-<p>//查看所有日志<br>show binary logs;<br>//查看正在使用的binlog<br>show master status;</p>
-<p>purge binary logs to ‘mysql-tb-bin.000005’;<br>这个命令就是清理除mysql-tb-bin.000005以外的其他二进制日志；</p>
-<p>//查看binlog日志<br>show binlog events in ‘mysql-bin.000181’;</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
-    
-    </summary>
-    
-      <category term="Mysql" scheme="http://pzhen.github.io/categories/Mysql/"/>
-    
-    
-      <category term="Mysql" scheme="http://pzhen.github.io/tags/Mysql/"/>
-    
-      <category term="日志" scheme="http://pzhen.github.io/tags/%E6%97%A5%E5%BF%97/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Php 一phpStorm快捷键</title>
-    <link href="http://pzhen.github.io/2017/07/31/Php-phpStorm%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
-    <id>http://pzhen.github.io/2017/07/31/Php-phpStorm快捷键/</id>
-    <published>2017-07-31T08:35:26.000Z</published>
-    <updated>2017-07-31T08:37:35.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>现在把一些使用技巧记录下来,免得到时候忘了再查.</p>
-<p>来源于网络。</p>
-<a id="more"></a>
-<p>1,从版本控制系统创建项目:<br>CVS -&gt; Checkout from Version Control</p>
-<p>2, 关联DOC文档:<br>右键External Librariese -&gt; Configure PHP include paths</p>
-<p>3, 去掉波浪线:<br>settings -&gt; Editor -&gt; Colors &amp; Fonts -&gt; General -&gt; TYPO-&gt;Effects</p>
-<p>4, 显示行号:<br>settings -&gt; Editor-&gt;Appearance-&gt;Show line numbers </p>
-<p>5,远程或本地同步文件:<br>Tools -&gt; Deploments -&gt; Configuration</p>
-<p>6, 去掉右上角浏览器图标:<br>settings -&gt; tools -&gt; WebBrowsers</p>
-<p>7, 添加VIM插件:<br>settings-&gt;editor -&gt;plugins-&gt;browse repositories -&gt;搜索VIM</p>
-<p>8,启动的时候不打开工程文件<br>Settings-&gt;General去掉Reopen last project on startup.</p>
-<p>9, 取消自动保存<br>appearance -&gt; system settings -&gt; save file的两个选项 去掉</p>
-<p>10, 将编辑的文件加星号标识:<br>settings -&gt; editor -&gt; editor tabs -&gt; 勾选 mark modifed tabs…</p>
-<p>11, 添加扩展名高亮显示:<br>settings -&gt; editor -&gt; file types  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">常用快捷键:</div><div class="line">control + option + l    将代码格式化</div><div class="line">command + shift + u    切换大小写</div><div class="line">command + shift + + / command + shift + -     折叠/展开所有区块</div><div class="line">command + e     列出最后打开的文件</div><div class="line">control + tab  / control + shift + tab     切换打开的文件</div><div class="line">command + /     行注释</div><div class="line">ctrl + shift + /      块注释</div><div class="line">command + b     函数追踪,同command +单击</div><div class="line">command + alt + 左右箭头      操作动作前进/回退</div><div class="line">shift + command + r      按文件名搜索对应文件所在路径</div><div class="line">shift + command + t      按类名搜索对应文件所在路径</div><div class="line">shift + command + c      复制当前文件所在路径</div><div class="line">Command + Shift + O     打开文件</div><div class="line">Command + O          打开类</div><div class="line">alt + F1        定位编辑文件所在位置:</div><div class="line">alt + F12        打开命令行栏</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;现在把一些使用技巧记录下来,免得到时候忘了再查.&lt;/p&gt;
-&lt;p&gt;来源于网络。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
-    
-    
-      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
-    
-      <category term="PhpStorm" scheme="http://pzhen.github.io/tags/PhpStorm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell – Wget 克隆网站</title>
-    <link href="http://pzhen.github.io/2017/07/31/Shell-%E2%80%93-Wget-%E5%85%8B%E9%9A%86%E7%BD%91%E7%AB%99%E5%88%B0%E6%9C%AC%E5%9C%B0/"/>
-    <id>http://pzhen.github.io/2017/07/31/Shell-–-Wget-克隆网站到本地/</id>
-    <published>2017-07-31T08:14:22.000Z</published>
-    <updated>2017-07-31T08:18:20.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>有时候觉得网上看到的漂亮的模板，想下载怎么办哈哈哈wget就搞定了。</p>
-<a id="more"></a>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -k -p -nH -N http://www.baidu.com</div></pre></td></tr></table></figure>
-<p>-k   把已下载文件中的所有链接都转换为本地引用，不在依赖原始或在线内容</p>
-<p>-p   下载所有必要文件，确保离线可用，包括图片和样式表</p>
-<p>-nH  禁止把文件下载到以主机名为前缀的文件夹中。</p>
-<p>-N   启用文件的时间戳,以匹配来源的时间戳.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;有时候觉得网上看到的漂亮的模板，想下载怎么办哈哈哈wget就搞定了。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://pzhen.github.io/categories/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/categories/Linux/Shell/"/>
-    
-    
-      <category term="Linux" scheme="http://pzhen.github.io/tags/Linux/"/>
-    
-      <category term="Shell" scheme="http://pzhen.github.io/tags/Shell/"/>
-    
-      <category term="Wget" scheme="http://pzhen.github.io/tags/Wget/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Php 一Api通信规则</title>
-    <link href="http://pzhen.github.io/2017/07/31/Php-Api%E9%80%9A%E4%BF%A1%E8%A7%84%E5%88%99/"/>
-    <id>http://pzhen.github.io/2017/07/31/Php-Api通信规则/</id>
-    <published>2017-07-31T07:34:52.000Z</published>
-    <updated>2017-07-31T07:53:37.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Api 通信中，可以采用非对称加密的方式，来提高安全性，也可以采用，下面的通信规则。</p>
-<p>如果采用下面方式，可以将时间戳取前7位有效数字来加密这样每隔十几分钟MD5<br>就一换，还能避开服务器时间不同步问题，也是不错的选择。</p>
-<a id="more"></a>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *生成THQS算法的信息查询串（Query string）</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">get_query_string</span><span class="params">($info)</span> </span>&#123;</div><div class="line">    ksort($info);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;http_build_query($info);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 根据数组生成HTTP请求URL参数</div><div class="line"> * <span class="doctag">@param</span> unknown_type $array</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">http_build_query</span><span class="params">($array)</span> </span>&#123;</div><div class="line">    $query = <span class="string">''</span>;</div><div class="line">    <span class="keyword">foreach</span> ($array <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">        $key = <span class="keyword">self</span>::urlencode($key);</div><div class="line">        $value = <span class="keyword">self</span>::urlencode($value);</div><div class="line">        $query .= <span class="string">"$key=$value&amp;"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (strlen($query)) &#123;</div><div class="line">        $query = substr($query, <span class="number">0</span>, <span class="number">-1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $query;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * *不要被转义了。</div><div class="line"> * <span class="doctag">@param</span> $string</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">urlencode</span><span class="params">($string)</span> </span>&#123;</div><div class="line">    $string = str_replace(<span class="string">'*'</span>, <span class="string">'-tSl2nWmMsagD-gEr'</span>, $string);</div><div class="line">    $string = urlencode($string);</div><div class="line">    <span class="keyword">return</span> str_replace(<span class="string">'-tSl2nWmMsagD-gEr'</span>, <span class="string">'*'</span>, $string);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 	生成THQS算法的hash值</div><div class="line"> *  $salt = API Key 秘钥</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">get_hashed_value</span><span class="params">($qs, $time, $salt)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> strtoupper(md5($qs . <span class="string">"&amp;time=$time&amp;salt=$salt"</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> *	return string</div><div class="line">*/</div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">ccXml</span><span class="params">()</span></span>&#123;</div><div class="line">    header(<span class="string">'Content-Type:text/xml'</span>);</div><div class="line">    $str = <span class="string">''</span>;</div><div class="line">    $str .= <span class="string">"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt;\n"</span>;</div><div class="line">    $str .= <span class="string">"&lt;result&gt;OK&lt;/result&gt;"</span>;</div><div class="line">    <span class="keyword">return</span> $str;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Api 通信中，可以采用非对称加密的方式，来提高安全性，也可以采用，下面的通信规则。&lt;/p&gt;
-&lt;p&gt;如果采用下面方式，可以将时间戳取前7位有效数字来加密这样每隔十几分钟MD5&lt;br&gt;就一换，还能避开服务器时间不同步问题，也是不错的选择。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Php" scheme="http://pzhen.github.io/categories/Php/"/>
-    
-    
-      <category term="Php" scheme="http://pzhen.github.io/tags/Php/"/>
-    
-      <category term="Api" scheme="http://pzhen.github.io/tags/Api/"/>
     
   </entry>
   

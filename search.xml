@@ -3,6 +3,133 @@
   
     
     <entry>
+      <title><![CDATA[Shell – Tail读取中间行]]></title>
+      <url>/2017/08/03/Shell-%E2%80%93-Tail%E8%AF%BB%E5%8F%96%E4%B8%AD%E9%97%B4%E8%A1%8C/</url>
+      <content type="html"><![CDATA[<p>linux 如何显示一个文件的某几行(中间几行)<a id="more"></a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>从第3000行开始，显示1000行。即显示3000~3999行</div><div class="line">cat filename | tail -n +3000 | head -n 1000 </div><div class="line"><span class="meta"> </span></div><div class="line"># sed  5-10 行</div><div class="line">sed -n '5,10p' filename</div></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Shell </tag>
+            
+            <tag> Tail </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Php 一逐行读取文件]]></title>
+      <url>/2017/08/03/Php-%E9%80%90%E8%A1%8C%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p>PHP逐行读取数据<a id="more"></a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$file = fopen(<span class="string">"Minot.txt"</span>, <span class="string">"r"</span>) <span class="keyword">or</span> <span class="keyword">exit</span>(<span class="string">"Unable to open file!"</span>);</div><div class="line"><span class="comment">//Output a line of the file until the end is reached</span></div><div class="line"><span class="comment">//feof() check if file read end EOF</span></div><div class="line"><span class="keyword">while</span>(!feof($file))</div><div class="line">&#123;</div><div class="line"> <span class="comment">//fgets() Read row by row</span></div><div class="line"> <span class="keyword">echo</span> fgets($file). <span class="string">"&lt;br /&gt;"</span>;</div><div class="line">&#125;</div><div class="line">fclose($file);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> Php </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Php </tag>
+            
+            <tag> 读取文件 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python 验证日期格式]]></title>
+      <url>/2017/08/03/Python-%E9%AA%8C%E8%AF%81%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">print</span> re.search(<span class="string">r'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;'</span>, <span class="string">'xxxx1990-12-20xxxx'</span>).group(<span class="number">0</span>)</div><div class="line"><span class="keyword">print</span> re.search(<span class="string">r'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;T\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;'</span>, <span class="string">'xxxx2005-06-04T18:37:11xxxx'</span>).group(<span class="number">0</span>)</div><div class="line"><span class="keyword">print</span> re.search(<span class="string">r'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;T\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;.\d&#123;3&#125;'</span>, <span class="string">'xxxx2005-06-04T18:37:11.111xxxx'</span>).group(<span class="number">0</span>)</div><div class="line"> </div><div class="line">pattern=re.compile(<span class="string">r'(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;)((T\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;|))((.\d&#123;3&#125;)|)'</span>)</div><div class="line"><span class="keyword">print</span> pattern.search(<span class="string">'xxxx2005-06-04T18:37:11.111xxxx'</span>).group(<span class="number">0</span>)</div></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> 日期格式 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python Isinstance]]></title>
+      <url>/2017/08/03/Python-Isinstance/</url>
+      <content type="html"><![CDATA[<p>在Python中只需要使用内置的函数isinstance，使用起来非常简单<a id="more"></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">objA</span>:</span> </div><div class="line"><span class="keyword">pass</span> </div><div class="line"></div><div class="line">A = objA() </div><div class="line">B = <span class="string">'a'</span>,<span class="string">'v'</span> </div><div class="line">C = <span class="string">'a string'</span> </div><div class="line"></div><div class="line"><span class="keyword">print</span> isinstance(A, objA) </div><div class="line"><span class="keyword">print</span> isinstance(B, tuple) </div><div class="line"><span class="keyword">print</span> isinstance(C, basestring)</div></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> Isinstance </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Php 一浮点数精确运算]]></title>
+      <url>/2017/08/03/Php-%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E7%A1%AE%E8%BF%90%E7%AE%97/</url>
+      <content type="html"><![CDATA[<p>如果用php的+-*/计算浮点数的时候，可能会遇到一些计算结果错误的问题，所以基本上大部分语言都提供了精准计算的类库或函数库，比如php有BC高精确度函数库，下面我们介绍一下一些常用的BC高精确度函数使用。<a id="more"></a></p>
+<p>bc是Binary Calculator的缩写。bc*函数的参数都是操作数加上一个可选的 [int scale]，比如string bcadd(string $left_operand, string $right_operand[, int $scale])，如果scale没有提供，就用bcscale的缺省值。这里大数直接用一个由0-9组成的string表示，计算结果返回的也是一个 string。<br>bcadd — 将两个高精度数字相加<br>bccomp — 比较两个高精度数字，返回-1, 0, 1<br>bcdiv — 将两个高精度数字相除<br>bcmod — 求高精度数字余数<br>bcmul — 将两个高精度数字相乘<br>bcpow — 求高精度数字乘方<br>bcpowmod — 求高精度数字乘方求模，数论里非常常用<br>bcscale — 配置默认小数点位数，相当于就是Linux bc中的”scale=”<br>bcsqrt — 求高精度数字平方根<br>bcsub — 将两个高精度数字相减</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$a = <span class="number">0.1</span>;</div><div class="line">$b = <span class="number">0.7</span>;</div><div class="line">var_dump(($a + $b) == <span class="number">0.8</span>);</div></pre></td></tr></table></figure>
+<p>打印出来的值居然为 boolean false<br>这是为啥?PHP手册对于浮点数有以下警告信息:<br>Warning<br>浮点数精度<br>显然简单的十进制分数如同 0.1 或 0.7 不能在不丢失一点点精度的情况下转换为内部二进制的格式。这就会造成混乱的结果：例如，floor((0.1+0.7)*10) 通常会返回 7 而不是预期中的 8，因为该结果内部的表示其实是类似 7.9999999999…。<br>这和一个事实有关，那就是不可能精确的用有限位数表达某些十进制分数。例如，十进制的 1/3 变成了 0.3333333. . .。<br>所以永远不要相信浮点数结果精确到了最后一位，也永远不要比较两个浮点数是否相等。如果确实需要更高的精度，应该使用任意精度数学函数或者 gmp 函数<br>那么上面的算式我们应该改写为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$a = <span class="number">0.1</span>;</div><div class="line">$b = <span class="number">0.7</span>;</div><div class="line">var_dump(bcadd($a,$b,<span class="number">2</span>) == <span class="number">0.8</span>);</div></pre></td></tr></table></figure>
+<p>这样就能解决浮点数的计算问题了</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Php </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 浮点数 </tag>
+            
+            <tag> 运算 </tag>
+            
+            <tag> 精度 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Php 一Ubuntu apt-get LAMP]]></title>
       <url>/2017/08/02/Php-Ubuntu-apt-get-LAMP/</url>
       <content type="html"><![CDATA[<h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3><p>第一步 安装Apache2<br>sudo apt-get install apache2<br>第二步 安装PHP模块<br>sudo apt-get install php5<br>第三步 安装Mysql<br>sudo apt-get install mysql-server<br>sudo apt-get install mysql-client<br>第四步 其他模块安装<a id="more"></a><br>sudo apt-get install libapache2-mod-php5<br>sudo apt-get install libapache2-mod-auth-mysql<br>sudo apt-get install php5-mysql<br>sudo apt-get install php5-gd<br>第五步 测试Apache是否正常工作<br>打开浏览器，输入localhost，看看是否有It Works!网页展示。目录为/var/www<br>第六步 修改权限/var/www<br>sudo chomod 777 /var/www<br>第七步 安装phpmyadmin<br>sudo apt-get install phpmyadmin<br>安装过程中选择apache2，点击确定。下一步选择是要配置数据库，并输入密码。<br>第八步 测试phpmyadmin</p>
@@ -684,6 +811,38 @@ BIGINT        8                    -9223372036854775808                922337203
     </entry>
     
     <entry>
+      <title><![CDATA[Git – 集中式与分布式]]></title>
+      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
+<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
+<p><img src="userid1labid485time1423115040073.png" alt=""></p>
+<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 集中式管理 </tag>
+            
+            <tag> 分布式管理 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Shell – Grep 常见用法]]></title>
       <url>/2017/07/21/Shell-%E2%80%93-Grep%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/</url>
       <content type="html"><![CDATA[<p>是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。<br>我经常用来查找字符串比如：</p>
@@ -712,38 +871,6 @@ BIGINT        8                    -9223372036854775808                922337203
             <tag> Grep </tag>
             
             <tag> Shell </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Git – 集中式与分布式]]></title>
-      <url>/2017/07/21/Git-%E2%80%93-%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%8C%BA%E5%88%AB/</url>
-      <content type="html"><![CDATA[<h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
-<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
-<p><img src="git1.png" alt=""></p>
-<p>那分布式版本控制系统与集中式版本控制系统有何不同呢？首先，分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
-<p>和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人电脑里都有完整的版本库，某一个人的电脑坏掉了不要紧，随便从其他人那里复制一个就可以了。而集中式版本控制系统的中央服务器要是出了问题，所有人都没法干活了。</p>
-<p>在实际使用分布式版本控制系统的时候，其实很少在两人之间的电脑上推送版本库的修改，因为可能你们俩不在一个局域网内，两台电脑互相访问不了，也可能今天你的同事病了，他的电脑压根没有开机。因此，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。</p>
-<p><img src="userid1labid485time1423115040073.png" alt=""></p>
-<p>许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> Git </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Git </tag>
-            
-            <tag> 集中式管理 </tag>
-            
-            <tag> 分布式管理 </tag>
             
         </tags>
         
@@ -1470,6 +1597,16 @@ BIGINT        8                    -9223372036854775808                922337203
     </entry>
     
     <entry>
+      <title></title>
+      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
+      <content type="html"><![CDATA[<hr>
+<p>title: Linux下 SSH 登录脚本</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Shell – SSH自动登录]]></title>
       <url>/2017/07/19/Shell-%E2%80%93-SSH%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95/</url>
       <content type="html"><![CDATA[<p>最近由于频繁操作vps，发现每次输入密码太费劲，所以写了个自动登录shell脚本。</p>
@@ -1493,16 +1630,6 @@ BIGINT        8                    -9223372036854775808                922337203
             <tag> SSH </tag>
             
         </tags>
-        
-    </entry>
-    
-    <entry>
-      <title></title>
-      <url>/2017/07/19/Linux%E4%B8%8B-ssh-%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%E8%84%9A%E6%9C%AC/</url>
-      <content type="html"><![CDATA[<hr>
-<p>title: Linux下 SSH 登录脚本</p>
-]]></content>
-      
         
     </entry>
     
