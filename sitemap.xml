@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://pzhen.github.io/story/index.html</loc>
+    
+    <lastmod>2017-08-04T03:47:44.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://pzhen.github.io/about/index.html</loc>
+    
+    <lastmod>2017-08-04T03:42:49.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://pzhen.github.io/links/index.html</loc>
     
-    <lastmod>2017-08-04T02:31:47.000Z</lastmod>
+    <lastmod>2017-08-04T03:19:41.000Z</lastmod>
     
   </url>
   
@@ -40,20 +54,6 @@
     <loc>http://pzhen.github.io/2017/08/03/Python-Isinstance/</loc>
     
     <lastmod>2017-08-03T07:15:27.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://pzhen.github.io/story/index.html</loc>
-    
-    <lastmod>2017-08-02T08:35:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://pzhen.github.io/about/index.html</loc>
-    
-    <lastmod>2017-08-02T07:40:43.000Z</lastmod>
     
   </url>
   

@@ -313,7 +313,7 @@
                             &nbsp;
                             Shell
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Shell-–-Grep常见用法/">Shell – Grep 常见用法</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-Mac-zsh/">Shell – Mac zsh</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-SSH自动登录/">Shell – SSH自动登录</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-Svn-Log/">Shell – Svn Log</a></li>  <li class="file"><a href="/2017/08/03/Shell-–-Tail读取中间行/">Shell – Tail读取中间行</a></li>  <li class="file"><a href="/2017/07/31/Shell-–-Wget-克隆网站到本地/">Shell – Wget 克隆网站</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-item2-配色/">Shell – item2 配色</a></li>  <li class="file"><a href="/2017/07/21/Shell-–-正则表达式/">Shell – 正则表达式</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/07/21/Shell-–-Grep常见用法/">Shell – Grep 常见用法</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-SSH自动登录/">Shell – SSH自动登录</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-Mac-zsh/">Shell – Mac zsh</a></li>  <li class="file"><a href="/2017/07/19/Shell-–-Svn-Log/">Shell – Svn Log</a></li>  <li class="file"><a href="/2017/08/03/Shell-–-Tail读取中间行/">Shell – Tail读取中间行</a></li>  <li class="file"><a href="/2017/07/31/Shell-–-Wget-克隆网站到本地/">Shell – Wget 克隆网站</a></li>  <li class="file"><a href="/2017/07/20/Shell-–-item2-配色/">Shell – item2 配色</a></li>  <li class="file"><a href="/2017/07/21/Shell-–-正则表达式/">Shell – 正则表达式</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -360,7 +360,7 @@
                             &nbsp;
                             Python
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/03/Python-Isinstance/">Python Isinstance</a></li>  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file"><a href="/2017/08/03/Python-验证日期格式/">Python 验证日期格式</a></li>  <li class="file"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2017/08/03/Python-Isinstance/">Python Isinstance</a></li>  <li class="file"><a href="/2017/07/20/Python-中文编码问题/">Python 中文编码问题</a></li>  <li class="file"><a href="/2017/07/21/Python-优先级队列/">Python 优先级队列</a></li>  <li class="file"><a href="/2017/08/03/Python-验证日期格式/">Python 验证日期格式</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -1036,87 +1036,6 @@
 
 
     
-        <article id="post-Git-–-集中式与分布式-版本控制系统区别" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Git/">Git</a>, <a class="tag-link" href="/tags/分布式管理/">分布式管理</a>, <a class="tag-link" href="/tags/集中式管理/">集中式管理</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">
-            <time datetime="2017-07-21T08:36:51.000Z" itemprop="datePublished">2017-07-21</time>
-        </a>
-    </div>
-
-
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p><h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
-<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
-<p><img src="git1.png" alt=""></p>
-<p>
-                
-            
-        
-        
-            </div>   
-            <div class="article-more-link">
-                <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-    
         <article id="post-Shell-–-Grep常见用法" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1198,6 +1117,87 @@
 
 
     
+        <article id="post-Git-–-集中式与分布式-版本控制系统区别" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Git/">Git</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Git/">Git</a>, <a class="tag-link" href="/tags/分布式管理/">分布式管理</a>, <a class="tag-link" href="/tags/集中式管理/">集中式管理</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">
+            <time datetime="2017-07-21T08:36:51.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/">Git – 集中式与分布式</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p><h4 id="Git-–-集中式与分布式-版本控制系统区别"><a href="#Git-–-集中式与分布式-版本控制系统区别" class="headerlink" title="Git – 集中式与分布式 版本控制系统区别"></a>Git – 集中式与分布式 版本控制系统区别</h4><p>Linus一直痛恨的CVS及SVN都是集中式的版本控制系统，而Git是分布式版本控制系统，集中式和分布式版本控制系统有什么区别呢？</p>
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而大家工作的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始工作，工作完成，再把自己的修订推送给中央服务器。这类系统，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。</p>
+<p><img src="git1.png" alt=""></p>
+<p>
+                
+            
+        
+        
+            </div>   
+            <div class="article-more-link">
+                <a href="/2017/07/21/Git-–-集中式与分布式-版本控制系统区别/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+    
         <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
         </nav>
@@ -1211,6 +1211,9 @@
         </div>
     </div>
 </footer>
+<div style="display:none">
+<script src="https://s95.cnzz.com/z_stat.php?id=1261833667&web_id=1261833667" language="JavaScript"></script>
+</div>
         
 
     
